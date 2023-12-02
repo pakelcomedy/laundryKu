@@ -18,6 +18,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.SpinnerDateModel;
+import koneksi.koneksi;
 
 public class panelPengeluaran extends javax.swing.JPanel {
     private Connection con;
@@ -42,16 +43,17 @@ public class panelPengeluaran extends javax.swing.JPanel {
 //        creteRowByTime();
     }
     
-    private void koneksi() {
+private void koneksi() {
     try {
         Class.forName("com.mysql.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_laundryku", "root", "");
+        // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_laundryku", "root", "");
+        con = koneksi.configDB(); // Assuming configDB returns a Connection object
         stat = con.createStatement();
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " + e.getMessage());
         e.printStackTrace(); // Cetak exception untuk debugging
-        }
     }
+}
      private void kosongkan(){
      
         txt_keterangan.setText("");
@@ -99,8 +101,7 @@ public class panelPengeluaran extends javax.swing.JPanel {
                 res.getString("keterangan"),
                 res.getString("total_pengeluaran"),
             });
-
-            // Your existing code
+        tb_pengeluaran.setModel(t);
         }
 
         // Modify JLabel to display both row count and total of "total_pengeluaran" column
@@ -140,15 +141,17 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         return cellComponent;
     }
 }
-          private void cariData(String kataKunci) {
+private void cariData(String kataKunci) {
     DefaultTableModel model = (DefaultTableModel) tb_pengeluaran.getModel();
-    model.setRowCount(0); // Bersihkan baris yang sudah ada
+    model.setRowCount(0); // Clear existing rows
 
     try {
-        // Gunakan prepared statement untuk menghindari SQL injection
-        String query = "SELECT * FROM pengeluaran WHERE tgl_pengeluaran LIKE ?";
+        // Use prepared statement to avoid SQL injection
+        String query = "SELECT * FROM pengeluaran WHERE tgl_pengeluaran LIKE ? OR keterangan LIKE ? OR total_pengeluaran LIKE ?";
         try (PreparedStatement pstmt = con.prepareStatement(query)) {
-            pstmt.setString(1, "%" + kataKunci + "%");
+            for (int i = 1; i <= 3; i++) {
+                pstmt.setString(i, "%" + kataKunci + "%");
+            }
             res = pstmt.executeQuery();
 
             while (res.next()) {
@@ -157,6 +160,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                     res.getString("tgl_pengeluaran"),
                     res.getString("keterangan"),
                     res.getString("total_pengeluaran")
+                    // Add other columns as needed
                 });
             }
         }
@@ -496,6 +500,8 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                 } else {
                     JOptionPane.showMessageDialog(null, "Gagal menyimpan data baru");
                 }
+                
+                tabel();
             }
         } else {
             // Jika t != null, itu berarti operasi pembaruan
@@ -509,11 +515,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
 
                 int affectedRows = pstmt.executeUpdate();
                 if (affectedRows > 0) {
-                    JOptionPane.showMessageDialog(null, "Data berhasil diperbarui");
-
-                    // Lakukan refresh data atau tampilkan data baru di tabel jika diperlukan
-                    // misalnya, panggil metode untuk memuat ulang data tabel
-                    // reloadDataTabel();
+                    JOptionPane.showMessageDialog(null, "Data berhasil disimpan atau diperbarui");
                 } else {
                     JOptionPane.showMessageDialog(null, "Gagal memperbarui data");
                 }
@@ -634,9 +636,6 @@ private void tampilkanDetailPengeluaran(int idPengeluaran) {
 
         // Dapatkan ID Bahan Baku dari kolom pertama (indeks 0)
         int idPengeluaran = Integer.parseInt(tb_pengeluaran.getValueAt(row, 0).toString());
-
-        // Konfirmasi penghapusan
-        int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus data ini?", "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
 
         // Hapus data dari database
         try {

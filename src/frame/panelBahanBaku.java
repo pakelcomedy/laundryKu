@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader; 
+import koneksi.koneksi;
 
 public class panelBahanBaku extends javax.swing.JPanel {
     private Connection con;
@@ -34,16 +35,17 @@ public class panelBahanBaku extends javax.swing.JPanel {
             (screenSize.height -frameSize.height) / 4);
     }
 
-    private void koneksi() {
+private void koneksi() {
     try {
         Class.forName("com.mysql.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_laundryku", "root", "");
+        // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_laundryku", "root", "");
+        con = koneksi.configDB(); // Assuming configDB returns a Connection object
         stat = con.createStatement();
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " + e.getMessage());
         e.printStackTrace(); // Cetak exception untuk debugging
-        }
     }
+}
      private void kosongkan(){  
         txt_nama.setText("");
         txt_stok.setText("");
@@ -51,74 +53,74 @@ public class panelBahanBaku extends javax.swing.JPanel {
     }
     
     private void tabel(){
-    // Set show grid untuk menampilkan garis pembatas
-    tb_bahanbaku.setShowGrid(true);
+        // Set show grid untuk menampilkan garis pembatas
+    tb_bahan.setShowGrid(true);
+
     // Set show horizontal lines dan show vertical lines
-    tb_bahanbaku.setShowHorizontalLines(true);
-    tb_bahanbaku.setShowVerticalLines(true);
-     DefaultTableModel t = new DefaultTableModel() {
-        @Override
-        public boolean isCellEditable(int row, int column) {
-        return false; // Membuat sel tidak dapat diedit langsung di tabel
-        }
-    };
+    tb_bahan.setShowHorizontalLines(true);
+    tb_bahan.setShowVerticalLines(true);
+
+DefaultTableModel t = new DefaultTableModel();
 t.addColumn("Id Bahan Baku");
 t.addColumn("Nama Bahan Baku");
 t.addColumn("Stok");
 t.addColumn("Harga Beli");
-tb_bahanbaku.setModel(t);
+
+tb_bahan.setModel(t);
 
 try {
-    // Use COUNT query to get the total number of rows
-    res = stat.executeQuery("SELECT COUNT(*) as total_rows FROM bahan_baku");
-    int rowCount = 0;
-    if (res.next()) {
-        rowCount = res.getInt("total_rows");
-    }
     res = stat.executeQuery("SELECT * FROM bahan_baku");
+    int rowCount = 0;
+
     while (res.next()) {
         t.addRow(new Object[]{
             res.getString("id_BahanBaku"),
             res.getString("Nama_Bahan"),
             res.getString("Stok"),
             res.getString("Harga_Beli"),
+     
         });
 
+        // Set cell renderer for the first row only
         if (rowCount == 0) {
-            tb_bahanbaku.getColumnModel().getColumn(0).setCellRenderer(new CustomTableCellRenderer());
-            tb_bahanbaku.getColumnModel().getColumn(1).setCellRenderer(new CustomTableCellRenderer());
-            tb_bahanbaku.getColumnModel().getColumn(2).setCellRenderer(new CustomTableCellRenderer());
-            tb_bahanbaku.getColumnModel().getColumn(3).setCellRenderer(new CustomTableCellRenderer());
+            tb_bahan.getColumnModel().getColumn(0).setCellRenderer(new CustomTableCellRenderer());
+            tb_bahan.getColumnModel().getColumn(1).setCellRenderer(new CustomTableCellRenderer());
+            tb_bahan.getColumnModel().getColumn(2).setCellRenderer(new CustomTableCellRenderer());
+            tb_bahan.getColumnModel().getColumn(3).setCellRenderer(new CustomTableCellRenderer());
+        
         }
-        rowCount++;
-    }
 
-    // Modify JLabel to display row count
-    jLabel1.setText("Jumlah Data: " + rowCount);
+        rowCount++;
+
+        // Update JLabel to display the current row count
+        jLabel1.setText("Jumlah Data: " + rowCount);
+    }
     } catch (Exception e) {
         Component rootPane = null;
         JOptionPane.showMessageDialog(rootPane, e);
     }
-  // Set rata tengah (centered) untuk semua sel di tabel
+
+    // Set rata tengah (centered) untuk semua sel di tabel
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     centerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 
-    for (int i = 0; i < tb_bahanbaku.getColumnCount(); i++) {
-        tb_bahanbaku.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+    for (int i = 0; i < tb_bahan.getColumnCount(); i++) {
+        tb_bahan.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
     }
+
     // Set rata tengah (centered) untuk header kolom
-    JTableHeader header = tb_bahanbaku.getTableHeader();
+    JTableHeader header = tb_bahan.getTableHeader();
     header.setDefaultRenderer(centerRenderer);
     header.setPreferredSize(new Dimension(100, 40)); // Sesuaikan dimensi header jika diperlukan
     header.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, 14)); // Sesuaikan font header jika diperlukan
 }
- 
-// Kelas renderer khusus untuk baris pertama
+
 class CustomTableCellRenderer extends DefaultTableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
+        // Mengubah warna latar belakang untuk baris pertama
         if (row == 0) {
             cellComponent.setBackground(new java.awt.Color(23, 233, 184)); // Ganti warna sesuai kebutuhan
         } else {
@@ -128,40 +130,42 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         return cellComponent;
     }
 }
-          private void cariData(String kataKunci) {
-    DefaultTableModel model = (DefaultTableModel) tb_bahanbaku.getModel();
-    model.setRowCount(0); // Bersihkan baris yang sudah ada
+private void cariData(String kataKunci) {
+    DefaultTableModel model = (DefaultTableModel) tb_bahan.getModel();
+    model.setRowCount(0); // Clear existing rows
 
     try {
-        // Gunakan prepared statement untuk menghindari SQL injection
-        String query = "SELECT * FROM bahan_baku WHERE Nama_Bahan LIKE ? OR Stok LIKE ? OR Harga_Beli LIKE ?";
+        // Use prepared statement to prevent SQL injection
+        String query = "SELECT * FROM bahan_baku WHERE id_BahanBaku LIKE ? OR Nama_Bahan LIKE ? OR Stok LIKE ? OR Harga_Beli LIKE ?";
         try (PreparedStatement pstmt = con.prepareStatement(query)) {
-            for (int i = 1; i <= 3; i++) {
+            for (int i = 1; i <= 4; i++) {
                 pstmt.setString(i, "%" + kataKunci + "%");
             }
-            res = pstmt.executeQuery();
 
-            while (res.next()) {
-                model.addRow(new Object[]{
-                    res.getString("id_BahanBaku"),
-                    res.getString("Nama_Bahan"),
-                    res.getString("Stok"),
-                    res.getString("Harga_Beli")
-
-                });
+            try (ResultSet res = pstmt.executeQuery()) {
+                while (res.next()) {
+                    model.addRow(new Object[]{
+                            res.getString("id_BahanBaku"),
+                            res.getString("Nama_Bahan"),
+                            res.getString("Stok"),
+                            res.getString("Harga_Beli")
+                            // Add other columns as needed
+                    });
+                }
             }
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, e);
     }
-} 
+}
+
           
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        tb_bahanbaku = new javax.swing.JTable();
+        tb_bahan = new javax.swing.JTable();
         btn_simpan = new javax.swing.JButton();
         btn_edit = new javax.swing.JButton();
         btn_hapus = new javax.swing.JButton();
@@ -186,7 +190,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        tb_bahanbaku.setModel(new javax.swing.table.DefaultTableModel(
+        tb_bahan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -218,13 +222,13 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                 "Id Bahan Baku", "Nama Bahan Baku", "Stok", "Harga Beli"
             }
         ));
-        tb_bahanbaku.setRowHeight(30);
-        tb_bahanbaku.addMouseListener(new java.awt.event.MouseAdapter() {
+        tb_bahan.setRowHeight(30);
+        tb_bahan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tb_bahanbakuMouseReleased(evt);
+                tb_bahanMouseReleased(evt);
             }
         });
-        jScrollPane2.setViewportView(tb_bahanbaku);
+        jScrollPane2.setViewportView(tb_bahan);
 
         btn_simpan.setBackground(new java.awt.Color(51, 0, 153));
         btn_simpan.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
@@ -488,7 +492,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                             System.out.println("ID Bahan Baku baru: " + idBahanBaku);
 
                             // Tambahkan data baru ke tabel tanpa perlu me-refresh
-                            DefaultTableModel model = (DefaultTableModel) tb_bahanbaku.getModel();
+                            DefaultTableModel model = (DefaultTableModel) tb_bahan.getModel();
                             model.addRow(new Object[]{
                                 idBahanBaku,
                                 txt_nama.getText(),
@@ -548,14 +552,14 @@ private void tampilkanDataBerdasarkanID(int idBahanBaku) {
 
     private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
 // Dapatkan baris yang dipilih
-    int row = tb_bahanbaku.getSelectedRow(); 
+    int row = tb_bahan.getSelectedRow(); 
     // Pastikan ada baris yang dipilih
     if (row == -1) {
         JOptionPane.showMessageDialog(this, "Pilih baris yang akan diedit");
         return;
     }
     // Dapatkan ID Bahan Baku dari kolom pertama (indeks 0)
-    int idBahanBaku = Integer.parseInt(tb_bahanbaku.getValueAt(row, 0).toString());
+    int idBahanBaku = Integer.parseInt(tb_bahan.getValueAt(row, 0).toString());
 
     // Ambil nilai dari database dan tampilkan di JTextField
     tampilkanDataBerdasarkanID(idBahanBaku);
@@ -571,7 +575,7 @@ private void tampilkanDataBerdasarkanID(int idBahanBaku) {
 
     private void btn_lihatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lihatActionPerformed
       // Dapatkan baris yang dipilih
-    int barisTerpilih = tb_bahanbaku.getSelectedRow();
+    int barisTerpilih = tb_bahan.getSelectedRow();
 
     // Pastikan ada baris yang dipilih
     if (barisTerpilih == -1) {
@@ -580,7 +584,7 @@ private void tampilkanDataBerdasarkanID(int idBahanBaku) {
     }
 
     // Dapatkan ID Bahan Baku dari kolom pertama (indeks 0)
-    int idBahanBaku = Integer.parseInt(tb_bahanbaku.getValueAt(barisTerpilih, 0).toString());
+    int idBahanBaku = Integer.parseInt(tb_bahan.getValueAt(barisTerpilih, 0).toString());
 
     // Tampilkan detail data di sini, misalnya dengan menggunakan JOptionPane
     tampilkanDetailBahanBaku(idBahanBaku);
@@ -612,20 +616,20 @@ private void tampilkanDetailBahanBaku(int idBahanBaku) {
  
     }//GEN-LAST:event_btn_lihatActionPerformed
 
-    private void tb_bahanbakuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_bahanbakuMouseReleased
+    private void tb_bahanMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_bahanMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_tb_bahanbakuMouseReleased
+    }//GEN-LAST:event_tb_bahanMouseReleased
 
     private void btn_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapusActionPerformed
         // Dapatkan baris yang dipilih
-        int row = tb_bahanbaku.getSelectedRow();
+        int row = tb_bahan.getSelectedRow();
         // Pastikan ada baris yang dipilih
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Pilih baris yang akan dihapus");
             return;
         }
         // Dapatkan ID Bahan Baku dari kolom pertama (indeks 0)
-        int idBahanBaku = Integer.parseInt(tb_bahanbaku.getValueAt(row, 0).toString());
+        int idBahanBaku = Integer.parseInt(tb_bahan.getValueAt(row, 0).toString());
     
         try {
             String query = "DELETE FROM bahan_baku WHERE id_BahanBaku = ?";
@@ -674,7 +678,7 @@ private void tampilkanDetailBahanBaku(int idBahanBaku) {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable tb_bahanbaku;
+    private javax.swing.JTable tb_bahan;
     private javax.swing.JTextField txt_cari;
     private javax.swing.JTextField txt_harga;
     private javax.swing.JTextField txt_nama;

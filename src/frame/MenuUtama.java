@@ -289,12 +289,23 @@ private String getJabatanFromDatabase(String Jabatan) {
     }//GEN-LAST:event_btn_transaksiMousePressed
     private void btn_transaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_transaksiActionPerformed
             jLabel2.setText("Form Tambah Transaksi"); 
-            jTabbedPane1.removeAll();
-            FormTransaksi panel = new FormTransaksi();
-            jTabbedPane1.add(panel);
-            panel.setVisible(true);
-            jTabbedPane1.revalidate();
-            jTabbedPane1.repaint();
+            // Pastikan formTransaksi adalah JPanel
+panelTransaksi panel = new panelTransaksi();
+
+// Hapus semua tab di JTabbedPane
+jTabbedPane1.removeAll();
+
+// Tambahkan panel ke dalam JTabbedPane
+jTabbedPane1.add("Form Tambah Transaksi", panel);
+
+// Tampilkan panel dan refresh JTabbedPane
+panel.setVisible(true);
+jTabbedPane1.revalidate();
+jTabbedPane1.repaint();
+
+// Tampilkan jPanel5 jika diperlukan
+jPanel5.setVisible(true);
+
             jPanel5.setVisible(true);
     }//GEN-LAST:event_btn_transaksiActionPerformed
     private void btn_karyawanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_karyawanActionPerformed

@@ -8,10 +8,13 @@ public class MenuMaster extends javax.swing.JFrame {
 
     public MenuMaster() {
         initComponents();
-          jLabel3.setText("Master >"); 
-          lbl_username.setText(Login.nameUser);
-          System.out.println("main: "+Login.nameUser);
-          setButtonVisibility();  
+       jLabel3.setText("Master > Produk");     
+        jTabbedPane2.removeAll();
+        panelProduk panel = new panelProduk();
+        jTabbedPane2.add(panel);
+        panel.setVisible(true);
+        jTabbedPane2.revalidate();
+        jTabbedPane2.repaint();
     }
     private void setButtonVisibility() {
     String jaba = getJabatanFromDatabase(Login.nameUser);

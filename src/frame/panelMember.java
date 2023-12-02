@@ -37,6 +37,7 @@ public class panelMember extends javax.swing.JPanel {
         initComponents();
         kosongkan();
         tabel();
+        
         spinner_tanggal.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_MONTH));
   
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -47,20 +48,22 @@ public class panelMember extends javax.swing.JPanel {
         
         
         //
-        tambahTanggal();
+        tambahTanggalMember();
         batasWaktuSetmember();
     }
    
-    private void koneksi() {
+private void koneksi() {
     try {
         Class.forName("com.mysql.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_laundryku", "root", "");
+        // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_laundryku", "root", "");
+        con = koneksi.configDB(); // Assuming configDB returns a Connection object
         stat = con.createStatement();
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " + e.getMessage());
         e.printStackTrace(); // Cetak exception untuk debugging
-        }
     }
+}
+
      private void kosongkan(){ 
         txt_nama.setText("");
         txt_alamat.setText("");
@@ -161,38 +164,40 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         return cellComponent;
     }
 }
-          private void cariData(String kataKunci) {
-   DefaultTableModel model = (DefaultTableModel) Tb_member.getModel();
-model.setRowCount(0); // Bersihkan baris yang sudah ada
+private void cariData(String kataKunci) {
+    DefaultTableModel model = (DefaultTableModel) Tb_member.getModel();
+    model.setRowCount(0); // Clear existing rows
 
-try {
-    // Gunakan prepared statement untuk menghindari SQL injection
-    String query = "SELECT * FROM member WHERE id_member LIKE ? OR nama LIKE ? OR alamat LIKE ? OR no_hp LIKE ? OR batas_waktu LIKE ?";
-    try (PreparedStatement pstmt = con.prepareStatement(query)) {
-        for (int i = 1; i <= 4; i++) {
-            pstmt.setString(i, "%" + kataKunci + "%");
-        }
-        res = pstmt.executeQuery();
+    try {
+        // Use prepared statement to avoid SQL injection
+        String query = "SELECT * FROM member WHERE id_member LIKE ? OR nama LIKE ? OR alamat LIKE ? OR no_hp LIKE ? OR batas_waktu LIKE ?";
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            for (int i = 1; i <= 5; i++) {
+                pstmt.setString(i, "%" + kataKunci + "%");
+            }
+            res = pstmt.executeQuery();
 
-        while (res.next()) {
-            model.addRow(new Object[]{
-                res.getString("id_member"),
-                res.getString("nama"),
-                res.getString("alamat"),
-                res.getString("no_hp"),
-                res.getString("batas_waktu")
-                // Tambahkan kolom lainnya sesuai kebutuhan
-            });
+            while (res.next()) {
+                model.addRow(new Object[]{
+                    res.getString("id_member"),
+                    res.getString("nama"),
+                    res.getString("alamat"),
+                    res.getString("no_hp"),
+                    res.getString("batas_waktu")
+                    // Add other columns as needed
+                });
+            }
         }
-    }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, e);
+        // Handle or log the exception appropriately
     }
 }
-    @SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btng_status = new javax.swing.ButtonGroup();
         jScrollPane2 = new javax.swing.JScrollPane();
         Tb_member = new javax.swing.JTable();
         btn_simpan1 = new javax.swing.JButton();
@@ -219,8 +224,8 @@ try {
         jLabel6member1 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         spinner_tanggal = new javax.swing.JSpinner();
-        ckbox_berlaku = new javax.swing.JCheckBox();
-        ckbox_kadaluarsa = new javax.swing.JCheckBox();
+        RDberlaku = new javax.swing.JRadioButton();
+        RDkadaluarsa = new javax.swing.JRadioButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -495,23 +500,25 @@ try {
         spinner_tanggal.setModel(new javax.swing.SpinnerDateModel());
         add(spinner_tanggal, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 154, 114, -1));
 
-        ckbox_berlaku.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        ckbox_berlaku.setText("Masih Berlaku");
-        ckbox_berlaku.addActionListener(new java.awt.event.ActionListener() {
+        btng_status.add(RDberlaku);
+        RDberlaku.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        RDberlaku.setText("Masih Berlaku");
+        RDberlaku.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ckbox_berlakuActionPerformed(evt);
+                RDberlakuActionPerformed(evt);
             }
         });
-        add(ckbox_berlaku, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 260, -1, 30));
+        add(RDberlaku, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 270, -1, -1));
 
-        ckbox_kadaluarsa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        ckbox_kadaluarsa.setText("Kadaluarsa");
-        ckbox_kadaluarsa.addActionListener(new java.awt.event.ActionListener() {
+        btng_status.add(RDkadaluarsa);
+        RDkadaluarsa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        RDkadaluarsa.setText("Kadaluarsa");
+        RDkadaluarsa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ckbox_kadaluarsaActionPerformed(evt);
+                RDkadaluarsaActionPerformed(evt);
             }
         });
-        add(ckbox_kadaluarsa, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 260, -1, 30));
+        add(RDkadaluarsa, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 270, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_simpan1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_simpan1MousePressed
@@ -628,7 +635,7 @@ private void tampilkanDataBerdasarkanID(int idMember) {
     }//GEN-LAST:event_btn_clear1ActionPerformed
 
     private void btn_lihat1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lihat1ActionPerformed
-      // Dapatkan baris yang dipilih
+    // Dapatkan baris yang dipilih
     int barisTerpilih = Tb_member.getSelectedRow();
 
     // Pastikan ada baris yang dipilih
@@ -636,31 +643,37 @@ private void tampilkanDataBerdasarkanID(int idMember) {
         JOptionPane.showMessageDialog(this, "Pilih baris yang akan dilihat");
         return;
     }
-    // Dapatkan ID Bahan Baku dari kolom pertama (indeks 0)
+
+    // Dapatkan ID Member dari kolom pertama (indeks 0)
     int idMember = Integer.parseInt(Tb_member.getValueAt(barisTerpilih, 0).toString());
 
     // Tampilkan detail data di sini, misalnya dengan menggunakan JOptionPane
     tampilkanDetailMember(idMember);
 }
-// Method untuk menampilkan detail Bahan Baku
-private void tampilkanDetailMember(int idMember) {
-     try {
-        res = stat.executeQuery("SELECT * FROM pengeluaran WHERE id_pengeluaran='" + idMember + "'");
-        while (res.next()) {
-            // Assuming "tgl_pengeluaran" is a Date column in the database
-            java.sql.Date sqlDate = res.getDate("batas_waktu");
-            java.util.Date utilDate = new java.util.Date(sqlDate.getTime());
 
-            // Assuming that spinner_tanggal is a JSpinner
-            spinner_tanggal.setValue(utilDate);
-            
-            // Replace these column names with actual column names in your table
-            txt_nama.setText(res.getString("nama"));
-            txt_alamat.setText(res.getString("alamat"));
-            txt_nohp.setText(res.getString("no_hp"));
+// Method untuk menampilkan detail Member
+private void tampilkanDetailMember(int idMember) {
+    try {
+        // Query database untuk mendapatkan detail Member berdasarkan ID
+        String query = "SELECT * FROM member WHERE id_member = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, idMember);
+            res = pstmt.executeQuery();
+
+            // Tampilkan hasil query
+            if (res.next()) {
+                String detail = "ID Member : " + res.getString("id_member") + "\n"
+                        + "Nama: " + res.getString("nama") + "\n"
+                        + "Alamat: " + res.getString("alamat") + "\n"
+                        + "No. HP: " + res.getString("no_hp") + "\n"
+                        + "Batas Waktu: " + res.getString("batas_waktu");
+
+                // Tampilkan detail menggunakan JOptionPane
+                JOptionPane.showMessageDialog(this, detail, "Detail Member", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e);
+        JOptionPane.showMessageDialog(this, "Gagal menampilkan detail: " + e.getMessage());
     }
     }//GEN-LAST:event_btn_lihat1ActionPerformed
 
@@ -669,31 +682,33 @@ private void tampilkanDetailMember(int idMember) {
     }//GEN-LAST:event_Tb_memberMouseReleased
 
     private void btn_hapus1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapus1ActionPerformed
-        // Dapatkan baris yang dipilih
-        int row = Tb_member.getSelectedRow();
+    int row = Tb_member.getSelectedRow();
 
-        // Pastikan ada baris yang dipilih
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Pilih baris yang akan dihapus");
-            return;
+    // Ensure a row is selected
+    if (row == -1) {
+        JOptionPane.showMessageDialog(this, "Pilih baris yang akan dihapus");
+        return;
+    }
+
+    // Get the ID Member from the first column (index 0)
+    int idMember = Integer.parseInt(Tb_member.getValueAt(row, 0).toString());
+
+    // Delete data from the database
+    try {
+        String query = "DELETE FROM member WHERE id_member = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, idMember);
+            pstmt.executeUpdate();
         }
-        // Dapatkan ID member dari kolom pertama (indeks 0)
-        int idMember = Integer.parseInt(Tb_member.getValueAt(row, 0).toString());
 
-        // Hapus data dari database
-        try {
-            String query = "DELETE FROM member WHERE id_member = ?";
-            try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                pstmt.setInt(1, idMember);
-                pstmt.executeUpdate();
-            }
-            // Refresh tabel setelah penghapusan
-            tabel();
+        // Refresh the table after deletion
+        tabel();
 
-            JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Gagal menghapus data: " + e.getMessage());
-        }
+        JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+    }
+
     }//GEN-LAST:event_btn_hapus1ActionPerformed
 
     private void btn_hapus1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_hapus1MousePressed
@@ -705,7 +720,7 @@ private void tampilkanDetailMember(int idMember) {
         cariData(kataKunci);
     }//GEN-LAST:event_txt_cari1ActionPerformed
 
-    private void ckbox_berlakuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckbox_berlakuActionPerformed
+    private void RDkadaluarsaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RDkadaluarsaActionPerformed
     DefaultTableModel model = (DefaultTableModel) Tb_member.getModel();
     model.setRowCount(0); // Clear existing rows
 
@@ -715,46 +730,7 @@ private void tampilkanDetailMember(int idMember) {
 
         while (res.next()) {
             int statusMember = res.getInt("statusMember");
-            if (ckbox_berlaku.isSelected() && statusMember == 0) {
-                model.addRow(new Object[]{
-                        res.getString("id_member"),
-                        res.getString("nama"),
-                        res.getString("alamat"),
-                        res.getString("no_hp"),
-                        res.getString("batas_waktu"),
-                        "MASIH BERLAKU"
-                });
-                rowCount++;
-            } else if (!ckbox_berlaku.isSelected()) {
-                model.addRow(new Object[]{
-                        res.getString("id_member"),
-                        res.getString("nama"),
-                        res.getString("alamat"),
-                        res.getString("no_hp"),
-                        res.getString("batas_waktu"),
-                        (statusMember == 0) ? "MASIH BERLAKU" : "SUDAH KADALUARSA"
-                });
-                rowCount++;
-            }
-        }
-
-        jLabel1member.setText("Jumlah Data: " + rowCount);
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e);
-    }
-    }//GEN-LAST:event_ckbox_berlakuActionPerformed
-
-    private void ckbox_kadaluarsaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckbox_kadaluarsaActionPerformed
-    DefaultTableModel model = (DefaultTableModel) Tb_member.getModel();
-    model.setRowCount(0); // Clear existing rows
-
-    try {
-        res = stat.executeQuery("SELECT * FROM member");
-        int rowCount = 0;
-
-        while (res.next()) {
-            int statusMember = res.getInt("statusMember");
-            if (ckbox_kadaluarsa.isSelected() && statusMember == 1) {
+            if (RDkadaluarsa.isSelected() && statusMember == 1) {
                 model.addRow(new Object[]{
                         res.getString("id_member"),
                         res.getString("nama"),
@@ -764,7 +740,7 @@ private void tampilkanDetailMember(int idMember) {
                         "SUDAH KADALUARSA"
                 });
                 rowCount++;
-            } else if (!ckbox_kadaluarsa.isSelected()) {
+            } else if (!RDkadaluarsa.isSelected()) {
                 model.addRow(new Object[]{
                         res.getString("id_member"),
                         res.getString("nama"),
@@ -781,7 +757,46 @@ private void tampilkanDetailMember(int idMember) {
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, e);
     }
-    }//GEN-LAST:event_ckbox_kadaluarsaActionPerformed
+    }//GEN-LAST:event_RDkadaluarsaActionPerformed
+
+    private void RDberlakuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RDberlakuActionPerformed
+    DefaultTableModel model = (DefaultTableModel) Tb_member.getModel();
+    model.setRowCount(0); // Clear existing rows
+
+    try {
+        res = stat.executeQuery("SELECT * FROM member");
+        int rowCount = 0;
+
+        while (res.next()) {
+            int statusMember = res.getInt("statusMember");
+            if (RDberlaku.isSelected() && statusMember == 0) {
+                model.addRow(new Object[]{
+                        res.getString("id_member"),
+                        res.getString("nama"),
+                        res.getString("alamat"),
+                        res.getString("no_hp"),
+                        res.getString("batas_waktu"),
+                        "MASIH BERLAKU"
+                });
+                rowCount++;
+            } else if (!RDberlaku.isSelected()) {
+                model.addRow(new Object[]{
+                        res.getString("id_member"),
+                        res.getString("nama"),
+                        res.getString("alamat"),
+                        res.getString("no_hp"),
+                        res.getString("batas_waktu"),
+                        (statusMember == 0) ? "MASIH BERLAKU" : "SUDAH KADALUARSA"
+                });
+                rowCount++;
+            }
+        }
+
+        jLabel1member.setText("Jumlah Data: " + rowCount);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e);
+    }
+    }//GEN-LAST:event_RDberlakuActionPerformed
 
     private void  batasWaktuSetmember() {
         try {
@@ -795,7 +810,7 @@ private void tampilkanDetailMember(int idMember) {
            System.out.println("e: "+e);
        }
     }
-   private void tambahTanggal() {
+   public static void tambahTanggalMember() {
             Timer timer = new Timer();
 //            Schedule the task to run every day at 12 pm
             timer.scheduleAtFixedRate(new TimerTask() {
@@ -836,14 +851,15 @@ private void tampilkanDetailMember(int idMember) {
     }
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton RDberlaku;
+    private javax.swing.JRadioButton RDkadaluarsa;
     private javax.swing.JTable Tb_member;
     private javax.swing.JButton btn_clear1;
     private javax.swing.JButton btn_edit1;
     private javax.swing.JButton btn_hapus1;
     private javax.swing.JButton btn_lihat1;
     private javax.swing.JButton btn_simpan1;
-    private javax.swing.JCheckBox ckbox_berlaku;
-    private javax.swing.JCheckBox ckbox_kadaluarsa;
+    private javax.swing.ButtonGroup btng_status;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

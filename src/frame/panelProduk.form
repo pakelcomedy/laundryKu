@@ -25,7 +25,7 @@
           <Group type="102" attributes="0">
               <EmptySpace min="300" pref="300" max="-2" attributes="0"/>
               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
               <Component id="txt_namaproduk" min="-2" pref="271" max="-2" attributes="0"/>

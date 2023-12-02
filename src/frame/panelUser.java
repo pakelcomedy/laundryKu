@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader; 
+import koneksi.koneksi;
 
 public class panelUser extends javax.swing.JPanel {
     private Connection con;
@@ -32,16 +33,17 @@ public class panelUser extends javax.swing.JPanel {
             (screenSize.height -frameSize.height) / 4);
     }
     
-         private void koneksi() {
+private void koneksi() {
     try {
         Class.forName("com.mysql.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_laundryku", "root", "");
+        // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_laundryku", "root", "");
+        con = koneksi.configDB(); // Assuming configDB returns a Connection object
         stat = con.createStatement();
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " + e.getMessage());
         e.printStackTrace(); // Cetak exception untuk debugging
-        }
     }
+}
      private void kosongkan(){
      
         txt_username.setText("");
@@ -58,7 +60,7 @@ public class panelUser extends javax.swing.JPanel {
     tb_user.setShowHorizontalLines(true);
     tb_user.setShowVerticalLines(true);
 
- DefaultTableModel t = new DefaultTableModel();
+DefaultTableModel t = new DefaultTableModel();
 t.addColumn("Id User");
 t.addColumn("Username");
 t.addColumn("Password");
@@ -68,15 +70,9 @@ t.addColumn("No HP");
 tb_user.setModel(t);
 
 try {
-    // Use COUNT query to get the total number of rows
-    res = stat.executeQuery("SELECT COUNT(id_pegawai) as total_rows FROM user");
+    res = stat.executeQuery("SELECT * FROM user");
     int rowCount = 0;
 
-    if (res.next()) {
-        rowCount = res.getInt("total_rows");
-    }
-
-    res = stat.executeQuery("SELECT * FROM user");
     while (res.next()) {
         t.addRow(new Object[]{
             res.getString("id_pegawai"),
@@ -87,7 +83,7 @@ try {
             res.getString("no_hp"),
         });
 
-        // Your existing code to set cell renderer for the first row
+        // Set cell renderer for the first row only
         if (rowCount == 0) {
             tb_user.getColumnModel().getColumn(0).setCellRenderer(new CustomTableCellRenderer());
             tb_user.getColumnModel().getColumn(1).setCellRenderer(new CustomTableCellRenderer());
@@ -96,10 +92,12 @@ try {
             tb_user.getColumnModel().getColumn(4).setCellRenderer(new CustomTableCellRenderer());
             tb_user.getColumnModel().getColumn(5).setCellRenderer(new CustomTableCellRenderer());
         }
-    }
 
-    // Modify JLabel to display row count
-    jLabel1.setText("Jumlah Data: " + rowCount);
+        rowCount++;
+
+        // Update JLabel to display the current row count
+        jLabel1.setText("Jumlah Data: " + rowCount);
+    }
     } catch (Exception e) {
         Component rootPane = null;
         JOptionPane.showMessageDialog(rootPane, e);
@@ -650,7 +648,7 @@ private void tampilkanDetailUser(int idUser) {
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Gagal menampilkan detail: " + e.getMessage());
     }
- 
+    
     }//GEN-LAST:event_btn_lihatActionPerformed
 
     private void tb_userMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_userMouseReleased
@@ -670,17 +668,13 @@ private void tampilkanDetailUser(int idUser) {
         // Dapatkan ID Bahan Baku dari kolom pertama (indeks 0)
         int idUser = Integer.parseInt(tb_user.getValueAt(row, 0).toString());
 
-        // Konfirmasi penghapusan
-        int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus data ini?", "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
-
-        // Hapus data dari database
+              // Hapus data dari database
         try {
             String query = "DELETE FROM user WHERE id_pegawai = ?";
             try (PreparedStatement pstmt = con.prepareStatement(query)) {
                 pstmt.setInt(1, idUser);
                 pstmt.executeUpdate();
             }
-
             // Refresh tabel setelah penghapusan
             tabel();
 
@@ -702,7 +696,6 @@ private void tampilkanDetailUser(int idUser) {
     private void cbx_jabatanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_jabatanActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbx_jabatanActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_clear;

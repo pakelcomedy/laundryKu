@@ -12,8 +12,10 @@ import java.sql.Connection;
 import java.sql.DriverManager; 
 import java.sql.PreparedStatement;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader; 
+import koneksi.koneksi;
 
 
 
@@ -38,13 +40,13 @@ public class panelProduk extends javax.swing.JPanel {
     }
     
     private void koneksi() {
-    try {
-        Class.forName("com.mysql.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_laundryku", "root", "");
-        stat = con.createStatement();
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " + e.getMessage());
-        e.printStackTrace(); // Cetak exception untuk debugging
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = koneksi.configDB();
+            stat = con.createStatement();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " + e.getMessage());
+            e.printStackTrace(); // Cetak exception untuk debugging
         }
     }
      private void kosongkan(){
@@ -53,56 +55,48 @@ public class panelProduk extends javax.swing.JPanel {
         txt_hargaproduk.setText("");
     }
     private void tabel(){
-      
-    // Set show grid untuk menampilkan garis pembatas
+        // Set show grid untuk menampilkan garis pembatas
     tb_produk.setShowGrid(true);
 
     // Set show horizontal lines dan show vertical lines
     tb_produk.setShowHorizontalLines(true);
     tb_produk.setShowVerticalLines(true);
-    
-     DefaultTableModel t = new DefaultTableModel() {
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return false; // Membuat sel tidak dapat diedit langsung di tabel
-        }
-    };
-  t.addColumn("Id Produk");
+
+DefaultTableModel t = new DefaultTableModel();
+t.addColumn("Id Produk");
 t.addColumn("Nama Produk");
-t.addColumn("Harga Produk");
+t.addColumn("Harga Produl");
 t.addColumn("Jenis Produk");
+
 tb_produk.setModel(t);
 
 try {
-    // Use COUNT query to get the total number of rows
-    res = stat.executeQuery("SELECT COUNT(*) as total_rows FROM produk");
+    res = stat.executeQuery("SELECT * FROM produk");
     int rowCount = 0;
 
-    if (res.next()) {
-        rowCount = res.getInt("total_rows");
-    }
-
-    res = stat.executeQuery("SELECT * FROM produk");
     while (res.next()) {
         t.addRow(new Object[]{
             res.getString("id_produk"),
             res.getString("nama_produk"),
             res.getString("harga_produk"),
             res.getString("jenis_produk"),
+        
         });
 
-        // Your existing code to set cell renderer for the first row
+        // Set cell renderer for the first row only
         if (rowCount == 0) {
             tb_produk.getColumnModel().getColumn(0).setCellRenderer(new CustomTableCellRenderer());
             tb_produk.getColumnModel().getColumn(1).setCellRenderer(new CustomTableCellRenderer());
             tb_produk.getColumnModel().getColumn(2).setCellRenderer(new CustomTableCellRenderer());
             tb_produk.getColumnModel().getColumn(3).setCellRenderer(new CustomTableCellRenderer());
+          
         }
-        rowCount++;
-    }
 
-    // Modify JLabel to display row count
-    jLabel1.setText("Jumlah Data: " + rowCount);
+        rowCount++;
+
+        // Update JLabel to display the current row count
+        jLabel1.setText("Jumlah Data: " + rowCount);
+    }
     } catch (Exception e) {
         Component rootPane = null;
         JOptionPane.showMessageDialog(rootPane, e);
@@ -122,8 +116,7 @@ try {
     header.setPreferredSize(new Dimension(100, 40)); // Sesuaikan dimensi header jika diperlukan
     header.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, 14)); // Sesuaikan font header jika diperlukan
 }
- 
-// Kelas renderer khusus untuk baris pertama
+
 class CustomTableCellRenderer extends DefaultTableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -135,36 +128,41 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         } else {
             cellComponent.setBackground(table.getBackground());
         }
+
         return cellComponent;
     }
 }
-          private void cariData(String kataKunci) {
+  private void cariData(String kataKunci) {
     DefaultTableModel model = (DefaultTableModel) tb_produk.getModel();
-    model.setRowCount(0); // Bersihkan baris yang sudah ada
+    model.setRowCount(0); // Clear existing rows
 
     try {
-        // Gunakan prepared statement untuk menghindari SQL injection
-        String query = "SELECT * FROM produk WHERE id_produk LIKE ? OR nama_produk LIKE ? OR harga_produk LIKE ? OR jenis_produk LIKE ?";
+        // Use prepared statement to prevent SQL injection
+        String query = "SELECT * FROM produk WHERE id_produk LIKE ? OR nama_produk LIKE ? OR harga_produk LIKE ?";
         try (PreparedStatement pstmt = con.prepareStatement(query)) {
-            for (int i = 1; i <= 4; i++) {
+            for (int i = 1; i <= 3; i++) {
                 pstmt.setString(i, "%" + kataKunci + "%");
             }
-            res = pstmt.executeQuery();
 
-            while (res.next()) {
-                model.addRow(new Object[]{
-                    res.getString("id_produk"),
-                    res.getString("nama_produk"),
-                    res.getString("harga_produk"),
-                    res.getString("jenis_produk")
-                    // Tambahkan kolom lainnya sesuai kebutuhan
-                });
+            try (ResultSet res = pstmt.executeQuery()) {
+                while (res.next()) {
+                    // Adjust column types based on actual data types
+                    model.addRow(new Object[]{
+                            res.getString("id_produk"),
+                            res.getString("nama_produk"),
+                            res.getDouble("harga_produk"),
+                            // Add other columns as needed
+                    });
+                }
             }
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, e);
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
     }
 }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -361,7 +359,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
             .addGroup(layout.createSequentialGroup()
                 .addGap(300, 300, 300)
                 .addComponent(jLabel4)
-                .addGap(5, 5, 5)
+                .addGap(6, 6, 6)
                 .addComponent(jLabel10)
                 .addGap(10, 10, 10)
                 .addComponent(txt_namaproduk, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -466,9 +464,9 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
     }//GEN-LAST:event_btn_simpanMousePressed
 
     private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
- try {
+    try {
         if (t == null) {
-            // Jika t == null, berarti ini adalah aksi untuk menambahkan data baru
+            // Insert new data
             String query = "INSERT INTO produk(nama_produk, harga_produk, jenis_produk) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
                 pstmt.setString(1, txt_namaproduk.getText());
@@ -476,13 +474,13 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                 pstmt.setString(3, combobox_jenis.getSelectedItem().toString());
 
                 int affectedRows = pstmt.executeUpdate(); 
+
                 if (affectedRows > 0) {
                     try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
                             int idProduk = generatedKeys.getInt(1);
-                            // Gunakan ID yang baru dibuat jika perlu
                             System.out.println("ID Produk: " + idProduk);
-                            // Tambahkan data baru ke tabel tanpa perlu me-refresh
+
                             DefaultTableModel model = (DefaultTableModel) tb_produk.getModel();
                             model.addRow(new Object[]{
                                 idProduk,
@@ -492,16 +490,17 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                             });
 
                             // Update jumlah data
-                            jLabel1.setText("Jumlah Data: " + model.getRowCount());
+                            int rowCount = model.getRowCount();
+                            jLabel1.setText("Jumlah Data: " + rowCount);
                         }
                     }
                 }
             }
 
-            kosongkan();
+            kosongkan(); // Clear UI components
             JOptionPane.showMessageDialog(null, "Berhasil Menyimpan Data");
         } else {
-            // Jika t != null, berarti ini adalah aksi untuk mengupdate data yang sudah ada
+            // Update existing data
             String query = "UPDATE produk SET nama_produk=?, harga_produk=?, jenis_produk=? WHERE id_produk=?";
             try (PreparedStatement pstmt = con.prepareStatement(query)) {
                 pstmt.setString(1, txt_namaproduk.getText());
@@ -509,21 +508,35 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                 pstmt.setString(3, combobox_jenis.getSelectedItem().toString());
                 pstmt.setInt(4, Integer.parseInt(t));
 
-                pstmt.executeUpdate();
-            }
-        
-            // Refresh tabel setelah update
-            tabel();
+                int affectedRows = pstmt.executeUpdate();
 
+                if (affectedRows > 0) {
+                    DefaultTableModel model = (DefaultTableModel) tb_produk.getModel();
+                    int selectedRowIndex = tb_produk.getSelectedRow();
+
+                    // Update the existing row in the table model
+                    if (selectedRowIndex != -1) {
+                        model.setValueAt(txt_namaproduk.getText(), selectedRowIndex, 1);
+                        model.setValueAt(txt_hargaproduk.getText(), selectedRowIndex, 2);
+                        model.setValueAt(combobox_jenis.getSelectedItem().toString(), selectedRowIndex, 3);
+                    }
+
+                    // Update jumlah data
+                    int rowCount = model.getRowCount();
+                    jLabel1.setText("Jumlah Data: " + rowCount);
+                }
+            }
+
+            kosongkan(); // Clear UI components
             JOptionPane.showMessageDialog(null, "Data berhasil diupdate");
 
             // Reset nilai t agar kembali ke mode penambahan data baru
             t = null;
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Perintah SALAH ! " + e);
+        e.printStackTrace(); // Log the exception for debugging
+        JOptionPane.showMessageDialog(null, "Perintah SALAH ! " + e.getMessage());
     }
-
     }//GEN-LAST:event_btn_simpanActionPerformed
 private void tampilkanDataBerdasarkanID(int idProduk) {
     try {
@@ -611,36 +624,37 @@ private void tampilkanDetailProduk(int idProduk) {
     }//GEN-LAST:event_tb_produkMouseReleased
 
     private void btn_hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapusActionPerformed
-        // Dapatkan baris yang dipilih
-        int row = tb_produk.getSelectedRow();
+    int row = tb_produk.getSelectedRow();
 
-        // Pastikan ada baris yang dipilih
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Pilih baris yang akan dihapus");
-            return;
-        }
+    // Pastikan ada baris yang dipilih
+    if (row == -1) {
+        JOptionPane.showMessageDialog(this, "Pilih baris yang akan dihapus");
+        return;
+    }
 
-        // Dapatkan ID Bahan Baku dari kolom pertama (indeks 0)
-        int idProduk = Integer.parseInt(tb_produk.getValueAt(row, 0).toString());
-
-        // Konfirmasi penghapusan
-        int confirm = JOptionPane.showConfirmDialog(this, "Apakah Anda yakin ingin menghapus data ini?", "Konfirmasi Hapus", JOptionPane.YES_NO_OPTION);
-
+    // Dapatkan ID Produk dari kolom pertama (indeks 0)
+    int idProduk = Integer.parseInt(tb_produk.getValueAt(row, 0).toString());
+    
+    try {
         // Hapus data dari database
-        try {
-            String query = "DELETE FROM produk WHERE id_produk = ?";
-            try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                pstmt.setInt(1, idProduk);
-                pstmt.executeUpdate();
-            }
-
-            // Refresh tabel setelah penghapusan
-            tabel();
-
-            JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Gagal menghapus data: " + e.getMessage());
+        String query = "DELETE FROM produk WHERE id_produk = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, idProduk);
+            pstmt.executeUpdate();
         }
+
+        // Hapus baris dari tabel
+        DefaultTableModel model = (DefaultTableModel) tb_produk.getModel();
+        model.removeRow(row);
+
+        // Update jumlah data
+        int rowCount = model.getRowCount();
+        jLabel1.setText("Jumlah Data: " + rowCount);
+
+        JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Gagal menghapus data: " + e.getMessage());
+    }
     }//GEN-LAST:event_btn_hapusActionPerformed
 
     private void btn_hapusMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_hapusMousePressed
