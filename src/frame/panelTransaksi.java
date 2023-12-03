@@ -49,7 +49,6 @@ public class panelTransaksi extends javax.swing.JPanel {
         btn_tambah = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
         Show = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -1154,11 +1153,10 @@ public class panelTransaksi extends javax.swing.JPanel {
             }
         });
 
-        jLabel3.setText("jLabel3");
-
         Show.setBackground(new java.awt.Color(102, 153, 255));
+        Show.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         Show.setForeground(new java.awt.Color(255, 255, 255));
-        Show.setText("SHOW");
+        Show.setText("Show");
         Show.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ShowActionPerformed(evt);
@@ -1172,34 +1170,27 @@ public class panelTransaksi extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(31, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btn_tambah)
-                                .addGap(6, 6, 6)
-                                .addComponent(jButton2)
-                                .addGap(8, 8, 8)
-                                .addComponent(jButton5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(Show)
-                                .addGap(332, 332, 332)
-                                .addComponent(jLabel7)
-                                .addGap(0, 0, 0)
-                                .addComponent(txt_search, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(btnSearch))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1010, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(229, 229, 229))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btn_tambah)
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton2)
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton5)
+                        .addGap(10, 10, 10)
+                        .addComponent(Show)
+                        .addGap(332, 332, 332)
+                        .addComponent(jLabel7)
+                        .addGap(0, 0, 0)
+                        .addComponent(txt_search, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnSearch))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1010, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel3)
-                .addGap(18, 18, 18)
+                .addGap(63, 63, 63)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_tambah, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1211,7 +1202,7 @@ public class panelTransaksi extends javax.swing.JPanel {
                     .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -1256,22 +1247,6 @@ public class panelTransaksi extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_tambahMousePressed
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        // TODO add your handling code here:
-        try {
-            String sql ="SELECT * FROM transaksi WHERE ?";
-            java.sql.Connection conn = (Connection) koneksi.configDB();
-            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setInt(1, WIDTH);
-
-            pst.execute();
-        }
-        catch (Exception e ) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "gagal table: " + e.getMessage());
-        }
-    }//GEN-LAST:event_btnSearchActionPerformed
-
     private void tableAncestorResized(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_tableAncestorResized
         // TODO add your handling code here:
     }//GEN-LAST:event_tableAncestorResized
@@ -1286,6 +1261,12 @@ public class panelTransaksi extends javax.swing.JPanel {
         // TODO add your handling code here:
         showTableDetail();
     }//GEN-LAST:event_ShowActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        String kataKunci = txt_search.getText();
+        cariData(kataKunci);
+    }//GEN-LAST:event_btnSearchActionPerformed
     
     public void datatable() {
         DefaultTableModel tbl = new DefaultTableModel();
@@ -1663,7 +1644,6 @@ public class panelTransaksi extends javax.swing.JPanel {
     private javax.swing.JButton btn_tambah;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

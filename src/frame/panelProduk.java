@@ -338,7 +338,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(432, 432, 432)
                 .addComponent(jLabel2)
-                .addContainerGap(478, Short.MAX_VALUE))
+                .addContainerGap(482, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,12 +359,12 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
             .addGroup(layout.createSequentialGroup()
                 .addGap(300, 300, 300)
                 .addComponent(jLabel4)
-                .addGap(6, 6, 6)
+                .addGap(8, 8, 8)
                 .addComponent(jLabel10)
                 .addGap(10, 10, 10)
                 .addComponent(txt_namaproduk, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(447, 447, 447)
+                .addGap(441, 441, 441)
                 .addComponent(btn_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
                 .addComponent(btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -432,7 +432,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel12)
                         .addComponent(combobox_jenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(8, 8, 8)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_simpan)
                     .addComponent(btn_clear))
@@ -535,7 +535,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         }
     } catch (Exception e) {
         e.printStackTrace(); // Log the exception for debugging
-        JOptionPane.showMessageDialog(null, "Perintah SALAH ! " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Perintah SALAH,Masukkan Data Yang Sesuai ! " + e.getMessage());
     }
     }//GEN-LAST:event_btn_simpanActionPerformed
 private void tampilkanDataBerdasarkanID(int idProduk) {

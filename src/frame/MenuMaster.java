@@ -1,61 +1,69 @@
 package frame;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import koneksi.koneksi;
-
 
 public class MenuMaster extends javax.swing.JFrame {
 
+    // ... (Other fields and methods)
+
     public MenuMaster() {
         initComponents();
-       jLabel3.setText("Master > Produk");     
+        jLabel3.setText("Master > Produk");
         jTabbedPane2.removeAll();
         panelProduk panel = new panelProduk();
         jTabbedPane2.add(panel);
         panel.setVisible(true);
         jTabbedPane2.revalidate();
         jTabbedPane2.repaint();
+        lbl_username.setText(Login.nameUser);
+        setButtonVisibility();  // Call the method to set button visibility
     }
-    private void setButtonVisibility() {
+
+ private void setButtonVisibility() {
     String jaba = getJabatanFromDatabase(Login.nameUser);
     System.out.println("jaba: " + jaba);
 
     if ("Owner".equals(jaba)) {
         // If jabatan is "Owner", display all buttons
         btn_produk.setVisible(true);
-        btn_member.setVisible(true);
         btn_bahanbaku.setVisible(true);
+        btn_member.setVisible(true);
         btn_pengeluaran.setVisible(true);
         btn_user.setVisible(true);
     } else {
         // If jabatan is not "Owner", hide the btn_karyawan button
-        btn_produk.setVisible(true);
-        btn_member.setVisible(true);
-        btn_bahanbaku.setVisible(true);
-        btn_pengeluaran.setVisible(true);
         btn_user.setVisible(false);
+        // Always show these buttons
+        btn_produk.setVisible(true);
+        btn_bahanbaku.setVisible(true);
+        btn_member.setVisible(true);
+        btn_pengeluaran.setVisible(true);
     }
-    }
-        private String getJabatanFromDatabase(String Jabatan) {
-        try {
-            if (Jabatan != null) {
-                String sql = "SELECT jabatan FROM user WHERE username = ?";
-                java.sql.Connection conn = (Connection) koneksi.configDB();
-                java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, Jabatan);
+}
 
-                java.sql.ResultSet rs = pst.executeQuery();
+private String getJabatanFromDatabase(String Jabatan) {
+    try {
+        if (Jabatan != null) {
+            String sql = "SELECT jabatan FROM user WHERE username = ?";
+            java.sql.Connection conn = (Connection) koneksi.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, Jabatan);
 
-                if (rs.next()) {
-                    return rs.getString("jabatan");
-                }
+            java.sql.ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("jabatan");
             }
-        } catch (Exception e) {
-            e.printStackTrace(); // Print the exception details for debugging
-            // Handle the exception appropriately (e.g., log it, show an error message)
         }
-        return null;
+    } catch (Exception e) {
+        e.printStackTrace(); // Print the exception details for debugging
+        // Handle the exception appropriately (e.g., log it, show an error message)
     }
+    return null;
+}
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -72,8 +80,8 @@ public class MenuMaster extends javax.swing.JFrame {
         btn_produk = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         btn_pengeluaran1 = new javax.swing.JButton();
-        lbl_username = new javax.swing.JButton();
         SignOut1 = new javax.swing.JButton();
+        lbl_username = new javax.swing.JButton();
         SignOut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -98,8 +106,8 @@ public class MenuMaster extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel3.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel3.setText("jLalbel2");
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel3.setText("-");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -130,7 +138,7 @@ public class MenuMaster extends javax.swing.JFrame {
         btn_pengeluaran.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         btn_pengeluaran.setForeground(new java.awt.Color(255, 255, 255));
         btn_pengeluaran.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/icon kembali.png"))); // NOI18N
-        btn_pengeluaran.setText("Back");
+        btn_pengeluaran.setText("  Back");
         btn_pengeluaran.setActionCommand("Transaksi");
         btn_pengeluaran.setBorder(null);
         btn_pengeluaran.setBorderPainted(false);
@@ -140,13 +148,13 @@ public class MenuMaster extends javax.swing.JFrame {
                 btn_pengeluaranActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_pengeluaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 470, -1, -1));
+        jPanel1.add(btn_pengeluaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 470, -1, -1));
 
         btn_bahanbaku.setBackground(new java.awt.Color(39, 159, 136));
         btn_bahanbaku.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         btn_bahanbaku.setForeground(new java.awt.Color(255, 255, 255));
         btn_bahanbaku.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/Bahan Baku.png"))); // NOI18N
-        btn_bahanbaku.setText("Bahan Baku");
+        btn_bahanbaku.setText(" Bahan Baku");
         btn_bahanbaku.setActionCommand("Transaksi");
         btn_bahanbaku.setBorder(new javax.swing.border.MatteBorder(null));
         btn_bahanbaku.setBorderPainted(false);
@@ -161,13 +169,13 @@ public class MenuMaster extends javax.swing.JFrame {
                 btn_bahanbakuActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_bahanbaku, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, -1, -1));
+        jPanel1.add(btn_bahanbaku, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 170, -1));
 
         btn_user.setBackground(new java.awt.Color(39, 159, 136));
         btn_user.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         btn_user.setForeground(new java.awt.Color(255, 255, 255));
         btn_user.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/user.png"))); // NOI18N
-        btn_user.setText("User");
+        btn_user.setText("  User");
         btn_user.setBorder(null);
         btn_user.setBorderPainted(false);
         btn_user.setContentAreaFilled(false);
@@ -181,13 +189,13 @@ public class MenuMaster extends javax.swing.JFrame {
                 btn_userActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, -1, -1));
+        jPanel1.add(btn_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, -1, -1));
 
         btn_member.setBackground(new java.awt.Color(39, 159, 136));
         btn_member.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         btn_member.setForeground(new java.awt.Color(255, 255, 255));
         btn_member.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/member_1.png"))); // NOI18N
-        btn_member.setText("Member");
+        btn_member.setText("  Member");
         btn_member.setBorder(null);
         btn_member.setBorderPainted(false);
         btn_member.setContentAreaFilled(false);
@@ -196,13 +204,13 @@ public class MenuMaster extends javax.swing.JFrame {
                 btn_memberActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_member, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, -1, -1));
+        jPanel1.add(btn_member, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, -1, -1));
 
         btn_produk.setBackground(new java.awt.Color(39, 159, 136));
         btn_produk.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         btn_produk.setForeground(new java.awt.Color(255, 255, 255));
         btn_produk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/produk.png"))); // NOI18N
-        btn_produk.setText("Produk");
+        btn_produk.setText("  Produk");
         btn_produk.setBorder(null);
         btn_produk.setBorderPainted(false);
         btn_produk.setContentAreaFilled(false);
@@ -211,14 +219,14 @@ public class MenuMaster extends javax.swing.JFrame {
                 btn_produkActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_produk, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
+        jPanel1.add(btn_produk, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, -1));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, -1, -1));
 
         btn_pengeluaran1.setBackground(new java.awt.Color(39, 159, 136));
         btn_pengeluaran1.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         btn_pengeluaran1.setForeground(new java.awt.Color(255, 255, 255));
         btn_pengeluaran1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/pengeluaran.png"))); // NOI18N
-        btn_pengeluaran1.setText("Pengeluaran");
+        btn_pengeluaran1.setText("  Pengeluaran");
         btn_pengeluaran1.setActionCommand("Transaksi");
         btn_pengeluaran1.setBorder(null);
         btn_pengeluaran1.setBorderPainted(false);
@@ -228,7 +236,27 @@ public class MenuMaster extends javax.swing.JFrame {
                 btn_pengeluaran1ActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_pengeluaran1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, -1, -1));
+        jPanel1.add(btn_pengeluaran1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, -1, -1));
+
+        SignOut1.setBackground(new java.awt.Color(39, 159, 136));
+        SignOut1.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
+        SignOut1.setForeground(new java.awt.Color(255, 255, 255));
+        SignOut1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/USer.png"))); // NOI18N
+        SignOut1.setActionCommand("Transaksi");
+        SignOut1.setBorder(null);
+        SignOut1.setBorderPainted(false);
+        SignOut1.setContentAreaFilled(false);
+        SignOut1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                SignOut1MousePressed(evt);
+            }
+        });
+        SignOut1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SignOut1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(SignOut1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 620, -1, -1));
 
         lbl_username.setBackground(new java.awt.Color(39, 159, 136));
         lbl_username.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
@@ -249,27 +277,7 @@ public class MenuMaster extends javax.swing.JFrame {
                 lbl_usernameActionPerformed(evt);
             }
         });
-        jPanel1.add(lbl_username, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 640, 80, 30));
-
-        SignOut1.setBackground(new java.awt.Color(39, 159, 136));
-        SignOut1.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
-        SignOut1.setForeground(new java.awt.Color(255, 255, 255));
-        SignOut1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/USer_1.png"))); // NOI18N
-        SignOut1.setActionCommand("Transaksi");
-        SignOut1.setBorder(null);
-        SignOut1.setBorderPainted(false);
-        SignOut1.setContentAreaFilled(false);
-        SignOut1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                SignOut1MousePressed(evt);
-            }
-        });
-        SignOut1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SignOut1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(SignOut1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 640, -1, -1));
+        jPanel1.add(lbl_username, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 620, 80, 30));
 
         SignOut.setBackground(new java.awt.Color(39, 159, 136));
         SignOut.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
@@ -290,55 +298,50 @@ public class MenuMaster extends javax.swing.JFrame {
                 SignOutActionPerformed(evt);
             }
         });
-        jPanel1.add(SignOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 700, -1, -1));
+        jPanel1.add(SignOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 670, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 768));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_pengeluaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pengeluaranActionPerformed
- MenuUtama master = new MenuUtama();
-            master.setVisible(true);
-            this.dispose(); // Menutup JFrame pertama
-    }//GEN-LAST:event_btn_pengeluaranActionPerformed
+    private void SignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignOutActionPerformed
 
-    private void btn_bahanbakuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_bahanbakuMousePressed
+    }//GEN-LAST:event_SignOutActionPerformed
 
-    }//GEN-LAST:event_btn_bahanbakuMousePressed
+    private void SignOutMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SignOutMousePressed
+        this.setVisible(false);
+        new Login().setVisible(true);
+    }//GEN-LAST:event_SignOutMousePressed
 
-    private void btn_bahanbakuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bahanbakuActionPerformed
-          jLabel3.setText("Master > Bahan Baku");
-           jTabbedPane2.removeAll();
-        panelBahanBaku panel = new panelBahanBaku();
+    private void lbl_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lbl_usernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbl_usernameActionPerformed
+
+    private void lbl_usernameMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_usernameMousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbl_usernameMousePressed
+
+    private void SignOut1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignOut1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SignOut1ActionPerformed
+
+    private void SignOut1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SignOut1MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SignOut1MousePressed
+
+    private void btn_pengeluaran1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pengeluaran1ActionPerformed
+        jLabel3.setText("Master > Pengeluaran");
+        jTabbedPane2.removeAll();
+        panelPengeluaran panel = new panelPengeluaran();
         jTabbedPane2.add(panel);
         panel.setVisible(true);
         jTabbedPane2.revalidate();
         jTabbedPane2.repaint();
-    }//GEN-LAST:event_btn_bahanbakuActionPerformed
-
-    private void btn_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_userActionPerformed
-        jLabel3.setText("Master > User");
-         jTabbedPane2.removeAll();
-        panelUser panel = new panelUser();
-        jTabbedPane2.add(panel);
-        panel.setVisible(true);
-        jTabbedPane2.revalidate();
-        jTabbedPane2.repaint();
-    }//GEN-LAST:event_btn_userActionPerformed
-
-    private void btn_memberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_memberActionPerformed
-         jLabel3.setText("Master > Member");
-          jTabbedPane2.removeAll();
-        panelMember panel = new panelMember();
-        jTabbedPane2.add(panel);
-        panel.setVisible(true);
-        jTabbedPane2.revalidate();
-        jTabbedPane2.repaint();
-    }//GEN-LAST:event_btn_memberActionPerformed
+    }//GEN-LAST:event_btn_pengeluaran1ActionPerformed
 
     private void btn_produkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_produkActionPerformed
-        jLabel3.setText("Master > Produk");     
+        jLabel3.setText("Master > Produk");
         jTabbedPane2.removeAll();
         panelProduk panel = new panelProduk();
         jTabbedPane2.add(panel);
@@ -347,44 +350,49 @@ public class MenuMaster extends javax.swing.JFrame {
         jTabbedPane2.repaint();
     }//GEN-LAST:event_btn_produkActionPerformed
 
-    private void btn_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_userMouseClicked
-
-    }//GEN-LAST:event_btn_userMouseClicked
-
-    private void btn_pengeluaran1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pengeluaran1ActionPerformed
-         jLabel3.setText("Master > Pengeluaran");
-         jTabbedPane2.removeAll();
-        panelPengeluaran panel = new panelPengeluaran();
+    private void btn_memberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_memberActionPerformed
+        jLabel3.setText("Master > Member");
+        jTabbedPane2.removeAll();
+        panelMember panel = new panelMember();
         jTabbedPane2.add(panel);
         panel.setVisible(true);
         jTabbedPane2.revalidate();
         jTabbedPane2.repaint();
-    }//GEN-LAST:event_btn_pengeluaran1ActionPerformed
+    }//GEN-LAST:event_btn_memberActionPerformed
 
-    private void lbl_usernameMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_usernameMousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lbl_usernameMousePressed
+    private void btn_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_userActionPerformed
+        jLabel3.setText("Master > User");
+        jTabbedPane2.removeAll();
+        panelUser panel = new panelUser();
+        jTabbedPane2.add(panel);
+        panel.setVisible(true);
+        jTabbedPane2.revalidate();
+        jTabbedPane2.repaint();
+    }//GEN-LAST:event_btn_userActionPerformed
 
-    private void lbl_usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lbl_usernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lbl_usernameActionPerformed
+    private void btn_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_userMouseClicked
 
-    private void SignOut1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SignOut1MousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SignOut1MousePressed
+    }//GEN-LAST:event_btn_userMouseClicked
 
-    private void SignOut1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignOut1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SignOut1ActionPerformed
+    private void btn_bahanbakuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bahanbakuActionPerformed
+        jLabel3.setText("Master > Bahan Baku");
+        jTabbedPane2.removeAll();
+        panelBahanBaku panel = new panelBahanBaku();
+        jTabbedPane2.add(panel);
+        panel.setVisible(true);
+        jTabbedPane2.revalidate();
+        jTabbedPane2.repaint();
+    }//GEN-LAST:event_btn_bahanbakuActionPerformed
 
-    private void SignOutMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SignOutMousePressed
-        this.setVisible(false);
-        new Login().setVisible(true);
-    }//GEN-LAST:event_SignOutMousePressed
+    private void btn_bahanbakuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_bahanbakuMousePressed
 
-    private void SignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignOutActionPerformed
+    }//GEN-LAST:event_btn_bahanbakuMousePressed
 
-    }//GEN-LAST:event_SignOutActionPerformed
+    private void btn_pengeluaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pengeluaranActionPerformed
+        MenuUtama master = new MenuUtama();
+        master.setVisible(true);
+        this.dispose(); // Menutup JFrame pertama
+    }//GEN-LAST:event_btn_pengeluaranActionPerformed
 
     /**
      * @param args the command line arguments

@@ -45,16 +45,17 @@ public class panelKeuangan extends javax.swing.JPanel {
     }    
     java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
  
-    private void koneksi() {
+private void koneksi() {
     try {
         Class.forName("com.mysql.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_laundryku", "root", "");
+        // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project_laundryku", "root", "");
+        con = koneksi.configDB(); // Assuming configDB returns a Connection object
         stat = con.createStatement();
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " + e.getMessage());
         e.printStackTrace(); // Cetak exception untuk debugging
-        }
     }
+}
     private void tabel(){
     
     // Set show grid untuk menampilkan garis pembatas
@@ -259,7 +260,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel1.setText("-\\");
 
-            jPanel1.setBackground(new java.awt.Color(0, 255, 204));
+            jPanel1.setBackground(new java.awt.Color(39, 159, 136));
             jPanel1.setPreferredSize(new java.awt.Dimension(1082, 30));
 
             jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -272,7 +273,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(432, 432, 432)
                     .addComponent(jLabel2)
-                    .addContainerGap(380, Short.MAX_VALUE))
+                    .addContainerGap(375, Short.MAX_VALUE))
             );
             jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

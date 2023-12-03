@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import static koneksi.koneksi.configDB;
 
-
 /**
  *
  * @author sartriaardianthauno
@@ -620,10 +619,10 @@ public class formTransaksi extends javax.swing.JFrame {
                             .addComponent(jLabel15))
                         .addGap(40, 40, 40)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cmb_produk, 0, 278, Short.MAX_VALUE)
+                            .addComponent(cmb_produk, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cmb_jenis, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txt_harga)
-                            .addComponent(txt_jumlah)))
+                            .addComponent(txt_jumlah)
+                            .addComponent(txt_harga, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -632,31 +631,29 @@ public class formTransaksi extends javax.swing.JFrame {
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_biaya_tambahan, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btn_tambahTable)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_delete_detail)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txt_totalHarga, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-                                .addComponent(txt_diskon, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(txt_biaya_tambahan, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(txt_diskon, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_totalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                            .addComponent(txt_hp, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel3))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txt_pelanggan)
-                                .addComponent(cmb_member, 0, 278, Short.MAX_VALUE))))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(58, 58, 58)
+                        .addComponent(txt_hp, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmb_member, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_pelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -724,7 +721,7 @@ public class formTransaksi extends javax.swing.JFrame {
                             .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_pelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(10, 10, 10)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_hp, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(10, 10, 10)
@@ -857,22 +854,51 @@ public class formTransaksi extends javax.swing.JFrame {
 //        String diskonText = txt_diskon.getText().trim();
         
 //        Pemba = diskonText.isEmpty() ? 0 : Integer.parseInt(txt_pembayaran.getText().trim());
-        if(idEdit != 0 ) {
-            int pembayaran = Integer.parseInt(txt_pembayaran.getText().trim());
+//        if(idEdit != 0 ) {
+//            int pembayaran = Integer.parseInt(txt_pembayaran.getText().trim());
+//            int TotalPembayaran = Integer.parseInt(txt_totalPembayaran.getText().trim());
+//            
+//            int kembalian = pembayaran - TotalPembayaran ;
+//            System.out.println("kembalian: "+kembalian);
+//                    
+//            txt_kembalian.setText(String.valueOf(kembalian));
+//        } else {
+//            int pembayaran = Integer.parseInt(txt_pembayaran.getText().trim());
+////            int kembalian = Kembalian + pembayaran;
+//
+//            int kembalian = Pembayaran - TotalPembayaran ;
+//            int kembalian2 = kembalian + pembayaran;
+//            txt_kembalian.setText(String.valueOf(kembalian2));
+//        }
+        try {
+    // Assuming Pembayaran and TotalPembayaran are properly initialized somewhere in your code
+//   int pembayaran = Integer.parseInt(txt_pembayaran.getText().trim());
             int TotalPembayaran = Integer.parseInt(txt_totalPembayaran.getText().trim());
-            
-            int kembalian = pembayaran - TotalPembayaran ;
-            System.out.println("kembalian: "+kembalian);
-                    
-            txt_kembalian.setText(String.valueOf(kembalian));
-        } else {
-            int pembayaran = Integer.parseInt(txt_pembayaran.getText().trim());
-//            int kembalian = Kembalian + pembayaran;
 
-            int kembalian = Pembayaran - TotalPembayaran ;
-            int kembalian2 = kembalian + pembayaran;
-            txt_kembalian.setText(String.valueOf(kembalian2));
+    String pembayaranText = txt_pembayaran.getText().trim();
+
+    if (!pembayaranText.isEmpty()) {
+        int pembayaran = Integer.parseInt(pembayaranText);
+        int kembalian = pembayaran - TotalPembayaran ;
+
+        if (idEdit != 0) {
+            kembalian = pembayaran - TotalPembayaran;
+            System.out.println("kembalian: " + kembalian);
+        } else {
+            kembalian = Pembayaran - TotalPembayaran + pembayaran;
         }
+
+        txt_kembalian.setText(String.valueOf(kembalian));
+    } else {
+        // Handle the case when the text is empty
+        System.out.println("Pembayaran text is empty");
+        // You might want to show an error message to the user or take appropriate action.
+    }
+} catch (NumberFormatException e) {
+    // Handle the exception, for example, show an error message to the user.
+    e.printStackTrace();
+}
+
     }//GEN-LAST:event_txt_pembayaranFocusLost
 
     private void txt_pembayaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_pembayaranActionPerformed

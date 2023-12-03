@@ -79,10 +79,10 @@
                           </Group>
                           <EmptySpace min="40" pref="40" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="cmb_produk" alignment="0" pref="278" max="32767" attributes="0"/>
+                              <Component id="cmb_produk" alignment="0" max="32767" attributes="0"/>
                               <Component id="cmb_jenis" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txt_harga" alignment="0" max="32767" attributes="0"/>
                               <Component id="txt_jumlah" max="32767" attributes="0"/>
+                              <Component id="txt_harga" min="-2" pref="278" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jPanel5" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -94,6 +94,7 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="txt_biaya_tambahan" min="-2" pref="277" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="btn_tambahTable" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
@@ -101,33 +102,28 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="txt_totalHarga" alignment="0" pref="277" max="32767" attributes="0"/>
-                                  <Component id="txt_diskon" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="txt_biaya_tambahan" alignment="1" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="txt_diskon" min="-2" pref="277" max="-2" attributes="0"/>
+                              <Component id="txt_totalHarga" min="-2" pref="277" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jScrollPane2" alignment="0" min="-2" pref="579" max="-2" attributes="0"/>
-                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel10" min="-2" pref="60" max="-2" attributes="0"/>
-                              <EmptySpace pref="52" max="32767" attributes="0"/>
-                              <Component id="txt_hp" min="-2" pref="278" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel20" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
-                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="txt_pelanggan" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="cmb_member" alignment="0" pref="278" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel10" min="-2" pref="60" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
+                          <Component id="txt_hp" min="-2" pref="278" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jPanel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel20" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="cmb_member" min="-2" pref="278" max="-2" attributes="0"/>
+                              <Component id="txt_pelanggan" alignment="0" min="-2" pref="278" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
                   <EmptySpace pref="66" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
@@ -211,9 +207,9 @@
                               <Component id="txt_pelanggan" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel10" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                              <Component id="txt_hp" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel10" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="txt_hp" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Component id="jPanel4" min="-2" pref="24" max="-2" attributes="0"/>

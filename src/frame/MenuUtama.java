@@ -8,19 +8,22 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import koneksi.koneksi;
+import com.raven.chart.ModelChart;
+import java.awt.Color;
 
 public class MenuUtama extends javax.swing.JFrame {
 
     public MenuUtama() {
         initComponents();
-        jLabel2.setText("Selamat Datang");
+        jLabel2.setText("Selamat Datang , "+Login.nameUser);
         Home panel = new Home();
         jTabbedPane1.add("Home", panel);
         panel.setVisible(true);
         jTabbedPane1.revalidate();
         jTabbedPane1.repaint();
         lbl_username.setText(Login.nameUser);
-        setButtonVisibility();              
+        setButtonVisibility();    
+         jPanel5.setBackground(new Color(240, 240, 240));
     }
 
 private void setButtonVisibility() {
@@ -84,6 +87,7 @@ private String getJabatanFromDatabase(String Jabatan) {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(240, 240, 240));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(39, 159, 136));
@@ -192,7 +196,7 @@ private String getJabatanFromDatabase(String Jabatan) {
                 SignOutActionPerformed(evt);
             }
         });
-        jPanel1.add(SignOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 722, -1, -1));
+        jPanel1.add(SignOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 670, -1, -1));
 
         SignOut1.setBackground(new java.awt.Color(39, 159, 136));
         SignOut1.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
@@ -212,7 +216,7 @@ private String getJabatanFromDatabase(String Jabatan) {
                 SignOut1ActionPerformed(evt);
             }
         });
-        jPanel1.add(SignOut1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 670, -1, -1));
+        jPanel1.add(SignOut1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 620, -1, -1));
 
         lbl_username.setBackground(new java.awt.Color(39, 159, 136));
         lbl_username.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
@@ -233,7 +237,7 @@ private String getJabatanFromDatabase(String Jabatan) {
                 lbl_usernameActionPerformed(evt);
             }
         });
-        jPanel1.add(lbl_username, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 670, 80, 30));
+        jPanel1.add(lbl_username, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 620, 80, 30));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 768));
 
@@ -250,29 +254,29 @@ private String getJabatanFromDatabase(String Jabatan) {
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, 1100, 30));
 
-        jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jTabbedPane1.setBackground(new java.awt.Color(240, 240, 240));
         getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 1070, 640));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jLabel2.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel2.setText("-");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(545, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addContainerGap(1050, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGap(24, 24, 24)
+                .addComponent(jLabel2)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, 1070, 80));
@@ -307,9 +311,10 @@ jTabbedPane1.repaint();
 jPanel5.setVisible(true);
 
             jPanel5.setVisible(true);
+             jPanel5.setBackground(new Color(255, 255, 255));
     }//GEN-LAST:event_btn_transaksiActionPerformed
     private void btn_karyawanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_karyawanActionPerformed
-            jLabel2.setText("Dashboard > Absnensi"); 
+            jLabel2.setText("Dashboard > Absensi"); 
             jTabbedPane1.removeAll();
             panelAbsen panel= new panelAbsen();
             jTabbedPane1.add(panel);
@@ -317,6 +322,7 @@ jPanel5.setVisible(true);
             jTabbedPane1.revalidate();
             jTabbedPane1.repaint();
             jPanel5.setVisible(true);
+             jPanel5.setBackground(new Color(255, 255, 255));
     }//GEN-LAST:event_btn_karyawanActionPerformed
 
     private void btn_keuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_keuanganActionPerformed
@@ -328,16 +334,18 @@ jPanel5.setVisible(true);
             jTabbedPane1.revalidate();
             jTabbedPane1.repaint();
             jPanel5.setVisible(true);
+            jPanel5.setBackground(new Color(255, 255, 255));
     }//GEN-LAST:event_btn_keuanganActionPerformed
     private void btn_homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_homeActionPerformed
        jTabbedPane1.removeAll();
-       jLabel2.setText("Selamat Datang");
-       Home panel = new Home();
+       jLabel2.setText("Selamat Datang , "+Login.nameUser);
+       Home panel = new Home(); 
        jTabbedPane1.add(panel);
        panel.setVisible(true); 
        jTabbedPane1.revalidate();
        jTabbedPane1.repaint();
-       jPanel5.setVisible(false);
+//       238,238,238
+       jPanel5.setBackground(new Color(238, 238, 238));
     }//GEN-LAST:event_btn_homeActionPerformed
     private void SignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignOutActionPerformed
     }//GEN-LAST:event_SignOutActionPerformed

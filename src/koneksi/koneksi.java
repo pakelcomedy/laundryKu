@@ -9,9 +9,9 @@ public class koneksi {
     private static Connection mysqlconfig;
     public static Connection configDB()throws SQLException {
         try {
-            String url ="jdbc:mysql://localhost:3306/project_laundryku"; 
+            String url ="jdbc:mysql://localhost:3307/project_laundryku"; 
             String user ="root";
-            String pass ="";
+            String pass ="1234";
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             mysqlconfig = DriverManager.getConnection(url, user,pass);
         } catch(Exception e) {
