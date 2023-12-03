@@ -25,7 +25,7 @@
           <Group type="102" attributes="0">
               <EmptySpace min="300" pref="300" max="-2" attributes="0"/>
               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
               <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
               <Component id="txt_nama" min="-2" pref="271" max="-2" attributes="0"/>
@@ -406,7 +406,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="432" max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="440" max="32767" attributes="0"/>
+                  <EmptySpace pref="435" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

@@ -164,7 +164,6 @@ public class panelAbsen extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
         lbl_jumlahuser = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -215,19 +214,6 @@ public class panelAbsen extends javax.swing.JPanel {
         jPanel3.setBackground(new java.awt.Color(14, 98, 183));
         jPanel3.setPreferredSize(new java.awt.Dimension(237, 36));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Lihat Selengkapnya                              >");
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 40));
-
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, -1, 40));
 
         lbl_jumlahuser.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -525,10 +511,6 @@ public class panelAbsen extends javax.swing.JPanel {
     }
     }//GEN-LAST:event_Delete1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void SearchB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchB2ActionPerformed
         String searchText = search2.getText();
         clearTableSelection(TepatWaktu);
@@ -611,7 +593,6 @@ private String JumlahPegawai() {
     private javax.swing.JTable TepatWaktu;
     private javax.swing.JTable Terlambat;
     private javax.swing.JLabel TerlambatJ;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel10;

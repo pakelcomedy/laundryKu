@@ -58,10 +58,10 @@ public class Login extends javax.swing.JFrame {
         login = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        Time = new javax.swing.JLabel();
         ckbox = new javax.swing.JCheckBox();
         txt_password = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
+        Time = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -114,11 +114,6 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setText("Password");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 480, -1, -1));
 
-        Time.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        Time.setForeground(new java.awt.Color(255, 255, 255));
-        Time.setText("_");
-        getContentPane().add(Time, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, -1, -1));
-
         ckbox.setText("Show Password");
         ckbox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,6 +142,11 @@ public class Login extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/LoginPage (1).png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        Time.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        Time.setForeground(new java.awt.Color(255, 255, 255));
+        Time.setText("_");
+        getContentPane().add(Time, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -190,7 +190,7 @@ public class Login extends javax.swing.JFrame {
 
                 try (ResultSet rsLogin = pstLogin.executeQuery()) {
                     if (rsLogin.next()) {
-                        JOptionPane.showMessageDialog(null, "Login Successful");
+                        JOptionPane.showMessageDialog(null, "Berhasil Login");
                         this.setVisible(false);
                         nameUser = txt_username.getText();
                         String jabatan = rsLogin.getString("jabatan");

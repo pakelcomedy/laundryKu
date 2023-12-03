@@ -12,6 +12,9 @@ import java.sql.Connection;
 import java.sql.DriverManager; 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -409,8 +412,10 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         String kataKunci = txt_cari.getText();
         cariData(kataKunci);
     }//GEN-LAST:event_txt_cariActionPerformed
+ private static LocalDate lastExecutionDate = null;
+
     private static final long MILLIS_IN_DAY = 24 * 60 * 60 * 1000;
-    
+
     public static void tambahBarisBaru() {
         try {
             Connection conn = koneksi.configDB();
@@ -426,35 +431,64 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
 
             // Do something with the total, for example, print it
             System.out.println("Total: " + total);
-//            insertLaporanKeuangan(conn, totalPengeluaran, totalPemasukan, total);
 
-//             Schedule the task to run every day at 12 pm using ScheduledExecutorService
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            long delay = getDelay();
-            scheduler.scheduleAtFixedRate(() -> insertLaporanKeuangan(conn, totalPengeluaran, totalPemasukan, total),
-                    delay, MILLIS_IN_DAY, TimeUnit.MILLISECONDS);
+
+            // Schedule the task to run every 24 hours, starting from the next midnight
+            scheduler.scheduleAtFixedRate(() -> {
+                try {
+                    // Check if the task has already run today
+                    if (lastExecutionDate != null && lastExecutionDate.equals(LocalDate.now())) {
+                        System.out.println("Task already executed today at: " + LocalTime.now());
+                        return; // Exit if the task has already run today
+                    }
+
+                    insertLaporanKeuangan(conn, totalPengeluaran, totalPemasukan, total);
+
+                    // Update the last execution date
+                    lastExecutionDate = LocalDate.now();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }, calculateInitialDelay(), 24 * 60 * 60, TimeUnit.SECONDS);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    private static long getDelay() {
-        // Calculate the delay until the next 12 pm
-        long currentTime = System.currentTimeMillis();
-        long twelvePmMillis = getTwelvePmMillis(currentTime);
 
-        if (currentTime > twelvePmMillis) {
-            twelvePmMillis += MILLIS_IN_DAY; // Move to the next day if it's already past 12 pm
+    private static long calculateInitialDelay() {
+        LocalTime now = LocalTime.now();
+        LocalTime midnight = LocalTime.of(0, 0);
+
+        // Calculate the minutes until the next midnight
+        long minutesUntilMidnight;
+        if (now.isAfter(midnight)) {
+            minutesUntilMidnight = (midnight.until(now, ChronoUnit.MINUTES) + 24 * 60) % (24 * 60);
+        } else {
+            minutesUntilMidnight = midnight.until(now, ChronoUnit.MINUTES);
         }
 
-        return twelvePmMillis - currentTime;
+        return minutesUntilMidnight;
     }
-
-    private static long getTwelvePmMillis(long currentTime) {
-        // Calculate the milliseconds since midnight and add the remaining time until 12 pm
-        long midnightMillis = currentTime - (currentTime % MILLIS_IN_DAY);
-        return midnightMillis + (12 * 60 * 60 * 1000);
-    }
+    
+//    private static long getDelay() {
+//        // Calculate the delay until the next 12 pm
+//        long currentTime = System.currentTimeMillis();
+//        long twelvePmMillis = getTwelvePmMillis(currentTime);
+//
+//        if (currentTime > twelvePmMillis) {
+//            twelvePmMillis += MILLIS_IN_DAY; // Move to the next day if it's already past 12 pm
+//        }
+//
+//        return twelvePmMillis - currentTime;
+//    }
+//
+//    private static long getTwelvePmMillis(long currentTime) {
+//        // Calculate the milliseconds since midnight and add the remaining time until 12 pm
+//        long midnightMillis = currentTime - (currentTime % MILLIS_IN_DAY);
+//        return midnightMillis + (12 * 60 * 60 * 1000);
+//    }
 
     private static int getTotalPengeluaran(Connection conn) throws SQLException {
         String pengeluaranQuery = "SELECT COALESCE(SUM(total_pengeluaran), 0) AS pengeluaran " +

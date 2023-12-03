@@ -42,7 +42,7 @@ private void koneksi() {
         con = koneksi.configDB(); // Assuming configDB returns a Connection object
         stat = con.createStatement();
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " );
         e.printStackTrace(); // Cetak exception untuk debugging
     }
 }
@@ -348,7 +348,7 @@ private void cariData(String kataKunci) {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(432, 432, 432)
                 .addComponent(jLabel2)
-                .addContainerGap(440, Short.MAX_VALUE))
+                .addContainerGap(435, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -366,7 +366,7 @@ private void cariData(String kataKunci) {
             .addGroup(layout.createSequentialGroup()
                 .addGap(300, 300, 300)
                 .addComponent(jLabel4)
-                .addGap(8, 8, 8)
+                .addGap(5, 5, 5)
                 .addComponent(jLabel10)
                 .addGap(10, 10, 10)
                 .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -528,7 +528,7 @@ private void cariData(String kataKunci) {
             t = null;
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Perintah SALAH,Masukkan Data Yang Sesuai ! " + e);
+        JOptionPane.showMessageDialog(null, "Perintah SALAH,Masukkan Data Yang Sesuai ! " );
     }
 
     }//GEN-LAST:event_btn_simpanActionPerformed
@@ -609,7 +609,7 @@ private void tampilkanDetailBahanBaku(int idBahanBaku) {
             }
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Gagal menampilkan detail: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Gagal menampilkan detail: ");
     }
  
     }//GEN-LAST:event_btn_lihatActionPerformed
@@ -639,7 +639,7 @@ private void tampilkanDetailBahanBaku(int idBahanBaku) {
             tabel();
             JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Gagal menghapus data: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Gagal menghapus data: " );
         }
     }//GEN-LAST:event_btn_hapusActionPerformed
 

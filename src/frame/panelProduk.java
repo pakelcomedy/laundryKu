@@ -45,7 +45,7 @@ public class panelProduk extends javax.swing.JPanel {
             con = koneksi.configDB();
             stat = con.createStatement();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " );
             e.printStackTrace(); // Cetak exception untuk debugging
         }
     }
@@ -159,7 +159,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, e);
         e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Gagal mencari ");
     }
 }
 
@@ -535,7 +535,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         }
     } catch (Exception e) {
         e.printStackTrace(); // Log the exception for debugging
-        JOptionPane.showMessageDialog(null, "Perintah SALAH,Masukkan Data Yang Sesuai ! " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Perintah SALAH,Masukkan Data Yang Sesuai ! " );
     }
     }//GEN-LAST:event_btn_simpanActionPerformed
 private void tampilkanDataBerdasarkanID(int idProduk) {
@@ -614,7 +614,7 @@ private void tampilkanDetailProduk(int idProduk) {
             }
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Gagal menampilkan detail: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Gagal menampilkan detail: " );
     }
  
     }//GEN-LAST:event_btn_lihatActionPerformed
@@ -653,7 +653,7 @@ private void tampilkanDetailProduk(int idProduk) {
 
         JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Gagal menghapus data: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Gagal menghapus data: " );
     }
     }//GEN-LAST:event_btn_hapusActionPerformed
 

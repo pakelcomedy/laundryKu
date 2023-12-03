@@ -292,7 +292,7 @@ private String getJabatanFromDatabase(String Jabatan) {
     private void btn_transaksiMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_transaksiMousePressed
     }//GEN-LAST:event_btn_transaksiMousePressed
     private void btn_transaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_transaksiActionPerformed
-            jLabel2.setText("Form Tambah Transaksi"); 
+            jLabel2.setText("Menu Transaksi"); 
             // Pastikan formTransaksi adalah JPanel
 panelTransaksi panel = new panelTransaksi();
 

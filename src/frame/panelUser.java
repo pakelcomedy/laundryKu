@@ -40,7 +40,7 @@ private void koneksi() {
         con = koneksi.configDB(); // Assuming configDB returns a Connection object
         stat = con.createStatement();
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " );
         e.printStackTrace(); // Cetak exception untuk debugging
     }
 }
@@ -552,13 +552,13 @@ try (PreparedStatement pstmt = con.prepareStatement(query)) {
             // Refresh tabel setelah update
             tabel();
 
-            JOptionPane.showMessageDialog(null, "Data berhasil diupdate");
+            JOptionPane.showMessageDialog(null, "Data berhasil diperbarui");
 
             // Reset nilai t agar kembali ke mode penambahan data baru
             t = null;
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Perintah SALAH ! " + e);
+        JOptionPane.showMessageDialog(null, "Gagal memperbarui data ! " );
     }
     }//GEN-LAST:event_btn_simpanActionPerformed
 private void tampilkanDataBerdasarkanID(int idUser) {
@@ -643,7 +643,7 @@ private void tampilkanDetailUser(int idUser) {
             }
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Gagal menampilkan detail: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Gagal menampilkan detail: " );
     }
     
     }//GEN-LAST:event_btn_lihatActionPerformed
@@ -677,7 +677,7 @@ private void tampilkanDetailUser(int idUser) {
 
             JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Gagal menghapus data: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Gagal menghapus data: ");
         }
     }//GEN-LAST:event_btn_hapusActionPerformed
 

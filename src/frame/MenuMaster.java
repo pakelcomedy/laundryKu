@@ -331,7 +331,7 @@ private String getJabatanFromDatabase(String Jabatan) {
     }//GEN-LAST:event_SignOut1MousePressed
 
     private void btn_pengeluaran1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pengeluaran1ActionPerformed
-        jLabel3.setText("Master > Pengeluaran");
+        jLabel3.setText("Master Pengeluaran");
         jTabbedPane2.removeAll();
         panelPengeluaran panel = new panelPengeluaran();
         jTabbedPane2.add(panel);
@@ -341,7 +341,7 @@ private String getJabatanFromDatabase(String Jabatan) {
     }//GEN-LAST:event_btn_pengeluaran1ActionPerformed
 
     private void btn_produkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_produkActionPerformed
-        jLabel3.setText("Master > Produk");
+        jLabel3.setText("Master Produk");
         jTabbedPane2.removeAll();
         panelProduk panel = new panelProduk();
         jTabbedPane2.add(panel);
@@ -351,7 +351,7 @@ private String getJabatanFromDatabase(String Jabatan) {
     }//GEN-LAST:event_btn_produkActionPerformed
 
     private void btn_memberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_memberActionPerformed
-        jLabel3.setText("Master > Member");
+        jLabel3.setText("Master Member");
         jTabbedPane2.removeAll();
         panelMember panel = new panelMember();
         jTabbedPane2.add(panel);
@@ -361,7 +361,7 @@ private String getJabatanFromDatabase(String Jabatan) {
     }//GEN-LAST:event_btn_memberActionPerformed
 
     private void btn_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_userActionPerformed
-        jLabel3.setText("Master > User");
+        jLabel3.setText("Master User");
         jTabbedPane2.removeAll();
         panelUser panel = new panelUser();
         jTabbedPane2.add(panel);
@@ -375,7 +375,7 @@ private String getJabatanFromDatabase(String Jabatan) {
     }//GEN-LAST:event_btn_userMouseClicked
 
     private void btn_bahanbakuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bahanbakuActionPerformed
-        jLabel3.setText("Master > Bahan Baku");
+        jLabel3.setText("Master Bahan Baku");
         jTabbedPane2.removeAll();
         panelBahanBaku panel = new panelBahanBaku();
         jTabbedPane2.add(panel);

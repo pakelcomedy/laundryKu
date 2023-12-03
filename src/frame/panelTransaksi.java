@@ -8,8 +8,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
@@ -50,6 +56,7 @@ public class panelTransaksi extends javax.swing.JPanel {
         jButton5 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         Show = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1163,6 +1170,16 @@ public class panelTransaksi extends javax.swing.JPanel {
             }
         });
 
+        jToggleButton1.setBackground(new java.awt.Color(255, 102, 0));
+        jToggleButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jToggleButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jToggleButton1.setText("Memuat Table");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1178,7 +1195,9 @@ public class panelTransaksi extends javax.swing.JPanel {
                         .addComponent(jButton5)
                         .addGap(10, 10, 10)
                         .addComponent(Show)
-                        .addGap(332, 332, 332)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jToggleButton1)
+                        .addGap(209, 209, 209)
                         .addComponent(jLabel7)
                         .addGap(0, 0, 0)
                         .addComponent(txt_search, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1196,13 +1215,14 @@ public class panelTransaksi extends javax.swing.JPanel {
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(Show, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(Show, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel7)
                     .addComponent(txt_search, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(30, 30, 30)
+                .addGap(25, 25, 25)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -1267,6 +1287,11 @@ public class panelTransaksi extends javax.swing.JPanel {
         String kataKunci = txt_search.getText();
         cariData(kataKunci);
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+        datatable();
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
     
     public void datatable() {
         DefaultTableModel tbl = new DefaultTableModel();
@@ -1297,7 +1322,7 @@ public class panelTransaksi extends javax.swing.JPanel {
                 String namaPegawai = getNamaPegawai(res.getString("id_pegawai"));
                 int status = res.getInt("transaksi.status_laundry");
                 String statusText;
-                
+               
                 if (status == 0) {
                         statusText = "baru";
                     } else if (status == 1) {
@@ -1506,46 +1531,49 @@ public class panelTransaksi extends javax.swing.JPanel {
         updateStatusJadwalan();
         updateStatusLewat();
     }
-    
-    public static void tambahHari() {
-        Timer timer = new Timer();
-//            Schedule the task to run every day at 12 pm
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    try {                   
-                        String sql = "UPDATE transaksi SET tanggal_masuk = DATE_ADD(tanggal_masuk, INTERVAL 1 DAY)";
-                        java.sql.Connection conn = (Connection) koneksi.configDB();
-                        PreparedStatement pst = conn.prepareStatement(sql);
+  
+    private static LocalDate lastExecutionDate = null;
 
-                        // Assuming currentDate is a java.sql.Date or java.util.Date object
-                        pst.executeUpdate();
-                        updateStatusProsess();
-                   } catch(Exception e) {
-//                        JOptionPane.showMessageDialog(this, "gagal set tanggal baru" + e.getMessage());
-                       System.out.println("e: "+e);
-                   }
-                    System.out.println("lol");
+    public static void tambahHari() {
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+        // Schedule the task to run every 24 hours, starting from the next midnight
+        scheduler.scheduleAtFixedRate(() -> {
+            try {
+                // Check if the task has already run today
+                if (lastExecutionDate != null && lastExecutionDate.equals(LocalDate.now())) {
+                    System.out.println("Task already executed today at: " + LocalTime.now());
+                    return; // Exit if the task has already run today
                 }
-            }, getDelay(), 24 * 60 * 60 * 1000);
+
+                String sql = "UPDATE transaksi SET tanggal_masuk = DATE_ADD(tanggal_masuk, INTERVAL 1 DAY)";
+                Connection conn = koneksi.configDB();
+                PreparedStatement pst = conn.prepareStatement(sql);
+
+                pst.executeUpdate();
+                updateStatusProsess();
+
+                // Update the last execution date
+                lastExecutionDate = LocalDate.now();
+            } catch (Exception e) {
+                System.out.println("Failed to update data: " + e.getMessage());
+            }
+        }, calculateInitialDelay(), 24 * 60 * 60, TimeUnit.SECONDS); // Change TimeUnit to MINUTES
     }
-    
-    private static long getDelay() {
-        // Calculate the delay until the next 12 pm
-        long currentTime = System.currentTimeMillis();
-        long twelvePmMillis = getTwelvePmMillis(currentTime);
-        
-        if (currentTime > twelvePmMillis) {
-            twelvePmMillis += 24 * 60 * 60 * 1000; // Move to the next day if it's already past 12 pm
+
+    private static long calculateInitialDelay() {
+        LocalTime now = LocalTime.now();
+        LocalTime midnight = LocalTime.of(0, 0);
+
+        // Calculate the minutes until the next midnight
+        long minutesUntilMidnight;
+        if (now.isAfter(midnight)) {
+            minutesUntilMidnight = (midnight.until(now, ChronoUnit.MINUTES) + 24 * 60) % (24 * 60);
+        } else {
+            minutesUntilMidnight = midnight.until(now, ChronoUnit.MINUTES);
         }
 
-        return twelvePmMillis - currentTime;
-    }
-
-    private static long getTwelvePmMillis(long currentTime) {
-        // Calculate the milliseconds since midnight and add the remaining time until 12 pm
-        long midnightMillis = currentTime - (currentTime % (24 * 60 * 60 * 1000));
-        return midnightMillis + (12 * 60 * 60 * 1000);
+        return minutesUntilMidnight;
     }
 
     private static void updateStatusProsess() {
@@ -1647,6 +1675,7 @@ public class panelTransaksi extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTable table;
     private javax.swing.JTextField txt_search;
     // End of variables declaration//GEN-END:variables

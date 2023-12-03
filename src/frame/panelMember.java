@@ -1,6 +1,5 @@
 
 package frame;
-
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -13,12 +12,17 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import javax.swing.JTable;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -26,11 +30,13 @@ import javax.swing.table.JTableHeader;
 import koneksi.koneksi;
 
 
+
 public class panelMember extends javax.swing.JPanel {
     private Connection con;
     private Statement stat;
     private ResultSet res;
     private String t;    
+    private static LocalDate lastExecutionDate = null;
        
     public panelMember() {
         koneksi();
@@ -59,7 +65,7 @@ private void koneksi() {
         con = koneksi.configDB(); // Assuming configDB returns a Connection object
         stat = con.createStatement();
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " );
         e.printStackTrace(); // Cetak exception untuk debugging
     }
 }
@@ -176,6 +182,14 @@ private void cariData(String kataKunci) {
                 pstmt.setString(i, "%" + kataKunci + "%");
             }
             res = pstmt.executeQuery();
+            int status = res.getInt("statusMember");
+                String statusText;
+               
+                if (status == 0) {
+                        statusText = "MASIH BERAKU";
+                    } else{
+                        statusText = "SUDAH KADULRASA";
+                    }
 
             while (res.next()) {
                 model.addRow(new Object[]{
@@ -183,7 +197,8 @@ private void cariData(String kataKunci) {
                     res.getString("nama"),
                     res.getString("alamat"),
                     res.getString("no_hp"),
-                    res.getString("batas_waktu")
+                    res.getString("batas_waktu"),
+                        statusText
                     // Add other columns as needed
                 });
             }
@@ -502,7 +517,7 @@ private void cariData(String kataKunci) {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(300, 300, 300)
                         .addComponent(jLabel4member)
-                        .addGap(1, 1, 1)
+                        .addGap(2, 2, 2)
                         .addComponent(jLabel10)
                         .addGap(10, 10, 10)
                         .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -516,14 +531,14 @@ private void cariData(String kataKunci) {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(300, 300, 300)
                         .addComponent(jLabel6member)
-                        .addGap(59, 59, 59)
+                        .addGap(58, 58, 58)
                         .addComponent(jLabel12)
                         .addGap(10, 10, 10)
                         .addComponent(txt_nohp, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(300, 300, 300)
                         .addComponent(jLabel6member1)
-                        .addGap(15, 15, 15)
+                        .addGap(14, 14, 14)
                         .addComponent(jLabel13)
                         .addGap(12, 12, 12)
                         .addComponent(spinner_tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -561,23 +576,22 @@ private void cariData(String kataKunci) {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1member, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addGap(21, 21, 21)
                         .addComponent(jLabel4member))
-                    .addComponent(jLabel10)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(10, 10, 10)
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10))))
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel7member))
-                    .addComponent(jLabel11)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11)
                         .addComponent(txt_alamat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -695,7 +709,7 @@ private void cariData(String kataKunci) {
         }
         tabel();
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "Gagal Memperbarui Data: " );
     }
   
     }//GEN-LAST:event_btn_simpan1ActionPerformed
@@ -778,7 +792,7 @@ private void tampilkanDetailMember(int idMember) {
             }
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Gagal menampilkan detail: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Gagal menampilkan detail: " );
     }
     }//GEN-LAST:event_btn_lihat1ActionPerformed
 
@@ -787,33 +801,37 @@ private void tampilkanDetailMember(int idMember) {
     }//GEN-LAST:event_Tb_memberMouseReleased
 
     private void btn_hapus1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_hapus1ActionPerformed
-    int row = Tb_member.getSelectedRow();
+int row = Tb_member.getSelectedRow();
 
-    // Ensure a row is selected
-    if (row == -1) {
-        JOptionPane.showMessageDialog(this, "Pilih baris yang akan dihapus");
-        return;
-    }
+// Ensure a row is selected
+if (row == -1) {
+    JOptionPane.showMessageDialog(this, "Pilih baris yang akan dihapus");
+    return;
+}
 
-    // Get the ID Member from the first column (index 0)
-    int idMember = Integer.parseInt(Tb_member.getValueAt(row, 0).toString());
+// Get the ID Member from the first column (index 0)
+int idMember = Integer.parseInt(Tb_member.getValueAt(row, 0).toString());
 
+try {
     // Delete data from the database
-    try {
-        String query = "DELETE FROM member WHERE id_member = ?";
-        try (PreparedStatement pstmt = con.prepareStatement(query)) {
-            pstmt.setInt(1, idMember);
-            pstmt.executeUpdate();
-        }
-
-        // Refresh the table after deletion
-        tabel();
-
-        JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+    String query = "DELETE FROM member WHERE id_member = ?";
+    try (PreparedStatement pstmt = con.prepareStatement(query)) {
+        pstmt.setInt(1, idMember);
+        pstmt.executeUpdate();
     }
 
+    // Remove row from the table
+    DefaultTableModel model = (DefaultTableModel) Tb_member.getModel();
+    model.removeRow(row);
+
+    // Update the number of data
+    int rowCount = model.getRowCount();
+    jLabel1member.setText("Jumlah Data: " + rowCount);
+
+    JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, e );
+}
     }//GEN-LAST:event_btn_hapus1ActionPerformed
 
     private void btn_hapus1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_hapus1MousePressed
@@ -916,48 +934,52 @@ private void tampilkanDetailMember(int idMember) {
             pst.executeUpdate();
             
         } catch(Exception e) {
-         JOptionPane.showMessageDialog(this, "Gagal menghapus data: " + e.getMessage());
+         JOptionPane.showMessageDialog(this, "Gagal Memperbarui Data" );
            System.out.println("e: "+e);
        }
     }
-   public static void tambahTanggalMember() {
-            Timer timer = new Timer();
-//            Schedule the task to run every day at 12 pm
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    try {                   
-                        String sql = "UPDATE member SET tanggalDaftar = DATE_ADD(tanggalDaftar, INTERVAL 1 DAY)";
-                        java.sql.Connection conn = (Connection) koneksi.configDB();
-                        PreparedStatement pst = conn.prepareStatement(sql);
+    
+  public static void tambahTanggalMember() {
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-                        // Assuming currentDate is a java.sql.Date or java.util.Date object
-                        pst.executeUpdate();        
-                   } catch(Exception e) {
-//                        JOptionPane.showMessageDialog(this, "gagal set tanggal baru" + e.getMessage());
-                       System.out.println("e: "+e);
-                   }
-                    System.out.println("lol");
+        // Schedule the task to run every day at 00:00 AM
+        scheduler.scheduleAtFixedRate(() -> {
+            try {
+                // Check if the task has already run today
+                if (lastExecutionDate != null && lastExecutionDate.equals(LocalDate.now())) {
+                    System.out.println("Task already executed today at: " + LocalTime.now());
+                    return; // Exit if the task has already run today
                 }
-            }, getDelay(), 24 * 60 * 60 * 1000);
-   }
-   
-   private static long getDelay() {
-        // Calculate the delay until the next 12 pm
-        long currentTime = System.currentTimeMillis();
-        long twelvePmMillis = getTwelvePmMillis(currentTime);
-        
-        if (currentTime > twelvePmMillis) {
-            twelvePmMillis += 24 * 60 * 60 * 1000; // Move to the next day if it's already past 12 pm
-        }
 
-        return twelvePmMillis - currentTime;
+                // Update all rows in the member table
+                String updateSql = "UPDATE member SET tanggalDaftar = DATE_ADD(tanggalDaftar, INTERVAL 1 DAY)";
+                java.sql.Connection conn = (Connection) koneksi.configDB();
+
+                try (PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
+                    updateStmt.executeUpdate();
+                }
+
+                // Update the last execution date
+                lastExecutionDate = LocalDate.now();
+            } catch (Exception e) {
+                System.out.println("Error: " + e);
+            }
+            System.out.println("Task executed at: " + LocalTime.now());
+        }, calculateInitialDelay(), 24 * 60 * 60, TimeUnit.SECONDS);
     }
 
-    private static long getTwelvePmMillis(long currentTime) {
-        // Calculate the milliseconds since midnight and add the remaining time until 12 pm
-        long midnightMillis = currentTime - (currentTime % (24 * 60 * 60 * 1000));
-        return midnightMillis + (12 * 60 * 60 * 1000);
+    private static long calculateInitialDelay() {
+        LocalTime now = LocalTime.now();
+        LocalTime targetTime = LocalTime.of(0, 0); // Run the task every day at 00:00 AM
+
+        long minutesUntilTargetTime;
+        if (now.isAfter(targetTime)) {
+            minutesUntilTargetTime = (targetTime.until(now, java.time.temporal.ChronoUnit.MINUTES) + 24 * 60) % (24 * 60);
+        } else {
+            minutesUntilTargetTime = targetTime.until(now, java.time.temporal.ChronoUnit.MINUTES);
+        }
+
+        return minutesUntilTargetTime * 60; // Convert minutes to seconds
     }
    
     // Variables declaration - do not modify//GEN-BEGIN:variables

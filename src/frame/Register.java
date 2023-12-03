@@ -45,7 +45,7 @@ public class Register extends javax.swing.JFrame {
                 txt_usernameFocusLost(evt);
             }
         });
-        getContentPane().add(txt_username, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 220, 310, -1));
+        getContentPane().add(txt_username, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 270, 310, -1));
 
         Login.setForeground(new java.awt.Color(0, 102, 204));
         Login.setText("Login Sekarang");
@@ -57,7 +57,7 @@ public class Register extends javax.swing.JFrame {
                 LoginActionPerformed(evt);
             }
         });
-        getContentPane().add(Login, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 590, -1, 20));
+        getContentPane().add(Login, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 660, -1, 20));
 
         daftar.setBackground(new java.awt.Color(10, 86, 56));
         daftar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -69,26 +69,26 @@ public class Register extends javax.swing.JFrame {
                 daftarActionPerformed(evt);
             }
         });
-        getContentPane().add(daftar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 560, 120, 30));
+        getContentPane().add(daftar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 620, 120, 30));
 
         jLabel1.setText("Sudah Punya Akun?");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 590, 110, 20));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 660, 130, 20));
 
         jLabel6.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         jLabel6.setText("No Hp");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 280, -1, -1));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 310, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         jLabel2.setText("Username");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         jLabel4.setText("Password");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 360, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 400, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Helvetica Neue", 0, 18)); // NOI18N
         jLabel5.setText("Confirm Password");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 460, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 490, -1, -1));
 
         txt_hp.setBackground(new java.awt.Color(237, 245, 224));
         txt_hp.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
@@ -106,7 +106,7 @@ public class Register extends javax.swing.JFrame {
                 txt_hpActionPerformed(evt);
             }
         });
-        getContentPane().add(txt_hp, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 310, 310, 20));
+        getContentPane().add(txt_hp, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 350, 310, 20));
 
         txt_password.setBackground(new java.awt.Color(237, 245, 224));
         txt_password.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
@@ -124,7 +124,7 @@ public class Register extends javax.swing.JFrame {
                 txt_passwordActionPerformed(evt);
             }
         });
-        getContentPane().add(txt_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 390, 300, -1));
+        getContentPane().add(txt_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 440, 300, -1));
 
         txt_confirmPassword.setBackground(new java.awt.Color(237, 245, 224));
         txt_confirmPassword.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
@@ -137,7 +137,7 @@ public class Register extends javax.swing.JFrame {
                 txt_confirmPasswordFocusLost(evt);
             }
         });
-        getContentPane().add(txt_confirmPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 480, 300, -1));
+        getContentPane().add(txt_confirmPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 530, 300, -1));
 
         jComboBox1.setBackground(new java.awt.Color(237, 245, 224));
         jComboBox1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -147,7 +147,7 @@ public class Register extends javax.swing.JFrame {
                 jComboBox1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 520, 100, 30));
+        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 580, 100, 30));
 
         ckbox.setText("Show Password");
         ckbox.addActionListener(new java.awt.event.ActionListener() {
@@ -155,10 +155,10 @@ public class Register extends javax.swing.JFrame {
                 ckboxActionPerformed(evt);
             }
         });
-        getContentPane().add(ckbox, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 520, -1, -1));
+        getContentPane().add(ckbox, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 580, -1, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/Register.png"))); // NOI18N
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, -50, 1360, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
