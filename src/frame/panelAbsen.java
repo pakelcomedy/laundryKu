@@ -209,7 +209,7 @@ public class panelAbsen extends javax.swing.JPanel {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/jumlah pegawai.png"))); // NOI18N
         jLabel7.setText("Jumlah Pegawai");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, -1));
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         jPanel3.setBackground(new java.awt.Color(14, 98, 183));
         jPanel3.setPreferredSize(new java.awt.Dimension(237, 36));
@@ -285,7 +285,7 @@ public class panelAbsen extends javax.swing.JPanel {
         HadirJ.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         HadirJ.setForeground(new java.awt.Color(255, 255, 255));
         HadirJ.setText("-");
-        jPanel6.add(HadirJ, new org.netbeans.lib.awtextra.AbsoluteConstraints(108, 50, 20, -1));
+        jPanel6.add(HadirJ, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 20, -1));
 
         jPanel8.setBackground(new java.awt.Color(136, 139, 137));
         jPanel8.setPreferredSize(new java.awt.Dimension(235, 203));
@@ -568,22 +568,22 @@ private void deleteRowFromDatabase(String username) {
 
 private String JumlahPegawai() { 
     try {
-         Connection conn = koneksi.configDB();
-            String sql = "SELECT COUNT(id_pegawai) as jumlahPegawai  FROM  user";
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        
-                java.sql.ResultSet rs  =  pstmt.executeQuery();
-                while(rs.next()) {
-                    int jumlahPegawai = rs.getInt("jumlahPegawai");
-                     lbl_jumlahuser.setText( String.valueOf(jumlahPegawai));
-                    System.out.println("jumlahPegawai :"+jumlahPegawai);
-                }
+        Connection conn = koneksi.configDB();
+        String sql = "SELECT COUNT(*) as jumlahPegawai FROM user WHERE jabatan = 'Pegawai'";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) {
+                int jumlahPegawai = rs.getInt("jumlahPegawai");
+                lbl_jumlahuser.setText(String.valueOf(jumlahPegawai));
+                System.out.println("jumlahPegawai: " + jumlahPegawai);
             }
-    } catch (Exception e) {
-            handleException("Error deleting row from the database", e);
         }
-        return null;
+    } catch (Exception e) {
+        handleException("Error retrieving employee count from the database", e);
+    }
+    return null;
 }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Delete1;
     private javax.swing.JButton Delete2;

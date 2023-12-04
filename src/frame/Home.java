@@ -777,9 +777,10 @@ public static void main(String args[]) {
         tbl1.setModel(tbl);
 
         try {
-            String sql = "SELECT * FROM transaksi where statusPengiriman = 0";
+            String sql = "SELECT * FROM transaksi where statusPengiriman = 0 AND batas_waktu = ?";
             java.sql.Connection conn = (Connection) koneksi.configDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setDate(1, currentDate);
 
             java.sql.ResultSet res = pst.executeQuery();
 
@@ -835,9 +836,10 @@ public static void main(String args[]) {
         tbl2.setModel(tbl);
 
         try {
-            String sql = "SELECT * FROM transaksi where statusPengiriman = 1";
+            String sql = "SELECT * FROM transaksi where statusPengiriman = 1 AND batas_waktu = ? ";
             java.sql.Connection conn = (Connection) koneksi.configDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setDate(1, currentDate);
 
             java.sql.ResultSet res = pst.executeQuery();
 

@@ -133,8 +133,8 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         return cellComponent;
     }
 }
-          private void cariData(String kataKunci) {
-   DefaultTableModel model = (DefaultTableModel) tb_user.getModel();
+    private void cariData(String kataKunci) {
+    DefaultTableModel model = (DefaultTableModel) tb_user.getModel();
     model.setRowCount(0); // Bersihkan baris yang sudah ada
 
     try {
@@ -145,14 +145,14 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                 pstmt.setString(i, "%" + kataKunci + "%");
             }
             res = pstmt.executeQuery();
-
+            
             while (res.next()) {
                 model.addRow(new Object[]{
                     res.getString("id_pegawai"),
                     res.getString("Username"),
                     res.getString("password"),
                     res.getString("jabatan"),
-                    res.getString("alamat"),
+                    res.getString("alamat") != null && !res.getString("alamat").isEmpty() ? res.getString("alamat") : "Kosong",
                     res.getString("no_hp")
                     // Tambahkan kolom lainnya sesuai kebutuhan
                 });
@@ -194,7 +194,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         txt_alamat = new javax.swing.JTextField();
-        cbx_jabatan = new javax.swing.JComboBox<>();
+        cbx_jabatan = new javax.swing.JComboBox<String>();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -355,6 +355,11 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         jLabel9.setText("No HP");
 
         txt_nohp.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txt_nohp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_nohpActionPerformed(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         jLabel13.setText(":");
@@ -365,7 +370,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         txt_alamat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         cbx_jabatan.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        cbx_jabatan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Owner", "Pegawai", " " }));
+        cbx_jabatan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Owner", "Pegawai", " " }));
         cbx_jabatan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbx_jabatanActionPerformed(evt);
@@ -413,11 +418,11 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(8, 8, 8)
                                 .addComponent(jLabel11))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
-                                .addGap(18, 18, 18)
+                                .addGap(21, 21, 21)
                                 .addComponent(jLabel12)))
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -501,64 +506,73 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
     }//GEN-LAST:event_btn_simpanMousePressed
 
     private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
-try {
-    if (t == null) {
-        // Jika t == null, berarti ini adalah aksi untuk menambahkan data baru
-        String query = "INSERT INTO user(Username, password, jabatan, alamat, no_hp) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            pstmt.setString(1, txt_username.getText());
-            pstmt.setString(2, txt_password.getText());
-            pstmt.setString(3, cbx_jabatan.getSelectedItem().toString());
-            pstmt.setString(4, txt_alamat.getText());
-            pstmt.setString(5, txt_nohp.getText());
+    try {
+        String username = txt_username.getText();
+        String password = txt_password.getText();
+        String nohp = txt_nohp.getText();
 
-            int affectedRows = pstmt.executeUpdate(); 
-            if (affectedRows > 0) {
-                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        int idUser = generatedKeys.getInt(1);
-                        // Gunakan ID yang baru dibuat jika perlu
-                        System.out.println("ID User baru: " + idUser);
+        // Check if required fields are not null or empty
+        if (username.isEmpty() || password.isEmpty() || nohp.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Username, Password, and No HP cannot be null or empty");
+            return; // Exit the method if validation fails
+        }
 
-                        DefaultTableModel model = (DefaultTableModel) tb_user.getModel();
-                        model.addRow(new Object[]{
-                            idUser,
-                            txt_username.getText(),
-                            txt_password.getText(),
-                            cbx_jabatan.getSelectedItem().toString(),
-                            txt_alamat.getText(),
-                            txt_nohp.getText()
-                        });
-                        // Update jumlah data
-                        jLabel1.setText("Jumlah Data: " + model.getRowCount());
+        if (t == null) {
+            // Jika t == null, berarti ini adalah aksi untuk menambahkan data baru
+            String query = "INSERT INTO user(Username, password, jabatan, alamat, no_hp) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                pstmt.setString(1, username);
+                pstmt.setString(2, password);
+                pstmt.setString(3, cbx_jabatan.getSelectedItem().toString());
+                pstmt.setString(4, txt_alamat.getText());
+                pstmt.setString(5, nohp);
+
+                int affectedRows = pstmt.executeUpdate(); 
+                if (affectedRows > 0) {
+                    try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            int idUser = generatedKeys.getInt(1);
+                            // Gunakan ID yang baru dibuat jika perlu
+                            System.out.println("ID User baru: " + idUser);
+
+                            DefaultTableModel model = (DefaultTableModel) tb_user.getModel();
+                            model.addRow(new Object[]{
+                                idUser,
+                                username,
+                                password,
+                                cbx_jabatan.getSelectedItem().toString(),
+                                txt_alamat.getText(),
+                                nohp
+                            });
+                            // Update jumlah data
+                            jLabel1.setText("Jumlah Data: " + model.getRowCount());
+                        }
                     }
                 }
             }
-        }
             kosongkan();
             JOptionPane.showMessageDialog(null, "Berhasil Menyimpan Data");
         } else {
             // Jika t != null, berarti ini adalah aksi untuk mengupdate data yang sudah ada
-String query = "UPDATE user SET Username=?, password=?, jabatan=?, alamat=?, no_hp=? WHERE id_Pegawai=?";
-try (PreparedStatement pstmt = con.prepareStatement(query)) {
-    pstmt.setString(1, txt_username.getText());
-    pstmt.setString(2, txt_password.getText());
-    pstmt.setString(3, cbx_jabatan.getSelectedItem().toString());
-    pstmt.setString(4, txt_alamat.getText());
-    pstmt.setString(5, txt_nohp.getText());
-    pstmt.setInt(6, Integer.parseInt(t));
-    pstmt.executeUpdate();
-}  
+            String query = "UPDATE user SET Username=?, password=?, jabatan=?, alamat=?, no_hp=? WHERE id_Pegawai=?";
+            try (PreparedStatement pstmt = con.prepareStatement(query)) {
+                pstmt.setString(1, username);
+                pstmt.setString(2, password);
+                pstmt.setString(3, cbx_jabatan.getSelectedItem().toString());
+                pstmt.setString(4, txt_alamat.getText());
+                pstmt.setString(5, nohp);
+                pstmt.setInt(6, Integer.parseInt(t));
+                pstmt.executeUpdate();
+            }  
             // Refresh tabel setelah update
             tabel();
-
             JOptionPane.showMessageDialog(null, "Data berhasil diperbarui");
 
             // Reset nilai t agar kembali ke mode penambahan data baru
             t = null;
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Gagal memperbarui data ! " );
+        JOptionPane.showMessageDialog(null, "Gagal memperbarui data! ");
     }
     }//GEN-LAST:event_btn_simpanActionPerformed
 private void tampilkanDataBerdasarkanID(int idUser) {
@@ -693,6 +707,10 @@ private void tampilkanDetailUser(int idUser) {
     private void cbx_jabatanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_jabatanActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbx_jabatanActionPerformed
+
+    private void txt_nohpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nohpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_nohpActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_clear;

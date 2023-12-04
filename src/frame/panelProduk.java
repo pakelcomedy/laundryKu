@@ -65,7 +65,7 @@ public class panelProduk extends javax.swing.JPanel {
 DefaultTableModel t = new DefaultTableModel();
 t.addColumn("Id Produk");
 t.addColumn("Nama Produk");
-t.addColumn("Harga Produl");
+t.addColumn("Harga Produk");
 t.addColumn("Jenis Produk");
 
 tb_produk.setModel(t);
@@ -138,9 +138,9 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
 
     try {
         // Use prepared statement to prevent SQL injection
-        String query = "SELECT * FROM produk WHERE id_produk LIKE ? OR nama_produk LIKE ? OR harga_produk LIKE ?";
+        String query = "SELECT * FROM produk WHERE id_produk LIKE ? OR nama_produk LIKE ? OR harga_produk LIKE ? OR jenis_produk LIKE ?";
         try (PreparedStatement pstmt = con.prepareStatement(query)) {
-            for (int i = 1; i <= 3; i++) {
+            for (int i = 1; i <= 4; i++) {
                 pstmt.setString(i, "%" + kataKunci + "%");
             }
 
@@ -150,7 +150,8 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                     model.addRow(new Object[]{
                             res.getString("id_produk"),
                             res.getString("nama_produk"),
-                            res.getDouble("harga_produk"),
+                            res.getInt("harga_produk"),
+                            res.getString("jenis_produk"),
                             // Add other columns as needed
                     });
                 }
@@ -465,15 +466,24 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
 
     private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
     try {
+        // Validate inputs
+        String namaProduk = txt_namaproduk.getText().trim();
+        String hargaProduk = txt_hargaproduk.getText().trim();
+
+        if (namaProduk.isEmpty() || hargaProduk.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nama Produk dan Harga Produk tidak boleh kosong");
+            return;
+        }
+
         if (t == null) {
             // Insert new data
             String query = "INSERT INTO produk(nama_produk, harga_produk, jenis_produk) VALUES (?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-                pstmt.setString(1, txt_namaproduk.getText());
-                pstmt.setString(2, txt_hargaproduk.getText());
+                pstmt.setString(1, namaProduk);
+                pstmt.setString(2, hargaProduk);
                 pstmt.setString(3, combobox_jenis.getSelectedItem().toString());
 
-                int affectedRows = pstmt.executeUpdate(); 
+                int affectedRows = pstmt.executeUpdate();
 
                 if (affectedRows > 0) {
                     try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
@@ -483,10 +493,10 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
 
                             DefaultTableModel model = (DefaultTableModel) tb_produk.getModel();
                             model.addRow(new Object[]{
-                                idProduk,
-                                txt_namaproduk.getText(),
-                                txt_hargaproduk.getText(),
-                                combobox_jenis.getSelectedItem().toString()
+                                    idProduk,
+                                    namaProduk,
+                                    hargaProduk,
+                                    combobox_jenis.getSelectedItem().toString()
                             });
 
                             // Update jumlah data
@@ -503,8 +513,8 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
             // Update existing data
             String query = "UPDATE produk SET nama_produk=?, harga_produk=?, jenis_produk=? WHERE id_produk=?";
             try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                pstmt.setString(1, txt_namaproduk.getText());
-                pstmt.setString(2, txt_hargaproduk.getText());
+                pstmt.setString(1, namaProduk);
+                pstmt.setString(2, hargaProduk);
                 pstmt.setString(3, combobox_jenis.getSelectedItem().toString());
                 pstmt.setInt(4, Integer.parseInt(t));
 
@@ -516,8 +526,8 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
 
                     // Update the existing row in the table model
                     if (selectedRowIndex != -1) {
-                        model.setValueAt(txt_namaproduk.getText(), selectedRowIndex, 1);
-                        model.setValueAt(txt_hargaproduk.getText(), selectedRowIndex, 2);
+                        model.setValueAt(namaProduk, selectedRowIndex, 1);
+                        model.setValueAt(hargaProduk, selectedRowIndex, 2);
                         model.setValueAt(combobox_jenis.getSelectedItem().toString(), selectedRowIndex, 3);
                     }
 
@@ -535,7 +545,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         }
     } catch (Exception e) {
         e.printStackTrace(); // Log the exception for debugging
-        JOptionPane.showMessageDialog(null, "Perintah SALAH,Masukkan Data Yang Sesuai ! " );
+        JOptionPane.showMessageDialog(null, "Perintah SALAH, Masukkan Data Yang Sesuai ! ");
     }
     }//GEN-LAST:event_btn_simpanActionPerformed
 private void tampilkanDataBerdasarkanID(int idProduk) {

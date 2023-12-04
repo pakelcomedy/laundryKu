@@ -182,29 +182,30 @@ private void cariData(String kataKunci) {
                 pstmt.setString(i, "%" + kataKunci + "%");
             }
             res = pstmt.executeQuery();
-            int status = res.getInt("statusMember");
-                String statusText;
-               
-                if (status == 0) {
-                        statusText = "MASIH BERAKU";
-                    } else{
-                        statusText = "SUDAH KADULRASA";
-                    }
 
             while (res.next()) {
+                int status = res.getInt("statusMember");
+                String statusText;
+
+                if (status == 0) {
+                    statusText = "MASIH BERLAKU";
+                } else {
+                    statusText = "SUDAH KADALUARSA";
+                }
+
                 model.addRow(new Object[]{
-                    res.getString("id_member"),
-                    res.getString("nama"),
-                    res.getString("alamat"),
-                    res.getString("no_hp"),
-                    res.getString("batas_waktu"),
+                        res.getString("id_member"),
+                        res.getString("nama"),
+                        res.getString("alamat"),
+                        res.getString("no_hp"),
+                        res.getString("batas_waktu"),
                         statusText
-                    // Add other columns as needed
+                        // Add other columns as needed
                 });
             }
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e);
+        JOptionPane.showMessageDialog(null, "Gagal mencari");
         // Handle or log the exception appropriately
     }
 }
@@ -239,8 +240,8 @@ private void cariData(String kataKunci) {
         jLabel6member1 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         spinner_tanggal = new javax.swing.JSpinner();
-        RDberlaku = new javax.swing.JRadioButton();
-        RDkadaluarsa = new javax.swing.JRadioButton();
+        Kadaluarsa = new javax.swing.JCheckBox();
+        Berlaku = new javax.swing.JCheckBox();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -489,21 +490,21 @@ private void cariData(String kataKunci) {
 
         spinner_tanggal.setModel(new javax.swing.SpinnerDateModel());
 
-        btng_status.add(RDberlaku);
-        RDberlaku.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        RDberlaku.setText("Masih Berlaku");
-        RDberlaku.addActionListener(new java.awt.event.ActionListener() {
+        Kadaluarsa.setBackground(new java.awt.Color(255, 255, 255));
+        Kadaluarsa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        Kadaluarsa.setText("Kadaluarsa");
+        Kadaluarsa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RDberlakuActionPerformed(evt);
+                KadaluarsaActionPerformed(evt);
             }
         });
 
-        btng_status.add(RDkadaluarsa);
-        RDkadaluarsa.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        RDkadaluarsa.setText("Kadaluarsa");
-        RDkadaluarsa.addActionListener(new java.awt.event.ActionListener() {
+        Berlaku.setBackground(new java.awt.Color(255, 255, 255));
+        Berlaku.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        Berlaku.setText("Berlaku");
+        Berlaku.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                RDkadaluarsaActionPerformed(evt);
+                BerlakuActionPerformed(evt);
             }
         });
 
@@ -524,53 +525,55 @@ private void cariData(String kataKunci) {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(300, 300, 300)
                         .addComponent(jLabel7member)
-                        .addGap(55, 55, 55)
+                        .addGap(56, 56, 56)
                         .addComponent(jLabel11)
                         .addGap(10, 10, 10)
                         .addComponent(txt_alamat, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(300, 300, 300)
                         .addComponent(jLabel6member)
-                        .addGap(58, 58, 58)
+                        .addGap(60, 60, 60)
                         .addComponent(jLabel12)
                         .addGap(10, 10, 10)
                         .addComponent(txt_nohp, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(300, 300, 300)
-                        .addComponent(jLabel6member1)
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabel13)
-                        .addGap(12, 12, 12)
-                        .addComponent(spinner_tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(450, 450, 450)
                         .addComponent(btn_simpan1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_clear1))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1080, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addComponent(btn_hapus1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(btn_edit1)
-                        .addGap(10, 10, 10)
-                        .addComponent(btn_lihat1)
-                        .addGap(40, 40, 40)
-                        .addComponent(jLabel3member)
-                        .addGap(2, 2, 2)
-                        .addComponent(txt_cari1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(jLabel1member)
-                        .addGap(69, 69, 69)
-                        .addComponent(RDberlaku)
-                        .addGap(36, 36, 36)
-                        .addComponent(RDkadaluarsa))
                     .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 1080, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(86, 86, 86))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(300, 300, 300)
+                .addComponent(jLabel6member1)
+                .addGap(16, 16, 16)
+                .addComponent(jLabel13)
+                .addGap(12, 12, 12)
+                .addComponent(spinner_tanggal, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(89, 89, 89)
+                .addComponent(btn_hapus1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(btn_edit1)
+                .addGap(10, 10, 10)
+                .addComponent(btn_lihat1)
+                .addGap(40, 40, 40)
+                .addComponent(jLabel3member)
+                .addGap(2, 2, 2)
+                .addComponent(txt_cari1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel1member)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Berlaku)
+                .addGap(27, 27, 27)
+                .addComponent(Kadaluarsa)
+                .addGap(87, 87, 87))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -578,14 +581,14 @@ private void cariData(String kataKunci) {
                 .addComponent(jPanel1member, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel4member))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
+                        .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))))
-                .addGap(11, 11, 11)
+                            .addComponent(jLabel4member)
+                            .addComponent(jLabel10)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(txt_nama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
@@ -615,7 +618,7 @@ private void cariData(String kataKunci) {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_simpan1)
                     .addComponent(btn_clear1))
-                .addGap(33, 33, 33)
+                .addGap(27, 27, 27)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -629,14 +632,11 @@ private void cariData(String kataKunci) {
                         .addGap(3, 3, 3)
                         .addComponent(txt_cari1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jLabel1member))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(RDberlaku))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(RDkadaluarsa)))
+                        .addGap(4, 4, 4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1member)
+                            .addComponent(Berlaku)
+                            .addComponent(Kadaluarsa))))
                 .addGap(5, 5, 5)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
@@ -650,12 +650,18 @@ private void cariData(String kataKunci) {
     }//GEN-LAST:event_btn_simpan1MousePressed
 
     private void btn_simpan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpan1ActionPerformed
-   try {
+    try {
         // Dapatkan nilai dari komponen GUI
         java.util.Date batas_waktu = (java.util.Date) spinner_tanggal.getValue();
         String nama = txt_nama.getText();
         String alamat = txt_alamat.getText();
         String no_hp = txt_nohp.getText();
+        
+        // Validate inputs
+        if (nama.isEmpty() || alamat.isEmpty() || no_hp.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nama, Alamat, dan No HP tidak boleh kosong");
+            return;
+        }
 
         // Konversi nilai tanggal menjadi Timestamp
         Timestamp timestamp = new Timestamp(batas_waktu.getTime());
@@ -669,16 +675,12 @@ private void cariData(String kataKunci) {
                 pstmt.setString(2, alamat);
                 pstmt.setString(3, no_hp);
                 pstmt.setTimestamp(4, new Timestamp(System.currentTimeMillis())); // Assuming you want to set the current timestamp for "tanggalDaftar"
-                pstmt.setDate(5, new java.sql.Date(batas_waktu.getTime())); // Assuming batas_waktu is a java.util.Date object
+                pstmt.setTimestamp(5, timestamp); // Assuming batas_waktu is a java.util.Date object
                 pstmt.setInt(6, 0);
 
                 int affectedRows = pstmt.executeUpdate();
                 if (affectedRows > 0) {
                     JOptionPane.showMessageDialog(null, "Data baru berhasil disimpan");
-
-                    // Lakukan refresh data atau tampilkan data baru di tabel jika diperlukan
-                    // misalnya, panggil metode untuk memuat ulang data tabel
-                    // reloadDataTabel();
                 } else {
                     JOptionPane.showMessageDialog(null, "Gagal menyimpan data baru");
                 }
@@ -686,22 +688,17 @@ private void cariData(String kataKunci) {
         } else {
             // Jika t != null, itu berarti operasi pembaruan
             // Lakukan pembaruan data ke database berdasarkan ID yang tersimpan di t
-            String query = "UPDATE member  SET nama=?, alamat=?, no_hp=? ,batas_waktu=?WHERE id_member=?";
+            String query = "UPDATE member SET nama=?, alamat=?, no_hp=?, batas_waktu=? WHERE id_member=?";
             try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                 pstmt.setString(1, nama);
-                 pstmt.setString(2, alamat);
-                 pstmt.setInt(3,Integer.parseInt(no_hp));
-                 pstmt.setTimestamp(4, timestamp);
-                 pstmt.setInt(5, Integer.parseInt(t));
+                pstmt.setString(1, nama);
+                pstmt.setString(2, alamat);
+                pstmt.setString(3, no_hp);
+                pstmt.setTimestamp(4, timestamp);
+                pstmt.setInt(5, Integer.parseInt(t));
 
                 int affectedRows = pstmt.executeUpdate();
                 if (affectedRows > 0) {
                     JOptionPane.showMessageDialog(null, "Data berhasil diperbarui");
-
-                    // Lakukan refresh data atau tampilkan data baru di tabel jika diperlukan
-                    // misalnya, panggil metode untuk memuat ulang data tabel
-//                     reloadDataTabel();
-             
                 } else {
                     JOptionPane.showMessageDialog(null, "Gagal memperbarui data");
                 }
@@ -709,9 +706,8 @@ private void cariData(String kataKunci) {
         }
         tabel();
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Gagal Memperbarui Data: " );
+        JOptionPane.showMessageDialog(null, "Gagal Memperbarui Data: " + e.getMessage());
     }
-  
     }//GEN-LAST:event_btn_simpan1ActionPerformed
 private void tampilkanDataBerdasarkanID(int idMember) {
   try {
@@ -843,7 +839,13 @@ try {
         cariData(kataKunci);
     }//GEN-LAST:event_txt_cari1ActionPerformed
 
-    private void RDkadaluarsaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RDkadaluarsaActionPerformed
+    private void btn_clear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clear1ActionPerformed
+        kosongkan();
+        t = null;
+    }//GEN-LAST:event_btn_clear1ActionPerformed
+
+    private void KadaluarsaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KadaluarsaActionPerformed
+    Berlaku.setSelected(false);
     DefaultTableModel model = (DefaultTableModel) Tb_member.getModel();
     model.setRowCount(0); // Clear existing rows
 
@@ -853,7 +855,7 @@ try {
 
         while (res.next()) {
             int statusMember = res.getInt("statusMember");
-            if (RDkadaluarsa.isSelected() && statusMember == 1) {
+            if (Kadaluarsa.isSelected() && statusMember == 1) {
                 model.addRow(new Object[]{
                         res.getString("id_member"),
                         res.getString("nama"),
@@ -863,7 +865,7 @@ try {
                         "SUDAH KADALUARSA"
                 });
                 rowCount++;
-            } else if (!RDkadaluarsa.isSelected()) {
+            } else if (!Kadaluarsa.isSelected()) {
                 model.addRow(new Object[]{
                         res.getString("id_member"),
                         res.getString("nama"),
@@ -880,9 +882,10 @@ try {
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, e);
     }
-    }//GEN-LAST:event_RDkadaluarsaActionPerformed
+    }//GEN-LAST:event_KadaluarsaActionPerformed
 
-    private void RDberlakuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RDberlakuActionPerformed
+    private void BerlakuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BerlakuActionPerformed
+    Kadaluarsa.setSelected(false);
     DefaultTableModel model = (DefaultTableModel) Tb_member.getModel();
     model.setRowCount(0); // Clear existing rows
 
@@ -892,7 +895,7 @@ try {
 
         while (res.next()) {
             int statusMember = res.getInt("statusMember");
-            if (RDberlaku.isSelected() && statusMember == 0) {
+            if (Berlaku.isSelected() && statusMember == 0) {
                 model.addRow(new Object[]{
                         res.getString("id_member"),
                         res.getString("nama"),
@@ -902,7 +905,7 @@ try {
                         "MASIH BERLAKU"
                 });
                 rowCount++;
-            } else if (!RDberlaku.isSelected()) {
+            } else if (!Berlaku.isSelected()) {
                 model.addRow(new Object[]{
                         res.getString("id_member"),
                         res.getString("nama"),
@@ -919,12 +922,7 @@ try {
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, e);
     }
-    }//GEN-LAST:event_RDberlakuActionPerformed
-
-    private void btn_clear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clear1ActionPerformed
-        kosongkan();
-        t = null;
-    }//GEN-LAST:event_btn_clear1ActionPerformed
+    }//GEN-LAST:event_BerlakuActionPerformed
 
     private void  batasWaktuSetmember() {
         try {
@@ -983,8 +981,8 @@ try {
     }
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton RDberlaku;
-    private javax.swing.JRadioButton RDkadaluarsa;
+    private javax.swing.JCheckBox Berlaku;
+    private javax.swing.JCheckBox Kadaluarsa;
     private javax.swing.JTable Tb_member;
     private javax.swing.JButton btn_clear1;
     private javax.swing.JButton btn_edit1;

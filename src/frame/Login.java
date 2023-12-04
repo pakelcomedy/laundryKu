@@ -202,7 +202,7 @@ public class Login extends javax.swing.JFrame {
 
                         new MenuUtama().setVisible(true);
                     } else {
-                        JOptionPane.showMessageDialog(null, "Username or Password is incorrect");
+                        JOptionPane.showMessageDialog(null, "Username atau Password Salah");
                     }
                 }
             }

@@ -588,10 +588,13 @@
             </Property>
             <Property name="maximumRowCount" type="int" value="0"/>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
-                <StringItem index="0" value="Ambil Sendiri"/>
-                <StringItem index="1" value="Dikirim"/>
-                <StringItem index="2" value=" "/>
+              <StringArray count="6">
+                <StringItem index="0" value="Baru"/>
+                <StringItem index="1" value="Prosses"/>
+                <StringItem index="2" value="Penjadawalan"/>
+                <StringItem index="3" value="Selesai"/>
+                <StringItem index="4" value="Sudah Lewat"/>
+                <StringItem index="5" value=" "/>
               </StringArray>
             </Property>
           </Properties>

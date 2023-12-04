@@ -286,7 +286,7 @@ public class formTransaksi extends javax.swing.JFrame {
 
         cmb_statusLaundry.setBackground(new java.awt.Color(224, 218, 218));
         cmb_statusLaundry.setMaximumRowCount(0);
-        cmb_statusLaundry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ambil Sendiri", "Dikirim", " " }));
+        cmb_statusLaundry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Baru", "Prosses", "Penjadawalan", "Selesai", "Sudah Lewat", " " }));
         cmb_statusLaundry.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_statusLaundryActionPerformed(evt);
@@ -916,7 +916,7 @@ public class formTransaksi extends javax.swing.JFrame {
         Integer idEdit = this.idEdit;
         
         // Pellangan         
-        int hp = Integer.parseInt(txt_hp.getText());
+        String hp =txt_hp.getText();
         String selectedMember = cmb_member.getSelectedItem().toString();
         Integer selectedIdMember = memberMap.get(selectedMember);
 
@@ -930,7 +930,7 @@ public class formTransaksi extends javax.swing.JFrame {
             java.sql.Connection conn = (Connection) koneksi.configDB();
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, txt_pelanggan.getText());
-            pst.setInt(2, hp);
+            pst.setString(2, hp);
 
             pst.executeUpdate();
         }
@@ -980,6 +980,22 @@ public class formTransaksi extends javax.swing.JFrame {
         }
        
         res = state.executeQuery(getUID);
+        
+        int selectedIndex = cmb_statusLaundry.getSelectedIndex();
+                int statusLaundry;
+                if (selectedIndex == 0) {
+                    statusLaundry = 0;
+                } else if (selectedIndex == 1) {
+                    statusLaundry = 1;
+                } else if (selectedIndex == 2) {
+                    statusLaundry = 2;
+                } else if (selectedIndex == 3) {
+                    statusLaundry = 3;
+                } else if (selectedIndex == 4) {
+                    statusLaundry = 5;
+                } else {
+                    statusLaundry = 5;
+                }
          
         try {
             if(res.next()){               
@@ -1009,12 +1025,11 @@ public class formTransaksi extends javax.swing.JFrame {
                 pst1.setInt(2, idPelanggan);  // id_pelanggan
                 pst1.setString(3, String.valueOf(Login.userId));  // value for id_pegawai
                 pst1.setString(4, String.valueOf(cmb_tunai.getSelectedItem()));  //  dibayar_secara
-    //            pst1.setString(5, String.valueOf(cmb_statusLaundry.getSelectedItem()));  //  status_laundry perbaikan
-
+      
                 if (idEdit != 0) { //status laundry
-                   pst1.setString(5, getStatusLaundry(idEdit));
+                   pst1.setInt(5, statusLaundry);
                 } else {
-                    pst1.setInt(5, defaultStatusLaundry);
+                    pst1.setInt(5, statusLaundry);
                 }
 
                 pst1.setString(6, String.valueOf(cmb_statusPembayaran.getSelectedItem()));   // status_pembayaran
@@ -2015,7 +2030,7 @@ private int retrieveProdukId(String namaProduk) {
                         if (rsPelanggan.next()) {
                             // Set the existing data in your text inputs
                             txt_pelanggan.setText(rsPelanggan.getString("nama"));
-                            txt_hp.setText(String.valueOf(rsPelanggan.getInt("no_hp")));
+                            txt_hp.setText(rsPelanggan.getString("no_hp"));
                         }
                     }
                 }

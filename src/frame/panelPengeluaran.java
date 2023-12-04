@@ -475,11 +475,17 @@ private void cariData(String kataKunci) {
     }//GEN-LAST:event_btn_simpanMousePressed
 
     private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
-          try {
+    try {
         // Dapatkan nilai dari komponen GUI
         java.util.Date tanggalPengeluaran = (java.util.Date) spinner_tanggal.getValue();
         String keterangan = txt_keterangan.getText();
         String totalPengeluaran = txt_total.getText();
+
+        // Validate inputs
+        if (keterangan.isEmpty() || totalPengeluaran.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Keterangan dan Total Pengeluaran tidak boleh kosong");
+            return;
+        }
 
         // Konversi nilai tanggal menjadi Timestamp
         Timestamp timestamp = new Timestamp(tanggalPengeluaran.getTime());
@@ -496,11 +502,10 @@ private void cariData(String kataKunci) {
                 int affectedRows = pstmt.executeUpdate();
                 if (affectedRows > 0) {
                     JOptionPane.showMessageDialog(null, "Data baru berhasil disimpan");
-
                 } else {
                     JOptionPane.showMessageDialog(null, "Gagal menyimpan data baru");
                 }
-                
+
                 tabel();
             }
         } else {
@@ -519,12 +524,13 @@ private void cariData(String kataKunci) {
                 } else {
                     JOptionPane.showMessageDialog(null, "Gagal memperbarui data");
                 }
+
+                tabel();
             }
         }
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Gagal memperbarui data " );
+        JOptionPane.showMessageDialog(null, "Gagal memperbarui data: " + e.getMessage());
     }
-
     }//GEN-LAST:event_btn_simpanActionPerformed
 private void tampilkanDataBerdasarkanID(int idPengeluaran) {
   try {

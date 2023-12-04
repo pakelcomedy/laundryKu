@@ -185,14 +185,14 @@ public class Register extends javax.swing.JFrame {
             java.sql.PreparedStatement pst=conn.prepareStatement(sql);
             pst.execute();
             
-            JOptionPane.showMessageDialog(null, "Penyimpanan Data Berhasil");
+            JOptionPane.showMessageDialog(null, "Berhasil Menyimpan Data");
             this.setVisible(false);
             new Login().setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         } 
     } else {
-        JOptionPane.showMessageDialog(null, "Password tidak sama");
+        JOptionPane.showMessageDialog(null, "Gagal Menyimpan Data");
     }
     }//GEN-LAST:event_daftarActionPerformed
 
