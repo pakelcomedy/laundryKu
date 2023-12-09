@@ -144,15 +144,18 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         return cellComponent;
     }
 }
-    private void cariData(String kataKunci) {
+private void cariData(String kataKunci) {
     DefaultTableModel model = (DefaultTableModel) tb_laporan.getModel();
     model.setRowCount(0); // Bersihkan baris yang sudah ada
 
     try {
         // Gunakan prepared statement untuk menghindari SQL injection
-        String query = "SELECT * FROM laporan_keuangan WHERE id_laporan LIKE ?";
+        String query = "SELECT * FROM laporan_keuangan WHERE id_laporan LIKE ? OR pemasukan LIKE ? OR pengeluaran LIKE ? OR total LIKE ? OR tgl_laporan LIKE ?";
         try (PreparedStatement pstmt = con.prepareStatement(query)) {
-            pstmt.setString(1, "%" + kataKunci + "%");
+            for (int i = 1; i <= 5; i++) {
+                pstmt.setString(i, "%" + kataKunci + "%");
+            }
+
             res = pstmt.executeQuery();
 
             while (res.next()) {
@@ -414,63 +417,64 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
     }//GEN-LAST:event_txt_cariActionPerformed
  private static LocalDate lastExecutionDate = null;
 
-    private static final long MILLIS_IN_DAY = 24 * 60 * 60 * 1000;
+//    private static final long MILLIS_IN_DAY = 24 * 60 * 60 * 1000;
+public static void tambahBarisBaru() {
+    try {
+        Connection conn = koneksi.configDB();
 
-    public static void tambahBarisBaru() {
-        try {
-            Connection conn = koneksi.configDB();
+        // Retrieve total pengeluaran for the given date
+        int totalPengeluaran = getTotalPengeluaran(conn);
 
-            // Retrieve total pengeluaran for the given date
-            int totalPengeluaran = getTotalPengeluaran(conn);
+        // Retrieve total pemasukan for the given date
+        int totalPemasukan = getTotalPemasukan(conn);
 
-            // Retrieve total pemasukan for the given date
-            int totalPemasukan = getTotalPemasukan(conn);
+        // Calculate the total
+        int total = totalPemasukan - totalPengeluaran;
 
-            // Calculate the total
-            int total = totalPemasukan - totalPengeluaran;
+        // Do something with the total, for example, print it
+        System.out.println("Total: " + total);
 
-            // Do something with the total, for example, print it
-            System.out.println("Total: " + total);
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-
-            // Schedule the task to run every 24 hours, starting from the next midnight
-            scheduler.scheduleAtFixedRate(() -> {
-                try {
-                    // Check if the task has already run today
-                    if (lastExecutionDate != null && lastExecutionDate.equals(LocalDate.now())) {
-                        System.out.println("Task already executed today at: " + LocalTime.now());
-                        return; // Exit if the task has already run today
-                    }
-
-                    insertLaporanKeuangan(conn, totalPengeluaran, totalPemasukan, total);
-
-                    // Update the last execution date
-                    lastExecutionDate = LocalDate.now();
-                } catch (Exception e) {
-                    e.printStackTrace();
+        // Schedule the task to run once every 24 hours
+        scheduler.scheduleAtFixedRate(() -> {
+            try {
+                // Check if the task has already run today
+                if (lastExecutionDate != null && lastExecutionDate.equals(LocalDate.now())) {
+                    System.out.println("Task already executed today at: " + LocalTime.now());
+                    return; // Exit if the task has already run today
                 }
-            }, calculateInitialDelay(), 24 * 60 * 60, TimeUnit.SECONDS);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+                // Insert the financial report
+                insertLaporanKeuangan(conn, totalPengeluaran, totalPemasukan, total);
+
+                // Update the last execution date
+                lastExecutionDate = LocalDate.now();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, 0, 1, TimeUnit.DAYS); // Change TimeUnit to MINUTES
+
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+}
 
-    private static long calculateInitialDelay() {
-        LocalTime now = LocalTime.now();
-        LocalTime midnight = LocalTime.of(0, 0);
-
-        // Calculate the minutes until the next midnight
-        long minutesUntilMidnight;
-        if (now.isAfter(midnight)) {
-            minutesUntilMidnight = (midnight.until(now, ChronoUnit.MINUTES) + 24 * 60) % (24 * 60);
-        } else {
-            minutesUntilMidnight = midnight.until(now, ChronoUnit.MINUTES);
-        }
-
-        return minutesUntilMidnight;
-    }
+//
+//    private static long calculateInitialDelay() {
+//        LocalTime now = LocalTime.now();
+//        LocalTime midnight = LocalTime.of(0, 0);
+//
+//        // Calculate the minutes until the next midnight
+//        long minutesUntilMidnight;
+//        if (now.isAfter(midnight)) {
+//            minutesUntilMidnight = (midnight.until(now, ChronoUnit.MINUTES) + 24 * 60) % (24 * 60);
+//        } else {
+//            minutesUntilMidnight = midnight.until(now, ChronoUnit.MINUTES);
+//        }
+//
+//        return minutesUntilMidnight;
+//    }
     
 //    private static long getDelay() {
 //        // Calculate the delay until the next 12 pm
@@ -490,39 +494,74 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
 //        return midnightMillis + (12 * 60 * 60 * 1000);
 //    }
 
-    private static int getTotalPengeluaran(Connection conn) throws SQLException {
-        String pengeluaranQuery = "SELECT COALESCE(SUM(total_pengeluaran), 0) AS pengeluaran " +
-                "FROM pengeluaran WHERE tgl_pengeluaran = ?;";
 
-        try (java.sql.PreparedStatement pengeluaranPst = conn.prepareStatement(pengeluaranQuery)) {
-            pengeluaranPst.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+private static int getTotalPengeluaran(Connection conn) throws SQLException {
+    LocalDate yesterday = LocalDate.now().minusDays(1);
+    String pengeluaranQuery = "SELECT COALESCE(SUM(total_pengeluaran), 0) AS pengeluaran " +
+            "FROM pengeluaran WHERE tgl_pengeluaran = ?;";
 
-            try (ResultSet pengeluaranResultSet = pengeluaranPst.executeQuery()) {
-                return pengeluaranResultSet.next() ? pengeluaranResultSet.getInt("pengeluaran") : 0;
-            }
+    try (java.sql.PreparedStatement pengeluaranPst = conn.prepareStatement(pengeluaranQuery)) {
+        pengeluaranPst.setDate(1, java.sql.Date.valueOf(yesterday));
+
+        try (ResultSet pengeluaranResultSet = pengeluaranPst.executeQuery()) {
+            return pengeluaranResultSet.next() ? pengeluaranResultSet.getInt("pengeluaran") : 0;
         }
     }
+}
 
-    private static int getTotalPemasukan(Connection conn) throws SQLException {
-        String pemasukanQuery = "SELECT COALESCE(SUM(totalPembayaran), 0) AS pemasukan " +
-                "FROM transaksi WHERE tgl_transaksi = ?;";
+private static int getTotalPemasukan(Connection conn) throws SQLException {
+    LocalDate yesterday = LocalDate.now().minusDays(1);
+    String pemasukanQuery = "SELECT COALESCE(SUM(totalPembayaran), 0) AS pemasukan " +
+            "FROM transaksi WHERE tgl_transaksi = ?;";
 
-        try (java.sql.PreparedStatement pemasukanPst = conn.prepareStatement(pemasukanQuery)) {
-            pemasukanPst.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+    try (java.sql.PreparedStatement pemasukanPst = conn.prepareStatement(pemasukanQuery)) {
+        pemasukanPst.setDate(1, java.sql.Date.valueOf(yesterday));
 
-            try (ResultSet pemasukanResultSet = pemasukanPst.executeQuery()) {
-                return pemasukanResultSet.next() ? pemasukanResultSet.getInt("pemasukan") : 0;
-            }
+        try (ResultSet pemasukanResultSet = pemasukanPst.executeQuery()) {
+            return pemasukanResultSet.next() ? pemasukanResultSet.getInt("pemasukan") : 0;
         }
     }
+}
+
+
+
+
+
+//    private static int getTotalPengeluaran(Connection conn) throws SQLException {
+//        String pengeluaranQuery = "SELECT COALESCE(SUM(total_pengeluaran), 0) AS pengeluaran " +
+//                "FROM pengeluaran WHERE tgl_pengeluaran = ?;";
+//
+//        try (java.sql.PreparedStatement pengeluaranPst = conn.prepareStatement(pengeluaranQuery)) {
+//            pengeluaranPst.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+//
+//            try (ResultSet pengeluaranResultSet = pengeluaranPst.executeQuery()) {
+//                return pengeluaranResultSet.next() ? pengeluaranResultSet.getInt("pengeluaran") : 0;
+//            }
+//        }
+//    }
+//
+//    private static int getTotalPemasukan(Connection conn) throws SQLException {
+//        String pemasukanQuery = "SELECT COALESCE(SUM(totalPembayaran), 0) AS pemasukan " +
+//                "FROM transaksi WHERE tgl_transaksi = ?;";
+//
+//        try (java.sql.PreparedStatement pemasukanPst = conn.prepareStatement(pemasukanQuery)) {
+//            pemasukanPst.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+//
+//            try (ResultSet pemasukanResultSet = pemasukanPst.executeQuery()) {
+//                return pemasukanResultSet.next() ? pemasukanResultSet.getInt("pemasukan") : 0;
+//            }
+//        }
+//    }
 
     private static void insertLaporanKeuangan(Connection conn, int totalPengeluaran, int totalPemasukan, int total) {
+        LocalDate yesterday = LocalDate.now().minusDays(1);
+        
         String insertQuery = "INSERT INTO laporan_keuangan (pengeluaran, pemasukan, total, tgl_laporan) VALUES (?, ?, ?, ?)";
         try (java.sql.PreparedStatement insertPst = conn.prepareStatement(insertQuery)) {
             insertPst.setInt(1, totalPengeluaran);
             insertPst.setInt(2, totalPemasukan);
             insertPst.setInt(3, total);
-            insertPst.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+            insertPst.setDate(4, java.sql.Date.valueOf(yesterday));
 
             int rowsAffected = insertPst.executeUpdate();
 

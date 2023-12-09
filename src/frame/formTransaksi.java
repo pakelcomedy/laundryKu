@@ -25,6 +25,14 @@ import java.util.List;
 import java.util.Map;
 import static koneksi.koneksi.configDB;
 
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
+
 /**
  *
  * @author sartriaardianthauno
@@ -92,7 +100,7 @@ public class formTransaksi extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         jPanel1 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -117,18 +125,18 @@ public class formTransaksi extends javax.swing.JFrame {
         btn_kembali = new javax.swing.JButton();
         btn_simpan = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
-        cmb_statusLaundry = new javax.swing.JComboBox<>();
+        cmb_statusLaundry = new javax.swing.JComboBox<String>();
         jLabel24 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        cmb_tunai = new javax.swing.JComboBox<>();
+        cmb_tunai = new javax.swing.JComboBox<String>();
         txt_pelanggan = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
-        cmb_statusPembayaran = new javax.swing.JComboBox<>();
+        cmb_statusPembayaran = new javax.swing.JComboBox<String>();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_alamat = new javax.swing.JTextArea();
-        cmb_produk = new javax.swing.JComboBox<>();
-        cmb_jenis = new javax.swing.JComboBox<>();
+        cmb_produk = new javax.swing.JComboBox<String>();
+        cmb_jenis = new javax.swing.JComboBox<String>();
         txt_jumlah = new javax.swing.JTextField();
         txt_harga = new javax.swing.JTextField();
         txt_diskon = new javax.swing.JTextField();
@@ -146,7 +154,7 @@ public class formTransaksi extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txt_batasWaktu = new javax.swing.JSpinner();
-        cmb_member = new javax.swing.JComboBox<>();
+        cmb_member = new javax.swing.JComboBox<String>();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
@@ -156,8 +164,9 @@ public class formTransaksi extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         ck_pengiriman = new javax.swing.JRadioButton();
         jLabel18 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -286,7 +295,7 @@ public class formTransaksi extends javax.swing.JFrame {
 
         cmb_statusLaundry.setBackground(new java.awt.Color(224, 218, 218));
         cmb_statusLaundry.setMaximumRowCount(0);
-        cmb_statusLaundry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Baru", "Prosses", "Penjadawalan", "Selesai", "Sudah Lewat", " " }));
+        cmb_statusLaundry.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Baru", "Prosses", "Penjadawalan", "Selesai", "Sudah Lewat", " " }));
         cmb_statusLaundry.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_statusLaundryActionPerformed(evt);
@@ -301,7 +310,7 @@ public class formTransaksi extends javax.swing.JFrame {
 
         cmb_tunai.setBackground(new java.awt.Color(224, 218, 218));
         cmb_tunai.setMaximumRowCount(0);
-        cmb_tunai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tunai", "Non Tunai" }));
+        cmb_tunai.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tunai", "Non Tunai" }));
         cmb_tunai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_tunaiActionPerformed(evt);
@@ -323,7 +332,7 @@ public class formTransaksi extends javax.swing.JFrame {
 
         cmb_statusPembayaran.setBackground(new java.awt.Color(224, 218, 218));
         cmb_statusPembayaran.setMaximumRowCount(0);
-        cmb_statusPembayaran.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sudah Dibayar", "Belum Dibayar", " " }));
+        cmb_statusPembayaran.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sudah Dibayar", "Belum Dibayar", " " }));
         cmb_statusPembayaran.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_statusPembayaranActionPerformed(evt);
@@ -335,7 +344,7 @@ public class formTransaksi extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txt_alamat);
 
         cmb_produk.setBackground(new java.awt.Color(224, 218, 218));
-        cmb_produk.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- pilih produk --" }));
+        cmb_produk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- pilih produk --" }));
         cmb_produk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_produkActionPerformed(evt);
@@ -511,7 +520,7 @@ public class formTransaksi extends javax.swing.JFrame {
 
         cmb_member.setBackground(new java.awt.Color(224, 218, 218));
         cmb_member.setMaximumRowCount(0);
-        cmb_member.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Pilih Member --" }));
+        cmb_member.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Pilih Member --" }));
         cmb_member.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_memberActionPerformed(evt);
@@ -588,6 +597,15 @@ public class formTransaksi extends javax.swing.JFrame {
         });
 
         jLabel18.setText("Status Pengiriman");
+
+        jButton2.setBackground(new java.awt.Color(0, 0, 255));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Simpan & Cetak");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -672,15 +690,17 @@ public class formTransaksi extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(ck_pengiriman)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(btn_kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btn_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(cmb_statusLaundry, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jScrollPane1)
                                     .addComponent(cmb_statusPembayaran, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cmb_tunai, javax.swing.GroupLayout.Alignment.LEADING, 0, 292, Short.MAX_VALUE)
-                                    .addComponent(txt_batasWaktu))))))
+                                    .addComponent(txt_batasWaktu)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btn_kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btn_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
                 .addGap(20, 20, 20))
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -798,7 +818,8 @@ public class formTransaksi extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_simpan)
-                            .addComponent(btn_kembali))
+                            .addComponent(btn_kembali)
+                            .addComponent(jButton2))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
 
@@ -911,300 +932,7 @@ public class formTransaksi extends javax.swing.JFrame {
 
     private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
     // TODO add your handling code here:    
-    try {
-        Integer idEdit = this.idEdit;
-        
-        // Pellangan         
-        String hp =txt_hp.getText();
-        String selectedMember = cmb_member.getSelectedItem().toString();
-        Integer selectedIdMember = memberMap.get(selectedMember);
-
-        String sql;
-        if (idEdit != 0) {
-            // Update 
-            System.out.println("edit pelanggan none");
-        } else {
-            // Insert
-            sql = "INSERT INTO pelanggan (nama, no_hp) VALUES (?, ?)";
-            java.sql.Connection conn = (Connection) koneksi.configDB();
-            PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, txt_pelanggan.getText());
-            pst.setString(2, hp);
-
-            pst.executeUpdate();
-        }
-        
-        java.sql.Connection conn = (Connection) koneksi.configDB();
-        //  get ID pelanggan
-        java.sql.Statement state = conn.createStatement();
-        
-        LocalDate localDate = LocalDate.now();
-
-        // Convert to java.sql.Date
-        java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
-
-        Date utilDate1 = (Date) txt_batasWaktu.getValue();
-
-        // To get the date only from utilDate1, you can use the following line of code:
-
-        String dateOnly = new SimpleDateFormat("yyyy-MM-dd").format(utilDate1);
-
-        // If you want to convert this string back to a java.sql.Date object, you can use the following line of code:
-
-        java.sql.Date sqlDate1 = java.sql.Date.valueOf(dateOnly);
-        
-        // pembayaran & kembalian
-        int pembayaraan = Integer.parseInt(txt_pembayaran.getText().trim());
-        int totalPembayaraan = Integer.parseInt(txt_totalPembayaran.getText().trim());
-            
-        int kembaliaan = pembayaraan - totalPembayaraan ;
-        int defaultStatusLaundry = 0;
-        
-//        System.out.println("pembayaran: "+pembayaran);
-//        System.out.println("kembalian: "+kembaliaan);
-        
-        int statusPengiriman = 0;
-        if(ck_pengiriman.isSelected()){
-           statusPengiriman = 1;
-        }
-        
-        String getUID;
-        ResultSet res;
-        if (idEdit != 0) {
-           getUID = "SELECT id_pelanggan FROM transaksi WHERE no_transaksi = "+ idEdit;
-//            res = state.executeQuery(getUID);
-        } else {
-           getUID = "SELECT id_pelanggan FROM pelanggan ORDER BY id_pelanggan DESC LIMIT 1";
-//           res = state.executeQuery(getUID);
-        }
-       
-        res = state.executeQuery(getUID);
-        
-        int selectedIndex = cmb_statusLaundry.getSelectedIndex();
-                int statusLaundry;
-                if (selectedIndex == 0) {
-                    statusLaundry = 0;
-                } else if (selectedIndex == 1) {
-                    statusLaundry = 1;
-                } else if (selectedIndex == 2) {
-                    statusLaundry = 2;
-                } else if (selectedIndex == 3) {
-                    statusLaundry = 3;
-                } else if (selectedIndex == 4) {
-                    statusLaundry = 5;
-                } else {
-                    statusLaundry = 5;
-                }
-         
-        try {
-            if(res.next()){               
-                System.out.println("res running");
-                 int idPelanggan;
-                if (idEdit != 0) {
-                    idPelanggan= res.getInt("id_pelanggan");
-                    System.out.println("idPelanggan: "+idPelanggan);
-                    System.out.println("Debug: " + idPelanggan); 
-                } else {
-                    idPelanggan = res.getInt("id_pelanggan");
-                }             
-                res.close();
-
-                // Build and execute the transaksi insertion query
-                String sql1;
-                if (idEdit != 0) {
-                    // update
-                    sql1 = "UPDATE transaksi SET tgl_transaksi=?, id_pelanggan=?, id_pegawai=?, dibayar_secara=?, status_laundry=?, status_pembayaran=?, grandTotal=?, biayaTambahan=?, diskon=?, totalPembayaran=?, pembayaran=?, kembalian=?,statusPengiriman=?, tanggal_masuk=?, batas_waktu=?, alamat_pengiriman=? WHERE no_transaksi=?";
-                } else {
-                    // Insert
-                    sql1 = "INSERT INTO transaksi (tgl_transaksi, id_pelanggan, id_pegawai, dibayar_secara, status_laundry, status_pembayaran, grandTotal, biayaTambahan, diskon, totalPembayaran, pembayaran, kembalian, statusPengiriman, tanggal_masuk, batas_waktu, alamat_pengiriman) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                }
-
-                PreparedStatement pst1 = conn.prepareStatement(sql1);
-                pst1.setDate(1, new java.sql.Date(System.currentTimeMillis()));
-                pst1.setInt(2, idPelanggan);  // id_pelanggan
-                pst1.setString(3, String.valueOf(Login.userId));  // value for id_pegawai
-                pst1.setString(4, String.valueOf(cmb_tunai.getSelectedItem()));  //  dibayar_secara
-      
-                if (idEdit != 0) { //status laundry
-                   pst1.setInt(5, statusLaundry);
-                } else {
-                    pst1.setInt(5, statusLaundry);
-                }
-
-                pst1.setString(6, String.valueOf(cmb_statusPembayaran.getSelectedItem()));   // status_pembayaran
-                pst1.setInt(7, TotalGrandTotal);
-                pst1.setInt(8, TotalBiayaTambahan);
-                pst1.setInt(9, diskon);
-                pst1.setInt(10, TotalPembayaran);
-                pst1.setInt(11, pembayaraan); // bayaran
-    //            pst1.setInt(12, Integer.parseInt(txt_kembalian.getText().trim())); // kembalian
-                pst1.setInt(12, kembaliaan); // kembalian
-                pst1.setInt(13,statusPengiriman);
-                pst1.setDate(14, sqlDate);  //  tanggal_masuk
-                pst1.setDate(15, sqlDate1);  //  batas_waktu
-                pst1.setString(16, String.valueOf(txt_alamat.getText()));  // alamat_pengiriman
-
-                if (idEdit != 0) {
-                    pst1.setInt(17, idEdit);
-                }
-
-                pst1.executeUpdate();
-
-                String getUIDT;
-                ResultSet res1;
-
-                if (idEdit != 0) {
-                    // If in edit mode, use the provided idEdit to retrieve the corresponding no_transaksi
-                    getUIDT = "SELECT no_transaksi FROM transaksi WHERE no_transaksi = ?";
-                    pst1 = conn.prepareStatement(getUIDT);
-                    pst1.setInt(1, idEdit);
-                    res1 = pst1.executeQuery();
-                } else {
-                    // If not in edit mode, get the last no_transaksi
-                    getUIDT = "SELECT no_transaksi FROM transaksi ORDER BY no_transaksi DESC LIMIT 1";
-                    pst1 = conn.prepareStatement(getUIDT);
-                    res1 = pst1.executeQuery();
-                }
-
-                String idT = null;  
-
-                if (res1.next()) {
-                    idT = res1.getString("no_transaksi");
-                    res1.close();
-                    System.out.println("res1 running");
-    //                System.out.println("idT: "+idT);
-    //                System.out.println("Data Size: " + data.size());
-                    for (Vector<Object> row : data) {
-                        int detailId = (int) row.get(0);
-                        String namaProduk = (String) row.get(1);
-                        String jenisProduk = (String) row.get(2);
-                        int jumlah = (int) row.get(3);
-                        int harga = (int) row.get(4);
-                        int biayaTambahan = (int) row.get(5);
-                        int diskon = (int) row.get(6);
-                        int totalHarga = (int) row.get(7);
-    //                    System.out.println("detailId: "+detailId);
-    //                    System.out.println("jumlah: "+jumlah);
-    //                    System.out.println("harga: "+harga);
-    //                    System.out.println("biayaTambahan: "+biayaTambahan);
-    //                    System.out.println("diskon: "+diskon);
-    //                    System.out.println("totalHarga: "+totalHarga);
-
-    //                    System.out.println("for Vector running");
-
-                        try {
-                            System.out.println("try catch running");
-
-                            int id_produk = retrieveProdukId(namaProduk);
-
-                            String checkQuery = "SELECT COUNT(*) FROM detail_transaksi WHERE detailId = ? AND no_transaksi = ?";
-                                PreparedStatement checkPst = conn.prepareStatement(checkQuery);
-                                checkPst.setInt(1, detailId);
-                                checkPst.setInt(2, idEdit);
-                                ResultSet resultSet = checkPst.executeQuery();
-
-                                resultSet.next();
-                                int rowCount = resultSet.getInt(1);
-
-                            if (rowCount > 0) {
-                                // detailId already exists, update the existing row
-                                String updateQuery = "UPDATE detail_transaksi SET id_produk = ?, jumlah = ?, harga = ?, biayaTambahan = ?, diskon = ?, totalHarga = ? " +
-                                                     "WHERE detailId = ?";
-                                PreparedStatement updatePst = conn.prepareStatement(updateQuery);
-
-                                updatePst.setInt(1, id_produk); 
-                                updatePst.setInt(2, jumlah);
-                                updatePst.setInt(3, harga);
-                                updatePst.setInt(4, biayaTambahan);
-                                updatePst.setInt(5, diskon);
-                                updatePst.setInt(6, totalHarga);
-                                updatePst.setInt(7, detailId);
-
-                                updatePst.executeUpdate();
-                            } else {
-                                String sqlQuery = "INSERT INTO detail_transaksi (no_transaksi, detailId, id_produk, jumlah, harga, biayaTambahan, diskon, totalHarga) " +
-                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
-                                PreparedStatement pst3 = conn.prepareStatement(sqlQuery);
-
-                                pst3.setString(1, idT);  
-                                pst3.setInt(2, detailId);  
-                                pst3.setInt(3, id_produk); 
-                                pst3.setInt(4, jumlah);
-                                pst3.setInt(5, harga);
-                                pst3.setInt(6, biayaTambahan);
-                                pst3.setInt(7, diskon);
-                                pst3.setInt(8, totalHarga);
-                                pst3.executeUpdate();
-                            }
-
-                            System.out.println("idT: "+getUIDT);
-                            System.out.println("id_produk: " +id_produk);
-                            System.out.println("jenisProduk: "+jenisProduk);
-                            System.out.println("jumlah: "+jumlah);
-                            System.out.println("harga: "+harga);
-                            System.out.println("biayaTambahan: "+biayaTambahan);
-                            System.out.println("diskon: "+diskon);
-                            System.out.println("totalHarga: "+totalHarga);
-
-                        } catch (Exception e) {
-    //                        JOptionPane.showMessageDialog(this, e.getMessage());
-                        }
-                    }
-
-                    // get no_transaksi
-                    String upUIDT;
-                    if (idEdit != 0) {
-                        upUIDT = String.valueOf(idEdit);
-                    } else {
-                        upUIDT = "SELECT no_transaksi FROM transaksi ORDER BY no_transaksi DESC LIMIT 1";
-                    }
-
-                    try (ResultSet res2 = idEdit != 0 ? state.executeQuery("SELECT no_transaksi FROM transaksi WHERE no_transaksi = " + idEdit) : state.executeQuery(upUIDT)) {
-                        if (res2.next()) {
-                            System.out.println("Running res 2 Test");
-
-                            String sql3 = "UPDATE transaksi SET grandTotal=?, biayaTambahan=?, diskon=?, totalPembayaran=?, pembayaran=?, kembalian=?" +
-                                          " WHERE no_transaksi = ?";
-
-                            try (PreparedStatement pst3 = conn.prepareStatement(sql3)) {
-                                pst3.setInt(1, TotalGrandTotal);
-                                pst3.setInt(2, TotalBiayaTambahan);
-                                pst3.setInt(3, diskon);
-                                pst3.setInt(4, TotalPembayaran);
-                                pst3.setInt(5, pembayaraan);
-                                pst3.setInt(6, kembaliaan);
-
-                                // Set the no_transaksi value based on the retrieved value from the SELECT query
-                                pst3.setInt(7, res2.getInt("no_transaksi"));
-
-                                int rowsAffected = pst3.executeUpdate();
-
-                                if (rowsAffected > 0) {
-                                    System.out.println("Update successful");
-                                } else {
-                                    System.out.println("Update failed");
-                                }
-                           } catch (Exception e) {
-                               e.printStackTrace();
-                               System.out.println("e: "+e);
-                           }
-                       }
-                   } catch (Exception e) {
-                       e.printStackTrace();
-                       System.out.println("e: "+e);
-                   }
-                }
-                JOptionPane.showMessageDialog(null, "Penyimpanan Data Transaksi Berhasil");
-            }  
-        } catch (Exception e ) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-            System.out.println("e: "+e);
-        }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, e.getMessage());
-        System.out.println("e: "+e);
-    }
+    simpanData();
     }//GEN-LAST:event_btn_simpanActionPerformed
   
     
@@ -1399,6 +1127,26 @@ private int retrieveProdukId(String namaProduk) {
         
     }//GEN-LAST:event_ck_pengirimanActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        simpanData();
+        String idTrams = getTransaksiTerakhir();
+        try {
+            String report = "C:\\Users\\FARHAN\\Videos\\Project_Laundy(uno)\\src\\frame\\struk.jrxml";
+            HashMap hash = new HashMap();
+            
+            hash.put("kode", idTrams);
+            
+            java.sql.Connection conn = (Connection) koneksi.configDB();
+            JasperReport JRpt = JasperCompileManager.compileReport(report);
+            JasperPrint JPrint = JasperFillManager.fillReport(JRpt, hash, conn);
+            JasperViewer.viewReport(JPrint, false);
+            
+        } catch (Exception e) {
+           JOptionPane.showMessageDialog(null, "gagal table: " + e.getMessage()); 
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1440,6 +1188,307 @@ private int retrieveProdukId(String namaProduk) {
             }
         });
     }    
+    
+    private void simpanData() {
+         try {
+                Integer idEdit = this.idEdit;
+
+                // Pellangan         
+                String hp =txt_hp.getText();
+                String selectedMember = cmb_member.getSelectedItem().toString();
+                Integer selectedIdMember = memberMap.get(selectedMember);
+
+                String sql;
+                if (idEdit != 0) {
+                    // Update 
+                    System.out.println("edit pelanggan none");
+                } else {
+                    // Insert
+                    sql = "INSERT INTO pelanggan (nama, no_hp) VALUES (?, ?)";
+                    java.sql.Connection conn = (Connection) koneksi.configDB();
+                    PreparedStatement pst = conn.prepareStatement(sql);
+                    pst.setString(1, txt_pelanggan.getText());
+                    pst.setString(2, hp);
+
+                    pst.executeUpdate();
+                }
+
+                java.sql.Connection conn = (Connection) koneksi.configDB();
+                //  get ID pelanggan
+                java.sql.Statement state = conn.createStatement();
+
+                LocalDate localDate = LocalDate.now();
+
+                // Convert to java.sql.Date
+                java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+
+                Date utilDate1 = (Date) txt_batasWaktu.getValue();
+
+                // To get the date only from utilDate1, you can use the following line of code:
+
+                String dateOnly = new SimpleDateFormat("yyyy-MM-dd").format(utilDate1);
+
+                // If you want to convert this string back to a java.sql.Date object, you can use the following line of code:
+
+                java.sql.Date sqlDate1 = java.sql.Date.valueOf(dateOnly);
+
+                // pembayaran & kembalian
+                int pembayaraan = Integer.parseInt(txt_pembayaran.getText().trim());
+                int totalPembayaraan = Integer.parseInt(txt_totalPembayaran.getText().trim());
+
+                int kembaliaan = pembayaraan - totalPembayaraan ;
+                int defaultStatusLaundry = 0;
+
+        //        System.out.println("pembayaran: "+pembayaran);
+        //        System.out.println("kembalian: "+kembaliaan);
+
+                int statusPengiriman = 0;
+                if(ck_pengiriman.isSelected()){
+                   statusPengiriman = 1;
+                }
+
+                String getUID;
+                ResultSet res;
+                if (idEdit != 0) {
+                   getUID = "SELECT id_pelanggan FROM transaksi WHERE no_transaksi = "+ idEdit;
+        //            res = state.executeQuery(getUID);
+                } else {
+                   getUID = "SELECT id_pelanggan FROM pelanggan ORDER BY id_pelanggan DESC LIMIT 1";
+        //           res = state.executeQuery(getUID);
+                }
+
+                res = state.executeQuery(getUID);
+
+                int selectedIndex = cmb_statusLaundry.getSelectedIndex();
+                        int statusLaundry;
+                        if (selectedIndex == 0) {
+                            statusLaundry = 0;
+                        } else if (selectedIndex == 1) {
+                            statusLaundry = 1;
+                        } else if (selectedIndex == 2) {
+                            statusLaundry = 2;
+                        } else if (selectedIndex == 3) {
+                            statusLaundry = 3;
+                        } else if (selectedIndex == 4) {
+                            statusLaundry = 5;
+                        } else {
+                            statusLaundry = 5;
+                        }
+
+                try {
+                    if(res.next()){               
+                        System.out.println("res running");
+                         int idPelanggan;
+                        if (idEdit != 0) {
+                            idPelanggan= res.getInt("id_pelanggan");
+                            System.out.println("idPelanggan: "+idPelanggan);
+                            System.out.println("Debug: " + idPelanggan); 
+                        } else {
+                            idPelanggan = res.getInt("id_pelanggan");
+                        }             
+                        res.close();
+
+                        // Build and execute the transaksi insertion query
+                        String sql1;
+                        if (idEdit != 0) {
+                            // update
+                            sql1 = "UPDATE transaksi SET tgl_transaksi=?, id_pelanggan=?, id_pegawai=?, dibayar_secara=?, status_laundry=?, status_pembayaran=?, grandTotal=?, biayaTambahan=?, diskon=?, totalPembayaran=?, pembayaran=?, kembalian=?,statusPengiriman=?, tanggal_masuk=?, batas_waktu=?, alamat_pengiriman=? WHERE no_transaksi=?";
+                        } else {
+                            // Insert
+                            sql1 = "INSERT INTO transaksi (tgl_transaksi, id_pelanggan, id_pegawai, dibayar_secara, status_laundry, status_pembayaran, grandTotal, biayaTambahan, diskon, totalPembayaran, pembayaran, kembalian, statusPengiriman, tanggal_masuk, batas_waktu, alamat_pengiriman) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        }
+
+                        PreparedStatement pst1 = conn.prepareStatement(sql1);
+                        pst1.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+                        pst1.setInt(2, idPelanggan);  // id_pelanggan
+                        pst1.setString(3, String.valueOf(Login.userId));  // value for id_pegawai
+                        pst1.setString(4, String.valueOf(cmb_tunai.getSelectedItem()));  //  dibayar_secara
+
+                        if (idEdit != 0) { //status laundry
+                           pst1.setInt(5, statusLaundry);
+                        } else {
+                            pst1.setInt(5, statusLaundry);
+                        }
+
+                        pst1.setString(6, String.valueOf(cmb_statusPembayaran.getSelectedItem()));   // status_pembayaran
+                        pst1.setInt(7, TotalGrandTotal);
+                        pst1.setInt(8, TotalBiayaTambahan);
+                        pst1.setInt(9, diskon);
+                        pst1.setInt(10, TotalPembayaran);
+                        pst1.setInt(11, pembayaraan); // bayaran
+            //            pst1.setInt(12, Integer.parseInt(txt_kembalian.getText().trim())); // kembalian
+                        pst1.setInt(12, kembaliaan); // kembalian
+                        pst1.setInt(13,statusPengiriman);
+                        pst1.setDate(14, sqlDate);  //  tanggal_masuk
+                        pst1.setDate(15, sqlDate1);  //  batas_waktu
+                        pst1.setString(16, String.valueOf(txt_alamat.getText()));  // alamat_pengiriman
+
+                        if (idEdit != 0) {
+                            pst1.setInt(17, idEdit);
+                        }
+
+                        pst1.executeUpdate();
+
+                        String getUIDT;
+                        ResultSet res1;
+
+                        if (idEdit != 0) {
+                            // If in edit mode, use the provided idEdit to retrieve the corresponding no_transaksi
+                            getUIDT = "SELECT no_transaksi FROM transaksi WHERE no_transaksi = ?";
+                            pst1 = conn.prepareStatement(getUIDT);
+                            pst1.setInt(1, idEdit);
+                            res1 = pst1.executeQuery();
+                        } else {
+                            // If not in edit mode, get the last no_transaksi
+                            getUIDT = "SELECT no_transaksi FROM transaksi ORDER BY no_transaksi DESC LIMIT 1";
+                            pst1 = conn.prepareStatement(getUIDT);
+                            res1 = pst1.executeQuery();
+                        }
+
+                        String idT = null;  
+
+                        if (res1.next()) {
+                            idT = res1.getString("no_transaksi");
+                            res1.close();
+                            System.out.println("res1 running");
+            //                System.out.println("idT: "+idT);
+            //                System.out.println("Data Size: " + data.size());
+                            for (Vector<Object> row : data) {
+                                int detailId = (int) row.get(0);
+                                String namaProduk = (String) row.get(1);
+                                String jenisProduk = (String) row.get(2);
+                                int jumlah = (int) row.get(3);
+                                int harga = (int) row.get(4);
+                                int biayaTambahan = (int) row.get(5);
+                                int diskon = (int) row.get(6);
+                                int totalHarga = (int) row.get(7);
+            //                    System.out.println("detailId: "+detailId);
+            //                    System.out.println("jumlah: "+jumlah);
+            //                    System.out.println("harga: "+harga);
+            //                    System.out.println("biayaTambahan: "+biayaTambahan);
+            //                    System.out.println("diskon: "+diskon);
+            //                    System.out.println("totalHarga: "+totalHarga);
+
+            //                    System.out.println("for Vector running");
+
+                                try {
+                                    System.out.println("try catch running");
+
+                                    int id_produk = retrieveProdukId(namaProduk);
+
+                                    String checkQuery = "SELECT COUNT(*) FROM detail_transaksi WHERE detailId = ? AND no_transaksi = ?";
+                                        PreparedStatement checkPst = conn.prepareStatement(checkQuery);
+                                        checkPst.setInt(1, detailId);
+                                        checkPst.setInt(2, idEdit);
+                                        ResultSet resultSet = checkPst.executeQuery();
+
+                                        resultSet.next();
+                                        int rowCount = resultSet.getInt(1);
+
+                                    if (rowCount > 0) {
+                                        // detailId already exists, update the existing row
+                                        String updateQuery = "UPDATE detail_transaksi SET id_produk = ?, jumlah = ?, harga = ?, biayaTambahan = ?, diskon = ?, totalHarga = ? " +
+                                                             "WHERE detailId = ?";
+                                        PreparedStatement updatePst = conn.prepareStatement(updateQuery);
+
+                                        updatePst.setInt(1, id_produk); 
+                                        updatePst.setInt(2, jumlah);
+                                        updatePst.setInt(3, harga);
+                                        updatePst.setInt(4, biayaTambahan);
+                                        updatePst.setInt(5, diskon);
+                                        updatePst.setInt(6, totalHarga);
+                                        updatePst.setInt(7, detailId);
+
+                                        updatePst.executeUpdate();
+                                    } else {
+                                        String sqlQuery = "INSERT INTO detail_transaksi (no_transaksi, detailId, id_produk, jumlah, harga, biayaTambahan, diskon, totalHarga) " +
+                                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+                                        PreparedStatement pst3 = conn.prepareStatement(sqlQuery);
+
+                                        pst3.setString(1, idT);  
+                                        pst3.setInt(2, detailId);  
+                                        pst3.setInt(3, id_produk); 
+                                        pst3.setInt(4, jumlah);
+                                        pst3.setInt(5, harga);
+                                        pst3.setInt(6, biayaTambahan);
+                                        pst3.setInt(7, diskon);
+                                        pst3.setInt(8, totalHarga);
+                                        pst3.executeUpdate();
+                                    }
+
+                                    System.out.println("idT: "+getUIDT);
+                                    System.out.println("id_produk: " +id_produk);
+                                    System.out.println("jenisProduk: "+jenisProduk);
+                                    System.out.println("jumlah: "+jumlah);
+                                    System.out.println("harga: "+harga);
+                                    System.out.println("biayaTambahan: "+biayaTambahan);
+                                    System.out.println("diskon: "+diskon);
+                                    System.out.println("totalHarga: "+totalHarga);
+
+                                } catch (Exception e) {
+            //                        JOptionPane.showMessageDialog(this, e.getMessage());
+                                }
+                            }
+
+                            // get no_transaksi
+                            String upUIDT;
+                            if (idEdit != 0) {
+                                upUIDT = String.valueOf(idEdit);
+                            } else {
+                                upUIDT = "SELECT no_transaksi FROM transaksi ORDER BY no_transaksi DESC LIMIT 1";
+                            }
+
+                            try (ResultSet res2 = idEdit != 0 ? state.executeQuery("SELECT no_transaksi FROM transaksi WHERE no_transaksi = " + idEdit) : state.executeQuery(upUIDT)) {
+                                if (res2.next()) {
+                                    System.out.println("Running res 2 Test");
+
+                                    String sql3 = "UPDATE transaksi SET grandTotal=?, biayaTambahan=?, diskon=?, totalPembayaran=?, pembayaran=?, kembalian=?" +
+                                                  " WHERE no_transaksi = ?";
+
+                                    try (PreparedStatement pst3 = conn.prepareStatement(sql3)) {
+                                        pst3.setInt(1, TotalGrandTotal);
+                                        pst3.setInt(2, TotalBiayaTambahan);
+                                        pst3.setInt(3, diskon);
+                                        pst3.setInt(4, TotalPembayaran);
+                                        pst3.setInt(5, pembayaraan);
+                                        pst3.setInt(6, kembaliaan);
+
+                                        // Set the no_transaksi value based on the retrieved value from the SELECT query
+                                        pst3.setInt(7, res2.getInt("no_transaksi"));
+
+                                        int rowsAffected = pst3.executeUpdate();
+
+                                        if (rowsAffected > 0) {
+                                            System.out.println("Update successful");
+                                        } else {
+                                            System.out.println("Update failed");
+                                        }
+                                   } catch (Exception e) {
+                                       e.printStackTrace();
+                                       System.out.println("e: "+e);
+                                   }
+                               }
+                           } catch (Exception e) {
+                               e.printStackTrace();
+                               System.out.println("e: "+e);
+                           }
+                        }
+                        JOptionPane.showMessageDialog(null, "Penyimpanan Data Transaksi Berhasil");
+                    }  
+                } catch (Exception e ) {
+                    JOptionPane.showMessageDialog(this, e.getMessage());
+                    System.out.println("e: "+e);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+                System.out.println("e: "+e);
+            }
+    }
+    
+    
+    
+    
     
     /* private variabel */
     private int diskon = 0;
@@ -2229,6 +2278,24 @@ private int retrieveProdukId(String namaProduk) {
         }
         return null;
     }
+    
+    private String getTransaksiTerakhir() {
+        try {
+            String sql = "SELECT no_transaksi FROM transaksi ORDER BY no_transaksi DESC LIMIT 1;";
+            java.sql.Connection conn = (Connection) koneksi.configDB();
+            java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+
+            java.sql.ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("no_transaksi");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        return null;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_delete_detail;
@@ -2243,6 +2310,7 @@ private int retrieveProdukId(String namaProduk) {
     private javax.swing.JComboBox<String> cmb_statusPembayaran;
     private javax.swing.JComboBox<String> cmb_tunai;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

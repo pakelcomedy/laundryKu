@@ -1329,9 +1329,9 @@ public class panelTransaksi extends javax.swing.JPanel {
            } else {
                idCetak = Integer.parseInt((String) table.getValueAt(selectedRow, table.getColumn("NO").getModelIndex()));
            }
-           System.out.println("idCetak: "+idCetak);
+            System.out.println("idCetak: "+idCetak);
            
-            String report = "/Users/sartriaardianthauno/NetBeansProjects/laundryKu/src/frame/struk.jrxml";
+            String report = "C:\\Users\\FARHAN\\Videos\\Project_Laundy(uno)\\src\\frame\\struk.jrxml";
             HashMap hash = new HashMap();
             
             hash.put("kode", idCetak);
@@ -1355,11 +1355,11 @@ public class panelTransaksi extends javax.swing.JPanel {
         tbl.addColumn("NO");
         tbl.addColumn("Nama Pelanggan");
         tbl.addColumn("Nama Pegawai");
-        tbl.addColumn("status_pembayaran");
-        tbl.addColumn("status_laundry");
-        tbl.addColumn("totalPembayaran");
-        tbl.addColumn("tanggal_masuk");
-        tbl.addColumn("batas_waktu");
+        tbl.addColumn("Status Pembayaran");
+        tbl.addColumn("Status Laundry");
+        tbl.addColumn("Total Pembayaran");
+//        tbl.addColumn("tanggal_masuk");
+        tbl.addColumn("Batas Waktu");
 
         table.setModel(tbl);
 
@@ -1396,7 +1396,7 @@ public class panelTransaksi extends javax.swing.JPanel {
                         res.getString("status_pembayaran"),
                         statusText,  // Use the variable here
                         res.getString("totalPembayaran"),
-                        res.getString("tanggal_masuk"),
+//                        res.getString("tanggal_masuk"),
                         res.getString("batas_waktu"),
                 });
 //                rowCount();
@@ -1536,13 +1536,17 @@ public class panelTransaksi extends javax.swing.JPanel {
                             "FROM transaksi \n" +
                             "JOIN user ON transaksi.id_pegawai = user.id_pegawai\n" +
                             "JOIN pelanggan ON transaksi.id_pelanggan = pelanggan.id_pelanggan\n" +
-                            "WHERE transaksi.no_transaksi LIKE ? OR pelanggan.nama LIKE ? OR user.Username LIKE ?\n" +
+                            "WHERE transaksi.no_transaksi LIKE ? OR pelanggan.nama LIKE ? OR user.Username LIKE ? OR status_pembayaran LIKE ? OR totalPembayaran LIKE ? OR batas_waktu LIKE ?\n" +
                             "GROUP BY transaksi.no_transaksi";
-            java.sql.Connection conn = (Connection) koneksi.configDB();
+            java.sql.Connection conn = (Connection) koneksi.configDB(); 
             try (PreparedStatement pstmt = conn.prepareStatement(query)) {
                 pstmt.setString(1, "%" + kataKunci + "%");
                 pstmt.setString(2, "%" + kataKunci + "%");
                 pstmt.setString(3, "%" + kataKunci + "%");
+                pstmt.setString(4, "%" + kataKunci + "%");
+                pstmt.setString(5, "%" + kataKunci + "%");
+                pstmt.setString(6, "%" + kataKunci + "%");
+                
 
                 ResultSet res = pstmt.executeQuery();
 
@@ -1569,7 +1573,7 @@ public class panelTransaksi extends javax.swing.JPanel {
                         res.getString("transaksi.status_pembayaran"),
                         statusText,  // Use the variable here
                         res.getString("transaksi.totalPembayaran"),
-                        res.getString("transaksi.tanggal_masuk"),
+//                        res.getString("transaksi.tanggal_masuk"),
                         res.getString("transaksi.batas_waktu"),
                     });
                 }
@@ -1591,7 +1595,7 @@ public class panelTransaksi extends javax.swing.JPanel {
     public static void tambahHari() {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-        // Schedule the task to run every 24 hours, starting from the next midnight
+    // Schedule the task to run once per day
         scheduler.scheduleAtFixedRate(() -> {
             try {
                 // Check if the task has already run today
@@ -1599,7 +1603,7 @@ public class panelTransaksi extends javax.swing.JPanel {
                     System.out.println("Task already executed today at: " + LocalTime.now());
                     return; // Exit if the task has already run today
                 }
-
+                
                 String sql = "UPDATE transaksi SET tanggal_masuk = DATE_ADD(tanggal_masuk, INTERVAL 1 DAY)";
                 Connection conn = koneksi.configDB();
                 PreparedStatement pst = conn.prepareStatement(sql);
@@ -1612,7 +1616,7 @@ public class panelTransaksi extends javax.swing.JPanel {
             } catch (Exception e) {
                 System.out.println("Failed to update data: " + e.getMessage());
             }
-        }, calculateInitialDelay(), 24 * 60 * 60, TimeUnit.SECONDS); // Change TimeUnit to MINUTES
+        }, 0, 1, TimeUnit.DAYS); // Change TimeUnit to MINUTES
     }
 
     private static long calculateInitialDelay() {
@@ -1715,6 +1719,7 @@ public class panelTransaksi extends javax.swing.JPanel {
                 showTransaksi panel = new showTransaksi(idShow);
                 panel.setVisible(true);
             }
+            
             System.out.println("idshow: "+idShow);
         });
     }

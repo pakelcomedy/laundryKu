@@ -170,30 +170,36 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_LoginActionPerformed
 
     private void daftarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_daftarActionPerformed
-    if (txt_password.getText().equals(txt_confirmPassword.getText())) {
-        try {
-            // Check if "Owner" combo box is visible
-            String selectedRole = jComboBox1.isVisible() ? jComboBox1.getSelectedItem().toString() : "Pegawai";
+if (!txt_username.getText().isEmpty() && !txt_password.getText().isEmpty() && !txt_hp.getText().isEmpty() && txt_password.getText().equals(txt_confirmPassword.getText())) {
+    try {
+        // Check if "Owner" combo box is visible
+        String selectedRole = jComboBox1.isVisible() ? jComboBox1.getSelectedItem().toString() : "Pegawai";
 
-            String sql = "INSERT INTO user (username, password, no_hp, jabatan) VALUES ('" 
-                    + txt_username.getText() + "','"
-                    + txt_password.getText() + "','"
-                    + txt_hp.getText() + "','"
-                    + selectedRole + "')";
+        String sql = "INSERT INTO user (username, password, no_hp, jabatan) VALUES (?, ?, ?, ?)";
 
-            java.sql.Connection conn=(Connection)koneksi.configDB();
-            java.sql.PreparedStatement pst=conn.prepareStatement(sql);
-            pst.execute();
-            
+        java.sql.Connection conn = (Connection) koneksi.configDB();
+        java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+
+        pst.setString(1, txt_username.getText());
+        pst.setString(2, txt_password.getText());
+        pst.setString(3, txt_hp.getText());
+        pst.setString(4, selectedRole);
+
+        int rowsAffected = pst.executeUpdate();
+
+        if (rowsAffected > 0) {
             JOptionPane.showMessageDialog(null, "Berhasil Menyimpan Data");
             this.setVisible(false);
             new Login().setVisible(true);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        } 
-    } else {
-        JOptionPane.showMessageDialog(null, "Gagal Menyimpan Data");
+        } else {
+            JOptionPane.showMessageDialog(null, "Gagal Menyimpan Data");
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
     }
+} else {
+    JOptionPane.showMessageDialog(null, "Username, password, dan nomor HP tidak boleh kosong, dan password harus sama dengan konfirmasi password");
+}
     }//GEN-LAST:event_daftarActionPerformed
 
     private void ckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckboxActionPerformed

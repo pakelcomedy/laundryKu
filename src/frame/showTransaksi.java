@@ -564,7 +564,7 @@ public class showTransaksi extends javax.swing.JFrame {
                         if (rsPelanggan.next()) {
                             // Set the existing data in your text inputs
                             txt_pelanggan.setText(rsPelanggan.getString("nama"));
-                            txt_noHp.setText(String.valueOf(rsPelanggan.getInt("no_hp")));
+                            txt_noHp.setText(rsPelanggan.getString("no_hp"));
                         }
                     }
                 }

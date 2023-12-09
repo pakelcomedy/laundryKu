@@ -517,62 +517,52 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
             return; // Exit the method if validation fails
         }
 
-        if (t == null) {
-            // Jika t == null, berarti ini adalah aksi untuk menambahkan data baru
-            String query = "INSERT INTO user(Username, password, jabatan, alamat, no_hp) VALUES (?, ?, ?, ?, ?)";
-            try (PreparedStatement pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-                pstmt.setString(1, username);
-                pstmt.setString(2, password);
-                pstmt.setString(3, cbx_jabatan.getSelectedItem().toString());
-                pstmt.setString(4, txt_alamat.getText());
-                pstmt.setString(5, nohp);
+        // Check if the data with the specified username already exists
+        String checkQuery = "SELECT id_Pegawai FROM user WHERE Username=?";
+        try (PreparedStatement checkStmt = con.prepareStatement(checkQuery)) {
+            checkStmt.setString(1, username);
+            ResultSet resultSet = checkStmt.executeQuery();
 
-                int affectedRows = pstmt.executeUpdate(); 
-                if (affectedRows > 0) {
-                    try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+            if (resultSet.next()) {
+                // Data with the given username already exists, perform update
+                String updateQuery = "UPDATE user SET password=?, jabatan=?, alamat=?, no_hp=? WHERE Username=?";
+                try (PreparedStatement updateStmt = con.prepareStatement(updateQuery)) {
+                    updateStmt.setString(1, password);
+                    updateStmt.setString(2, cbx_jabatan.getSelectedItem().toString());
+                    updateStmt.setString(3, txt_alamat.getText());
+                    updateStmt.setString(4, nohp);
+                    updateStmt.setString(5, username);
+                    updateStmt.executeUpdate();
+                }
+                JOptionPane.showMessageDialog(null, "Berhasil Memperbarui Data");
+            } else {
+                // Data with the given username does not exist, perform insert
+                String insertQuery = "INSERT INTO user(Username, password, jabatan, alamat, no_hp) VALUES (?, ?, ?, ?, ?)";
+                try (PreparedStatement insertStmt = con.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
+                    insertStmt.setString(1, username);
+                    insertStmt.setString(2, password);
+                    insertStmt.setString(3, cbx_jabatan.getSelectedItem().toString());
+                    insertStmt.setString(4, txt_alamat.getText());
+                    insertStmt.setString(5, nohp);
+                    int affectedRows = insertStmt.executeUpdate(); 
+
+                    if (affectedRows > 0) {
+                        ResultSet generatedKeys = insertStmt.getGeneratedKeys();
                         if (generatedKeys.next()) {
                             int idUser = generatedKeys.getInt(1);
-                            // Gunakan ID yang baru dibuat jika perlu
+                            // Handle the ID if needed
                             System.out.println("ID User baru: " + idUser);
-
-                            DefaultTableModel model = (DefaultTableModel) tb_user.getModel();
-                            model.addRow(new Object[]{
-                                idUser,
-                                username,
-                                password,
-                                cbx_jabatan.getSelectedItem().toString(),
-                                txt_alamat.getText(),
-                                nohp
-                            });
-                            // Update jumlah data
-                            jLabel1.setText("Jumlah Data: " + model.getRowCount());
                         }
                     }
                 }
+                JOptionPane.showMessageDialog(null, "Berhasil Menyimpan Data");
             }
-            kosongkan();
-            JOptionPane.showMessageDialog(null, "Berhasil Menyimpan Data");
-        } else {
-            // Jika t != null, berarti ini adalah aksi untuk mengupdate data yang sudah ada
-            String query = "UPDATE user SET Username=?, password=?, jabatan=?, alamat=?, no_hp=? WHERE id_Pegawai=?";
-            try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                pstmt.setString(1, username);
-                pstmt.setString(2, password);
-                pstmt.setString(3, cbx_jabatan.getSelectedItem().toString());
-                pstmt.setString(4, txt_alamat.getText());
-                pstmt.setString(5, nohp);
-                pstmt.setInt(6, Integer.parseInt(t));
-                pstmt.executeUpdate();
-            }  
-            // Refresh tabel setelah update
-            tabel();
-            JOptionPane.showMessageDialog(null, "Data berhasil diperbarui");
-
-            // Reset nilai t agar kembali ke mode penambahan data baru
-            t = null;
         }
+        tabel();
+        kosongkan();
+        // Additional logic as needed
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Gagal memperbarui data! ");
+        JOptionPane.showMessageDialog(null, "Gagal memperbarui data! " + e.getMessage());
     }
     }//GEN-LAST:event_btn_simpanActionPerformed
 private void tampilkanDataBerdasarkanID(int idUser) {

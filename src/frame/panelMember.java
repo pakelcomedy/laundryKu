@@ -681,6 +681,7 @@ private void cariData(String kataKunci) {
                 int affectedRows = pstmt.executeUpdate();
                 if (affectedRows > 0) {
                     JOptionPane.showMessageDialog(null, "Data baru berhasil disimpan");
+                    batasWaktuSetmember();
                 } else {
                     JOptionPane.showMessageDialog(null, "Gagal menyimpan data baru");
                 }
@@ -699,6 +700,7 @@ private void cariData(String kataKunci) {
                 int affectedRows = pstmt.executeUpdate();
                 if (affectedRows > 0) {
                     JOptionPane.showMessageDialog(null, "Data berhasil diperbarui");
+                    batasWaktuSetmember();
                 } else {
                     JOptionPane.showMessageDialog(null, "Gagal memperbarui data");
                 }
@@ -926,7 +928,7 @@ try {
 
     private void  batasWaktuSetmember() {
         try {
-            String sql = "UPDATE member SET statusMember = 1 WHERE tanggalDaftar = batas_waktu";
+            String sql = "UPDATE member SET statusMember = 1 WHERE tanggalDaftar >= batas_waktu";
             java.sql.Connection conn = (Connection) koneksi.configDB();
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.executeUpdate();
@@ -963,7 +965,7 @@ try {
                 System.out.println("Error: " + e);
             }
             System.out.println("Task executed at: " + LocalTime.now());
-        }, calculateInitialDelay(), 24 * 60 * 60, TimeUnit.SECONDS);
+        }, 0, 1, TimeUnit.DAYS);
     }
 
     private static long calculateInitialDelay() {
