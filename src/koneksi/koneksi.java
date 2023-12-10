@@ -11,7 +11,7 @@ public class koneksi {
         try {
             String url ="jdbc:mysql://localhost:3307/project_laundryku"; 
             String user ="root";
-            String pass ="1234";
+            String pass ="";
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             mysqlconfig = DriverManager.getConnection(url, user,pass);
         } catch(Exception e) {

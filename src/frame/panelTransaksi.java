@@ -1358,7 +1358,7 @@ public class panelTransaksi extends javax.swing.JPanel {
         tbl.addColumn("Status Pembayaran");
         tbl.addColumn("Status Laundry");
         tbl.addColumn("Total Pembayaran");
-//        tbl.addColumn("tanggal_masuk");
+        tbl.addColumn("Tanggal Pembuatan");
         tbl.addColumn("Batas Waktu");
 
         table.setModel(tbl);
@@ -1396,7 +1396,7 @@ public class panelTransaksi extends javax.swing.JPanel {
                         res.getString("status_pembayaran"),
                         statusText,  // Use the variable here
                         res.getString("totalPembayaran"),
-//                        res.getString("tanggal_masuk"),
+                        res.getString("tanggal_masuk"),
                         res.getString("batas_waktu"),
                 });
 //                rowCount();
@@ -1573,7 +1573,7 @@ public class panelTransaksi extends javax.swing.JPanel {
                         res.getString("transaksi.status_pembayaran"),
                         statusText,  // Use the variable here
                         res.getString("transaksi.totalPembayaran"),
-//                        res.getString("transaksi.tanggal_masuk"),
+                        res.getString("transaksi.tanggal_masuk"),
                         res.getString("transaksi.batas_waktu"),
                     });
                 }
@@ -1604,7 +1604,7 @@ public class panelTransaksi extends javax.swing.JPanel {
                     return; // Exit if the task has already run today
                 }
                 
-                String sql = "UPDATE transaksi SET tanggal_masuk = DATE_ADD(tanggal_masuk, INTERVAL 1 DAY)";
+                String sql = "UPDATE transaksi SET tgl_transaksi = DATE_ADD(tgl_transaksi, INTERVAL 1 DAY)";
                 Connection conn = koneksi.configDB();
                 PreparedStatement pst = conn.prepareStatement(sql);
 
@@ -1652,7 +1652,7 @@ public class panelTransaksi extends javax.swing.JPanel {
      private static void updateStatusJadwalan() {
         
                     try {                   
-                        String sql = "UPDATE transaksi SET status_laundry = 2 where tanggal_masuk = batas_waktu";
+                        String sql = "UPDATE transaksi SET status_laundry = 2 where tgl_transaksi = batas_waktu";
                         java.sql.Connection conn = (Connection) koneksi.configDB();
                         PreparedStatement pst = conn.prepareStatement(sql);
 
@@ -1667,7 +1667,7 @@ public class panelTransaksi extends javax.swing.JPanel {
      private static void updateStatusLewat() {
         
                     try {                   
-                        String sql = "UPDATE transaksi SET status_laundry = 4 where tanggal_masuk > batas_waktu";
+                        String sql = "UPDATE transaksi SET status_laundry = 4 where tgl_transaksi > batas_waktu";
                         java.sql.Connection conn = (Connection) koneksi.configDB();
                         PreparedStatement pst = conn.prepareStatement(sql);
 

@@ -97,7 +97,8 @@ private void koneksi() {
     t.addColumn("Nama Member");
     t.addColumn("Alamat");
     t.addColumn("No HP");
-    t.addColumn("Batas Waktu");
+    t.addColumn("Tgl Pembuatan");
+    t.addColumn("Tgl Kadulrasa");
     t.addColumn("Status Member");
     Tb_member.setModel(t);
     try {
@@ -112,6 +113,7 @@ private void koneksi() {
                         res.getString("nama"),
                         res.getString("alamat"),
                         res.getString("no_hp"),
+                        res.getString("tanggalPembuatan"),
                         res.getString("batas_waktu"),
                         "MASIH BERLAKU"
                 });
@@ -121,6 +123,7 @@ private void koneksi() {
                         res.getString("nama"),
                         res.getString("alamat"),
                         res.getString("no_hp"),
+                        res.getString("tanggalPembuatan"),
                         res.getString("batas_waktu"),
                         "SUDAH KADULRASA"
                 });
@@ -198,6 +201,7 @@ private void cariData(String kataKunci) {
                         res.getString("nama"),
                         res.getString("alamat"),
                         res.getString("no_hp"),
+                        res.getString("tanggalPembuatan"),
                         res.getString("batas_waktu"),
                         statusText
                         // Add other columns as needed
@@ -669,14 +673,15 @@ private void cariData(String kataKunci) {
         if (t == null) {
             // Jika t == null, itu berarti operasi penyimpanan baru
             // Lakukan penyimpanan data ke database
-            String query = "INSERT INTO member(nama, alamat, no_hp, tanggalDaftar, batas_waktu, statusMember) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO member(nama, alamat, no_hp, tanggalDaftar, tanggalPembuatan, batas_waktu, statusMember) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = con.prepareStatement(query)) {
                 pstmt.setString(1, nama);
                 pstmt.setString(2, alamat);
                 pstmt.setString(3, no_hp);
                 pstmt.setTimestamp(4, new Timestamp(System.currentTimeMillis())); // Assuming you want to set the current timestamp for "tanggalDaftar"
-                pstmt.setTimestamp(5, timestamp); // Assuming batas_waktu is a java.util.Date object
-                pstmt.setInt(6, 0);
+                pstmt.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+                pstmt.setTimestamp(6, timestamp); // Assuming batas_waktu is a java.util.Date object
+                pstmt.setInt(7, 0);
 
                 int affectedRows = pstmt.executeUpdate();
                 if (affectedRows > 0) {
@@ -686,6 +691,7 @@ private void cariData(String kataKunci) {
                     JOptionPane.showMessageDialog(null, "Gagal menyimpan data baru");
                 }
             }
+            
         } else {
             // Jika t != null, itu berarti operasi pembaruan
             // Lakukan pembaruan data ke database berdasarkan ID yang tersimpan di t
@@ -863,6 +869,7 @@ try {
                         res.getString("nama"),
                         res.getString("alamat"),
                         res.getString("no_hp"),
+                        res.getString("tanggalPembuatan"),
                         res.getString("batas_waktu"),
                         "SUDAH KADALUARSA"
                 });
@@ -873,6 +880,7 @@ try {
                         res.getString("nama"),
                         res.getString("alamat"),
                         res.getString("no_hp"),
+                        res.getString("tanggalPembuatan"),
                         res.getString("batas_waktu"),
                         (statusMember == 0) ? "MASIH BERLAKU" : "SUDAH KADALUARSA"
                 });
@@ -903,6 +911,7 @@ try {
                         res.getString("nama"),
                         res.getString("alamat"),
                         res.getString("no_hp"),
+                        res.getString("tanggalPembuatan"),
                         res.getString("batas_waktu"),
                         "MASIH BERLAKU"
                 });
@@ -914,6 +923,7 @@ try {
                         res.getString("alamat"),
                         res.getString("no_hp"),
                         res.getString("batas_waktu"),
+                        res.getString("tanggalPembuatan"),
                         (statusMember == 0) ? "MASIH BERLAKU" : "SUDAH KADALUARSA"
                 });
                 rowCount++;

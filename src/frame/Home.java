@@ -30,9 +30,13 @@ public class Home extends javax.swing.JPanel {
         dataMenu();
         dt();
 
+        System.out.println("running: tambahTanggalMember");
         panelMember.tambahTanggalMember();
+        System.out.println("running: tambahBarisBaru");
         panelKeuangan.tambahBarisBaru();
+        System.out.println("running: changeStatus");
         panelTransaksi.changeStatus();
+        System.out.println("running: berhasil");
         koneksi();  // Initialize the connection
         setChartFromDatabase();
 //        getContentPane().setBackground(new Color(250, 250, 250));
@@ -96,7 +100,7 @@ private void setChartFromDatabase() {
             int pemasukan = resultSet.getInt("total_pemasukan");
             int pengeluaran = resultSet.getInt("total_pengeluaran");
 
-            System.out.println("Date: " + tglPengeluaran + ", Total: " + total + ", Pemasukan: " + pemasukan + ", Pengeluaran: " + pengeluaran);
+            System.out.println("Date: " + tglPengeluaran + ", Total: " + total + ", Pemasukan: " + pemasukan + ", Keuntungan: " + pengeluaran);
 
             String month = tglPengeluaran.getMonth().toString();
 
@@ -229,8 +233,8 @@ public void dt() {
         jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel13.setText("Jadwal Laundry Pengiriman Hari ini");
-        jPanel16.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
+        jLabel13.setText("Jadwal Pengiriman Laundry ");
+        jPanel16.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, -1, -1));
 
         txt_search2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -449,8 +453,8 @@ public void dt() {
         jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel12.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel12.setText("Jadwal Laundry Ambil Hari Ini");
-        jPanel14.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, -1, -1));
+        jLabel12.setText("Jadwal Ambil Laundry");
+        jPanel14.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, -1));
 
         txt_search1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -545,14 +549,14 @@ public void dt() {
         Tahun.setText("2023");
 
         jLabel9.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel9.setText("Laporan Keuangan Pertahun");
+        jLabel9.setText("Laporan Keuangan Perbulan tahun");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(114, 114, 114)
+                .addGap(94, 94, 94)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Tahun, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -716,7 +720,8 @@ public static void main(String args[]) {
                 JOptionPane.showMessageDialog(this, e.getMessage());
             }
             return 0;
-    }     
+    } 
+    
     public int jumlahPegawai() {
         try {
             LocalDate currentDate = LocalDate.now();
@@ -798,8 +803,8 @@ public static void main(String args[]) {
                     } else if (status == 3) {
                         statusText = "Selesai";
                      } else if (status == 0 ) {
-                        statusText = "Baru";
-                     } else if (status == 0 ) {
+                        statusText = "DIAMBIL";
+                     } else if (status == 1 ) {
                         statusText = "Prosses";
                     } else {
                         statusText = "Sudah Lewat";
@@ -858,8 +863,8 @@ public static void main(String args[]) {
                     } else if (status == 3) {
                         statusText = "Selesai";
                      } else if (status == 0 ) {
-                        statusText = "Baru";
-                      } else if (status == 0 ) {
+                        statusText = "DIKIRIM";
+                      } else if (status == 1 ) {
                         statusText = "Prosses";
                     } else {
                         statusText = "Sudah Lewat";

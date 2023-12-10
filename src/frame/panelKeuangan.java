@@ -78,9 +78,9 @@ private void koneksi() {
     };
 
     t.addColumn("Id Laporan");
-    t.addColumn("Pemasukan Hari Ini");
-    t.addColumn("Pengeluaran Hari Ini");
-    t.addColumn("Total");
+    t.addColumn("Pemasukan");
+    t.addColumn("Pengeluaran");
+    t.addColumn("Keuntungan");
      t.addColumn("Tanggal");
     tb_laporan.setModel(t);
 
@@ -417,47 +417,86 @@ private void cariData(String kataKunci) {
     }//GEN-LAST:event_txt_cariActionPerformed
  private static LocalDate lastExecutionDate = null;
 
-//    private static final long MILLIS_IN_DAY = 24 * 60 * 60 * 1000;
 public static void tambahBarisBaru() {
     try {
         Connection conn = koneksi.configDB();
 
         // Retrieve total pengeluaran for the given date
-        int totalPengeluaran = getTotalPengeluaran(conn);
+//        int totalPengeluaran = getTotalPengeluaran(conn);
+//
+//        // Retrieve total pemasukan for the given date
+//        int totalPemasukan = getTotalPemasukan(conn);
+//
+//        // Calculate the total
+//        int total = totalPemasukan - totalPengeluaran;
 
-        // Retrieve total pemasukan for the given date
-        int totalPemasukan = getTotalPemasukan(conn);
-
-        // Calculate the total
-        int total = totalPemasukan - totalPengeluaran;
-
-        // Do something with the total, for example, print it
-        System.out.println("Total: " + total);
-
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+//        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
         // Schedule the task to run once every 24 hours
-        scheduler.scheduleAtFixedRate(() -> {
-            try {
+//        scheduler.scheduleAtFixedRate(() -> {
+//            try {
                 // Check if the task has already run today
-                if (lastExecutionDate != null && lastExecutionDate.equals(LocalDate.now())) {
-                    System.out.println("Task already executed today at: " + LocalTime.now());
-                    return; // Exit if the task has already run today
-                }
+//                if (lastExecutionDate != null && !lastExecutionDate.isBefore(LocalDate.now())) {
+//                    System.out.println("Task already executed today at: " + LocalTime.now());
+//                    return; // Exit if the task has already run today
+//                }
 
                 // Insert the financial report
-                insertLaporanKeuangan(conn, totalPengeluaran, totalPemasukan, total);
+                insertLaporanKeuangan(conn);
 
                 // Update the last execution date
-                lastExecutionDate = LocalDate.now();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }, 0, 1, TimeUnit.DAYS); // Change TimeUnit to MINUTES
+//                lastExecutionDate = LocalDate.now();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }, 0, 1, TimeUnit.DAYS); // Change TimeUnit to MINUTES
 
     } catch (SQLException e) {
         e.printStackTrace();
     }
+}
+
+private static void insertLaporanKeuangan(Connection conn) {
+    LocalDate today = LocalDate.now();
+
+    // Check if a record already exists for the current date
+    if (isRecordExistsForDate(conn, today)) {
+        System.out.println("Record already exists for today. Skipping insertion.");
+        return;
+    }
+
+    String insertQuery = "INSERT INTO laporan_keuangan (pengeluaran, pemasukan, total, tgl_laporan) VALUES (?, ?, ?, ?)";
+    try (java.sql.PreparedStatement insertPst = conn.prepareStatement(insertQuery)) {
+        insertPst.setInt(1, 0);
+        insertPst.setInt(2, 0);
+        insertPst.setInt(3, 0);
+        insertPst.setDate(4, java.sql.Date.valueOf(today));
+
+        int rowsAffected = insertPst.executeUpdate();
+
+        if (rowsAffected > 0) {
+            System.out.println("Insert successful");
+        } else {
+            System.out.println("Insert failed");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
+private static boolean isRecordExistsForDate(Connection conn, LocalDate date) {
+    String query = "SELECT COUNT(*) FROM laporan_keuangan WHERE tgl_laporan = ?";
+    try (java.sql.PreparedStatement pst = conn.prepareStatement(query)) {
+        pst.setDate(1, java.sql.Date.valueOf(date));
+        ResultSet rs = pst.executeQuery();
+        if (rs.next()) {
+            int count = rs.getInt(1);
+            return count > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
 }
 
 //
@@ -495,33 +534,33 @@ public static void tambahBarisBaru() {
 //    }
 
 
-private static int getTotalPengeluaran(Connection conn) throws SQLException {
-    LocalDate yesterday = LocalDate.now().minusDays(1);
-    String pengeluaranQuery = "SELECT COALESCE(SUM(total_pengeluaran), 0) AS pengeluaran " +
-            "FROM pengeluaran WHERE tgl_pengeluaran = ?;";
-
-    try (java.sql.PreparedStatement pengeluaranPst = conn.prepareStatement(pengeluaranQuery)) {
-        pengeluaranPst.setDate(1, java.sql.Date.valueOf(yesterday));
-
-        try (ResultSet pengeluaranResultSet = pengeluaranPst.executeQuery()) {
-            return pengeluaranResultSet.next() ? pengeluaranResultSet.getInt("pengeluaran") : 0;
-        }
-    }
-}
-
-private static int getTotalPemasukan(Connection conn) throws SQLException {
-    LocalDate yesterday = LocalDate.now().minusDays(1);
-    String pemasukanQuery = "SELECT COALESCE(SUM(totalPembayaran), 0) AS pemasukan " +
-            "FROM transaksi WHERE tgl_transaksi = ?;";
-
-    try (java.sql.PreparedStatement pemasukanPst = conn.prepareStatement(pemasukanQuery)) {
-        pemasukanPst.setDate(1, java.sql.Date.valueOf(yesterday));
-
-        try (ResultSet pemasukanResultSet = pemasukanPst.executeQuery()) {
-            return pemasukanResultSet.next() ? pemasukanResultSet.getInt("pemasukan") : 0;
-        }
-    }
-}
+//private static int getTotalPengeluaran(Connection conn) throws SQLException {
+//    LocalDate yesterday = LocalDate.now().minusDays(1);
+//    String pengeluaranQuery = "SELECT COALESCE(SUM(total_pengeluaran), 0) AS pengeluaran " +
+//            "FROM pengeluaran WHERE tgl_pengeluaran = ?;";
+//
+//    try (java.sql.PreparedStatement pengeluaranPst = conn.prepareStatement(pengeluaranQuery)) {
+//        pengeluaranPst.setDate(1, java.sql.Date.valueOf(yesterday));
+//
+//        try (ResultSet pengeluaranResultSet = pengeluaranPst.executeQuery()) {
+//            return pengeluaranResultSet.next() ? pengeluaranResultSet.getInt("pengeluaran") : 0;
+//        }
+//    }
+//}
+//
+//private static int getTotalPemasukan(Connection conn) throws SQLException {
+//    LocalDate yesterday = LocalDate.now().minusDays(1);
+//    String pemasukanQuery = "SELECT COALESCE(SUM(totalPembayaran), 0) AS pemasukan " +
+//            "FROM transaksi WHERE tgl_transaksi = ?;";
+//
+//    try (java.sql.PreparedStatement pemasukanPst = conn.prepareStatement(pemasukanQuery)) {
+//        pemasukanPst.setDate(1, java.sql.Date.valueOf(yesterday));
+//
+//        try (ResultSet pemasukanResultSet = pemasukanPst.executeQuery()) {
+//            return pemasukanResultSet.next() ? pemasukanResultSet.getInt("pemasukan") : 0;
+//        }
+//    }
+//}
 
 
 
@@ -553,27 +592,7 @@ private static int getTotalPemasukan(Connection conn) throws SQLException {
 //        }
 //    }
 
-    private static void insertLaporanKeuangan(Connection conn, int totalPengeluaran, int totalPemasukan, int total) {
-        LocalDate yesterday = LocalDate.now().minusDays(1);
-        
-        String insertQuery = "INSERT INTO laporan_keuangan (pengeluaran, pemasukan, total, tgl_laporan) VALUES (?, ?, ?, ?)";
-        try (java.sql.PreparedStatement insertPst = conn.prepareStatement(insertQuery)) {
-            insertPst.setInt(1, totalPengeluaran);
-            insertPst.setInt(2, totalPemasukan);
-            insertPst.setInt(3, total);
-            insertPst.setDate(4, java.sql.Date.valueOf(yesterday));
-
-            int rowsAffected = insertPst.executeUpdate();
-
-            if (rowsAffected > 0) {
-                System.out.println("Insert successful");
-            } else {
-                System.out.println("Insert failed");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_hapus;
     private javax.swing.JButton btn_lihat;
