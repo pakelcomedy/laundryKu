@@ -1,169 +1,172 @@
-
 package frame;
 
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import java.sql.Connection;
-import java.sql.DriverManager; 
-import java.sql.PreparedStatement;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader; 
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import koneksi.koneksi;
-
-
 
 public class panelProduk extends javax.swing.JPanel {
     private Connection con;
     private Statement stat;
     private ResultSet res;
     private String t;
-    
-       
+
     public panelProduk() {
         koneksi();
         initComponents();
         kosongkan();
         tabel();
-        
-         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension frameSize = getSize();
         setLocation(
-            (screenSize.width - frameSize.width) / 3,
-            (screenSize.height -frameSize.height) / 4);
+                (screenSize.width - frameSize.width) / 3,
+                (screenSize.height - frameSize.height) / 4);
     }
-    
+
     private void koneksi() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = koneksi.configDB();
             stat = con.createStatement();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: " );
+            JOptionPane.showMessageDialog(null, "Gagal terhubung ke database: ");
             e.printStackTrace(); // Cetak exception untuk debugging
         }
     }
-     private void kosongkan(){
-     
+
+    private void kosongkan() {
         txt_namaproduk.setText("");
         txt_hargaproduk.setText("");
+        txt_bw_hari.setText("");
+        txt_bw_jam.setText("");
     }
-    private void tabel(){
+
+    private void tabel() {
         // Set show grid untuk menampilkan garis pembatas
-    tb_produk.setShowGrid(true);
+        tb_produk.setShowGrid(true);
 
-    // Set show horizontal lines dan show vertical lines
-    tb_produk.setShowHorizontalLines(true);
-    tb_produk.setShowVerticalLines(true);
+        // Set show horizontal lines dan show vertical lines
+        tb_produk.setShowHorizontalLines(true);
+        tb_produk.setShowVerticalLines(true);
 
-DefaultTableModel t = new DefaultTableModel();
-t.addColumn("Id Produk");
-t.addColumn("Nama Produk");
-t.addColumn("Harga Produk");
-t.addColumn("Jenis Produk");
+        DefaultTableModel t = new DefaultTableModel();
+        t.addColumn("Id Produk");
+        t.addColumn("Nama Produk");
+        t.addColumn("Harga Produk");
+        t.addColumn("Jenis Produk");
+        t.addColumn("Batas Hari");
+        t.addColumn("Batas Jam");
+        tb_produk.setModel(t);
 
-tb_produk.setModel(t);
+        try {
+            res = stat.executeQuery("SELECT * FROM produk");
+            int rowCount = 0;
 
-try {
-    res = stat.executeQuery("SELECT * FROM produk");
-    int rowCount = 0;
+            while (res.next()) {
+                t.addRow(new Object[]{
+                    res.getString("id_produk"),
+                    res.getString("nama_produk"),
+                    res.getString("harga_produk"),
+                    res.getString("jenis_produk"),
+                    res.getString("hari") + " Hari",
+                    res.getString("jam") + " Jam"                    
+                });
 
-    while (res.next()) {
-        t.addRow(new Object[]{
-            res.getString("id_produk"),
-            res.getString("nama_produk"),
-            res.getString("harga_produk"),
-            res.getString("jenis_produk"),
-        
-        });
+                // Set cell renderer for the first row only
+                if (rowCount == 0) {
+                    tb_produk.getColumnModel().getColumn(0).setCellRenderer(new CustomTableCellRenderer());
+                    tb_produk.getColumnModel().getColumn(1).setCellRenderer(new CustomTableCellRenderer());
+                    tb_produk.getColumnModel().getColumn(2).setCellRenderer(new CustomTableCellRenderer());
+                    tb_produk.getColumnModel().getColumn(3).setCellRenderer(new CustomTableCellRenderer());
+                    tb_produk.getColumnModel().getColumn(4).setCellRenderer(new CustomTableCellRenderer());
+                    
+                }
 
-        // Set cell renderer for the first row only
-        if (rowCount == 0) {
-            tb_produk.getColumnModel().getColumn(0).setCellRenderer(new CustomTableCellRenderer());
-            tb_produk.getColumnModel().getColumn(1).setCellRenderer(new CustomTableCellRenderer());
-            tb_produk.getColumnModel().getColumn(2).setCellRenderer(new CustomTableCellRenderer());
-            tb_produk.getColumnModel().getColumn(3).setCellRenderer(new CustomTableCellRenderer());
-          
+                rowCount++;
+
+                // Update JLabel to display the current row count
+                jLabel1.setText("Jumlah Data: " + rowCount);
+            }
+        } catch (Exception e) {
+            Component rootPane = null;
+            JOptionPane.showMessageDialog(rootPane, e);
         }
 
-        rowCount++;
+        // Set rata tengah (centered) untuk semua sel di tabel
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
 
-        // Update JLabel to display the current row count
-        jLabel1.setText("Jumlah Data: " + rowCount);
-    }
-    } catch (Exception e) {
-        Component rootPane = null;
-        JOptionPane.showMessageDialog(rootPane, e);
-    }
-
-    // Set rata tengah (centered) untuk semua sel di tabel
-    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-    centerRenderer.setHorizontalAlignment(javax.swing.JLabel.CENTER);
-
-    for (int i = 0; i < tb_produk.getColumnCount(); i++) {
-        tb_produk.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
-    }
-
-    // Set rata tengah (centered) untuk header kolom
-    JTableHeader header = tb_produk.getTableHeader();
-    header.setDefaultRenderer(centerRenderer);
-    header.setPreferredSize(new Dimension(100, 40)); // Sesuaikan dimensi header jika diperlukan
-    header.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, 14)); // Sesuaikan font header jika diperlukan
-}
-
-class CustomTableCellRenderer extends DefaultTableCellRenderer {
-    @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
-        // Mengubah warna latar belakang untuk baris pertama
-        if (row == 0) {
-            cellComponent.setBackground(new java.awt.Color(23, 233, 184)); // Ganti warna sesuai kebutuhan
-        } else {
-            cellComponent.setBackground(table.getBackground());
+        for (int i = 0; i < tb_produk.getColumnCount(); i++) {
+            tb_produk.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
         }
 
-        return cellComponent;
+        // Set rata tengah (centered) untuk header kolom
+        JTableHeader header = tb_produk.getTableHeader();
+        header.setDefaultRenderer(centerRenderer);
+        header.setPreferredSize(new Dimension(100, 40)); // Sesuaikan dimensi header jika diperlukan
+        header.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, 14)); // Sesuaikan font header jika diperlukan
     }
-}
-  private void cariData(String kataKunci) {
-    DefaultTableModel model = (DefaultTableModel) tb_produk.getModel();
-    model.setRowCount(0); // Clear existing rows
 
-    try {
-        // Use prepared statement to prevent SQL injection
-        String query = "SELECT * FROM produk WHERE id_produk LIKE ? OR nama_produk LIKE ? OR harga_produk LIKE ? OR jenis_produk LIKE ?";
-        try (PreparedStatement pstmt = con.prepareStatement(query)) {
-            for (int i = 1; i <= 4; i++) {
-                pstmt.setString(i, "%" + kataKunci + "%");
+    class CustomTableCellRenderer extends DefaultTableCellRenderer {
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            // Mengubah warna latar belakang untuk baris pertama
+            if (row == 0) {
+                cellComponent.setBackground(new java.awt.Color(23, 233, 184)); // Ganti warna sesuai kebutuhan
+            } else {
+                cellComponent.setBackground(table.getBackground());
             }
 
-            try (ResultSet res = pstmt.executeQuery()) {
-                while (res.next()) {
-                    // Adjust column types based on actual data types
-                    model.addRow(new Object[]{
+            return cellComponent;
+        }
+    }
+
+    private void cariData(String kataKunci) {
+        DefaultTableModel model = (DefaultTableModel) tb_produk.getModel();
+        model.setRowCount(0); // Clear existing rows
+
+        try {
+            // Use prepared statement to prevent SQL injection
+            String query = "SELECT * FROM produk WHERE id_produk LIKE ? OR nama_produk LIKE ? OR harga_produk LIKE ? OR jenis_produk LIKE ? OR hari LIKE ? OR jam LIKE ?";
+            try (PreparedStatement pstmt = con.prepareStatement(query)) {
+                for (int i = 1; i <= 6; i++) {
+                    pstmt.setString(i, "%" + kataKunci + "%");
+                }
+
+                try (ResultSet res = pstmt.executeQuery()) {
+                    while (res.next()) {
+                        // Adjust column types based on actual data types
+                        model.addRow(new Object[]{
                             res.getString("id_produk"),
                             res.getString("nama_produk"),
                             res.getInt("harga_produk"),
                             res.getString("jenis_produk"),
-                            // Add other columns as needed
-                    });
+                            res.getInt("hari"),
+                            res.getInt("jam"),
+                        });
+                    }
                 }
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Gagal mencari ");
         }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, e);
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Gagal mencari ");
     }
-}
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -190,38 +193,41 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
-        combobox_jenis = new javax.swing.JComboBox<>();
+        combobox_jenis = new javax.swing.JComboBox<String>();
         jLabel8 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        txt_batasWaktu = new javax.swing.JTextField();
+        txt_bw_jam = new javax.swing.JTextField();
+        txt_bw_hari = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         tb_produk.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Id Produk", "Nama Produk", "Harga Produk", "Jenis Produk"
+                "Id Produk", "Nama Produk", "Harga Produk", "Jenis Produk", "Batas Hari", "Batas Jam"
             }
         ));
         tb_produk.setRowHeight(30);
@@ -342,7 +348,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(432, 432, 432)
                 .addComponent(jLabel2)
-                .addContainerGap(470, Short.MAX_VALUE))
+                .addContainerGap(482, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -353,7 +359,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         jLabel3.setText("Cari");
 
         combobox_jenis.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
-        combobox_jenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilogram", "Satuan" }));
+        combobox_jenis.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Kilogram", "Satuan" }));
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel8.setText("Batas Waktu");
@@ -361,7 +367,25 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         jLabel13.setText(":");
 
-        txt_batasWaktu.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txt_bw_jam.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txt_bw_jam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_bw_jamActionPerformed(evt);
+            }
+        });
+
+        txt_bw_hari.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txt_bw_hari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_bw_hariActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel5.setText("Hari");
+
+        jLabel9.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel9.setText("Jam");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -369,12 +393,43 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(441, 441, 441)
-                        .addComponent(btn_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(300, 300, 300)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(5, 5, 5)
+                                .addComponent(jLabel11)
+                                .addGap(10, 10, 10)
+                                .addComponent(txt_hargaproduk))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(8, 8, 8)
+                                .addComponent(jLabel10)
+                                .addGap(10, 10, 10)
+                                .addComponent(txt_namaproduk, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(8, 8, 8)
+                                        .addComponent(jLabel12))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel13)))
+                                .addGap(10, 10, 10)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(combobox_jenis, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(txt_bw_hari, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(jLabel9)
+                                        .addGap(10, 10, 10)
+                                        .addComponent(txt_bw_jam, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 1078, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(89, 89, 89)
@@ -394,53 +449,25 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                         .addGap(90, 90, 90)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(300, 300, 300)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(5, 5, 5)
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_hargaproduk))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(8, 8, 8)
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txt_namaproduk, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(8, 8, 8)
-                                        .addComponent(jLabel12))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel13)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(combobox_jenis, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txt_batasWaktu))))))
+                        .addGap(441, 441, 441)
+                        .addComponent(btn_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jLabel4))
-                            .addComponent(jLabel10))
-                        .addGap(13, 13, 13))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_namaproduk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel10)
+                        .addComponent(txt_namaproduk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
@@ -456,12 +483,15 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel12)
                         .addComponent(combobox_jenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_batasWaktu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel13)
-                        .addComponent(jLabel8)))
+                        .addComponent(jLabel5)
+                        .addComponent(txt_bw_hari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_bw_jam, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9))
+                    .addComponent(jLabel8))
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_simpan)
@@ -498,24 +528,68 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         // Validate inputs
         String namaProduk = txt_namaproduk.getText().trim();
         String hargaProduk = txt_hargaproduk.getText().trim();
+        String BwHari = txt_bw_hari.getText().trim();
+        String BwJam = txt_bw_jam.getText().trim();
 
-        if (namaProduk.isEmpty() || hargaProduk.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nama Produk dan Harga Produk tidak boleh kosong");
+        // Ensure that hargaProduk is a valid number
+        try {
+            double hargaValue = Double.parseDouble(hargaProduk);
+            if (hargaValue < 0) {
+                JOptionPane.showMessageDialog(null, "Harga Produk tidak boleh negatif");
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception for debugging
+            JOptionPane.showMessageDialog(null, "Perintah SALAH, Masukkan Data Yang Sesuai");
+            return; // Return to stop further execution
+        }
+
+        // Validate BwJam
+        int jamValue;
+        try {
+            jamValue = Integer.parseInt(BwJam);
+            if (jamValue < 0 || jamValue > 24) {
+                JOptionPane.showMessageDialog(null, "Batas Jam harus berada dalam rentang 0-24");
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception for debugging
+            JOptionPane.showMessageDialog(null, "Perintah SALAH, Masukkan Data Yang Sesuai");
+            return; // Return to stop further execution
+        }
+
+        // Continue with the remaining validation and database checks...
+
+        if (hargaProduk.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Harga Produk tidak boleh kosong");
+            return;
+        }
+
+        if (namaProduk.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nama Produk tidak boleh kosong");
+            return;
+        }
+
+        // Check if the product name already exists in the database
+        if (isNamaProdukExists(namaProduk, t)) {
+            JOptionPane.showMessageDialog(null, "Nama Produk sudah ada. Silakan pilih nama yang lain.");
             return;
         }
 
         if (t == null) {
             // Insert new data
-            String query = "INSERT INTO produk(nama_produk, harga_produk, jenis_produk) VALUES (?, ?, ?)";
-            try (PreparedStatement pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-                pstmt.setString(1, namaProduk);
-                pstmt.setString(2, hargaProduk);
-                pstmt.setString(3, combobox_jenis.getSelectedItem().toString());
+            String insertQuery = "INSERT INTO produk(nama_produk, harga_produk, jenis_produk, hari, jam) VALUES (?, ?, ?, ?, ?)";
+            try (PreparedStatement insertPstmt = con.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
+                insertPstmt.setString(1, namaProduk);
+                insertPstmt.setString(2, hargaProduk);
+                insertPstmt.setString(3, combobox_jenis.getSelectedItem().toString());
+                insertPstmt.setString(4, BwHari);
+                insertPstmt.setString(5, BwJam);
 
-                int affectedRows = pstmt.executeUpdate();
+                int affectedRows = insertPstmt.executeUpdate();
 
                 if (affectedRows > 0) {
-                    try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                    try (ResultSet generatedKeys = insertPstmt.getGeneratedKeys()) {
                         if (generatedKeys.next()) {
                             int idProduk = generatedKeys.getInt(1);
                             System.out.println("ID Produk: " + idProduk);
@@ -525,7 +599,9 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                                     idProduk,
                                     namaProduk,
                                     hargaProduk,
-                                    combobox_jenis.getSelectedItem().toString()
+                                    combobox_jenis.getSelectedItem().toString(),
+                                    BwHari + " Hari", // Display " Hari"
+                                    BwJam + " Jam"   // Display " Jam"
                             });
 
                             // Update jumlah data
@@ -534,20 +610,24 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                         }
                     }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
 
             kosongkan(); // Clear UI components
             JOptionPane.showMessageDialog(null, "Berhasil Menyimpan Data");
         } else {
             // Update existing data
-            String query = "UPDATE produk SET nama_produk=?, harga_produk=?, jenis_produk=? WHERE id_produk=?";
-            try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                pstmt.setString(1, namaProduk);
-                pstmt.setString(2, hargaProduk);
-                pstmt.setString(3, combobox_jenis.getSelectedItem().toString());
-                pstmt.setInt(4, Integer.parseInt(t));
+            String updateQuery = "UPDATE produk SET nama_produk=?, harga_produk=?, jenis_produk=?, hari=?, jam=? WHERE id_produk=?";
+            try (PreparedStatement updatePstmt = con.prepareStatement(updateQuery)) {
+                updatePstmt.setString(1, namaProduk);
+                updatePstmt.setString(2, hargaProduk);
+                updatePstmt.setString(3, combobox_jenis.getSelectedItem().toString());
+                updatePstmt.setString(4, BwHari);
+                updatePstmt.setString(5, BwJam);
+                updatePstmt.setString(6, t);
 
-                int affectedRows = pstmt.executeUpdate();
+                int affectedRows = updatePstmt.executeUpdate();
 
                 if (affectedRows > 0) {
                     DefaultTableModel model = (DefaultTableModel) tb_produk.getModel();
@@ -558,12 +638,16 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                         model.setValueAt(namaProduk, selectedRowIndex, 1);
                         model.setValueAt(hargaProduk, selectedRowIndex, 2);
                         model.setValueAt(combobox_jenis.getSelectedItem().toString(), selectedRowIndex, 3);
+                        model.setValueAt(BwHari + " Hari", selectedRowIndex, 4); // Display " Hari"
+                        model.setValueAt(BwJam + " Jam", selectedRowIndex, 5);   // Display " Jam"
                     }
 
                     // Update jumlah data
                     int rowCount = model.getRowCount();
                     jLabel1.setText("Jumlah Data: " + rowCount);
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
 
             kosongkan(); // Clear UI components
@@ -576,6 +660,27 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         e.printStackTrace(); // Log the exception for debugging
         JOptionPane.showMessageDialog(null, "Perintah SALAH, Masukkan Data Yang Sesuai ! ");
     }
+}
+
+// Method to check if the product name already exists in the database
+private boolean isNamaProdukExists(String namaProduk, String currentId) {
+    try {
+        String query = "SELECT COUNT(*) FROM produk WHERE nama_produk = ? AND id_produk != ?";
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setString(1, namaProduk);
+            pstmt.setString(2, currentId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0;
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace(); // Log the exception for debugging
+        JOptionPane.showMessageDialog(null, "Perintah SALAH, Masukkan Data Yang Sesuai");
+    }
+    return false;
     }//GEN-LAST:event_btn_simpanActionPerformed
 private void tampilkanDataBerdasarkanID(int idProduk) {
     try {
@@ -594,21 +699,41 @@ private void tampilkanDataBerdasarkanID(int idProduk) {
     }//GEN-LAST:event_btn_editMousePressed
 
     private void btn_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editActionPerformed
-// Dapatkan baris yang dipilih
-    int row = tb_produk.getSelectedRow(); 
-    // Pastikan ada baris yang dipilih
-    if (row == -1) {
-        JOptionPane.showMessageDialog(this, "Pilih baris yang akan diedit");
-        return;
-    }
-    // Dapatkan ID Bahan Baku dari kolom pertama (indeks 0)
-    int idProduk = Integer.parseInt(tb_produk.getValueAt(row, 0).toString());
-    // Ambil nilai dari database dan tampilkan di JTextField
-    tampilkanDataBerdasarkanID(idProduk);
-    // Simpan ID Bahan Baku yang akan diupdate (digunakan pada aksi btn_simpanActionPerformed)
-    t = Integer.toString(idProduk);
+    try {
+        // Get the selected row index
+        int selectedRow = tb_produk.getSelectedRow();
 
-  
+        // Ensure a row is selected
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Select a row to edit");
+            return;
+        }
+
+        // Get the ID from the first column (assuming it's the ID column)
+        int idProduk = Integer.parseInt(tb_produk.getValueAt(selectedRow, 0).toString());
+
+        // Fetch data from the database based on the ID
+        String query = "SELECT * FROM produk WHERE id_produk = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, idProduk); // Set the ID parameter
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                // Display data in JTextFields
+                txt_namaproduk.setText(rs.getString("nama_produk"));
+                txt_hargaproduk.setText(rs.getString("harga_produk"));
+                combobox_jenis.setSelectedItem(rs.getString("jenis_produk"));
+                txt_bw_hari.setText(rs.getString("hari"));
+                txt_bw_jam.setText(rs.getString("jam"));
+
+                // Save the ID for later use (in btn_simpanActionPerformed)
+                t = Integer.toString(idProduk);
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace(); // Log the exception for debugging
+        JOptionPane.showMessageDialog(null, "Error while fetching data for editing");
+    }
     }//GEN-LAST:event_btn_editActionPerformed
 
     private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
@@ -634,27 +759,33 @@ private void tampilkanDataBerdasarkanID(int idProduk) {
 
 // Method untuk menampilkan detail produk
 private void tampilkanDetailProduk(int idProduk) {
-    try {
-        // Query database untuk mendapatkan detail Bahan Baku berdasarkan ID
+      try {
+        // Query database untuk mendapatkan detail Produk berdasarkan ID
         String query = "SELECT * FROM produk WHERE id_produk = ?";
+        
         try (PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, idProduk);
-            res = pstmt.executeQuery();
+            ResultSet res = pstmt.executeQuery();
 
             // Tampilkan hasil query
-            if (res.next()) {
-                String detail = "ID Produk: " + res.getString("id_produk") + "\n"
-                        + "Nama Produk: " + res.getString("nama_produk") + "\n"
-                        + "Harga Produk: " + res.getString("harga_produk") + "\n"
-                        + "Jenis Produk: " + res.getString("harga_produk");
+            if (res.next()) { 
+                String detail = "ID Produk: " + res.getInt("id_produk") + "\n"
+                        + "Nama Produk: " + res.getString("nama_produk") + "\n" 
+                        + "Harga Produk: " + res.getDouble("harga_produk") + "\n"
+                        + "Jenis Produk: " + res.getString("jenis_produk") + "\n"
+                        + "Batas Hari: " + res.getInt("hari") + " Hari" + "\n"
+                        + "Batas Jam: " + res.getInt("jam")+" Jam";
 
                 // Tampilkan detail menggunakan JOptionPane
                 JOptionPane.showMessageDialog(this, detail, "Detail Produk", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Produk dengan ID " + idProduk + " tidak ditemukan.", "Produk tidak ditemukan", JOptionPane.INFORMATION_MESSAGE);
             }
         }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Gagal menampilkan detail: " );
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Gagal menampilkan detail: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
+
  
     }//GEN-LAST:event_btn_lihatActionPerformed
 
@@ -705,6 +836,14 @@ private void tampilkanDetailProduk(int idProduk) {
         cariData(kataKunci);
     }//GEN-LAST:event_txt_cariActionPerformed
 
+    private void txt_bw_jamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_bw_jamActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_bw_jamActionPerformed
+
+    private void txt_bw_hariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_bw_hariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_bw_hariActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_clear;
@@ -721,15 +860,18 @@ private void tampilkanDetailProduk(int idProduk) {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable tb_produk;
-    private javax.swing.JTextField txt_batasWaktu;
+    private javax.swing.JTextField txt_bw_hari;
+    private javax.swing.JTextField txt_bw_jam;
     private javax.swing.JTextField txt_cari;
     private javax.swing.JTextField txt_hargaproduk;
     private javax.swing.JTextField txt_namaproduk;

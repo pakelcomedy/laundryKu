@@ -699,7 +699,6 @@ private void tampilkanDetailUser(int idUser) {
     }//GEN-LAST:event_cbx_jabatanActionPerformed
 
     private void txt_nohpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nohpActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_txt_nohpActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
