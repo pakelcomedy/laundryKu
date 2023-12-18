@@ -569,11 +569,12 @@ public class panelProduk extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Nama Produk tidak boleh kosong");
             return;
         }
+        
 
         // Check if the product name already exists in the database
         if (isNamaProdukExists(namaProduk, t)) {
             JOptionPane.showMessageDialog(null, "Nama Produk sudah ada. Silakan pilih nama yang lain.");
-            return;
+            return; // Prevent further execution
         }
 
         if (t == null) {
@@ -606,17 +607,26 @@ public class panelProduk extends javax.swing.JPanel {
 
                             // Update jumlah data
                             int rowCount = model.getRowCount();
-                            jLabel1.setText("Jumlah Data: " + rowCount);
-                        }
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+                    jLabel1.setText("Jumlah Data: " + rowCount);
 
-            kosongkan(); // Clear UI components
-            JOptionPane.showMessageDialog(null, "Berhasil Menyimpan Data");
-        } else {
+                    // Clear UI components and show success message
+                                kosongkan();
+                                JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
+                            }
+                        }
+                    } else {
+                        // Data insertion failed
+                        JOptionPane.showMessageDialog(null, "Data gagal disimpan");
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Data gagal disimpan");
+                }
+            } else {
+                // Data insertion failed
+                JOptionPane.showMessageDialog(null, "Data gagal disimpan");
+
+        
             // Update existing data
             String updateQuery = "UPDATE produk SET nama_produk=?, harga_produk=?, jenis_produk=?, hari=?, jam=? WHERE id_produk=?";
             try (PreparedStatement updatePstmt = con.prepareStatement(updateQuery)) {
@@ -669,14 +679,14 @@ private boolean isNamaProdukExists(String namaProduk, String currentId) {
         try (PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setString(1, namaProduk);
             pstmt.setString(2, currentId);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                return count > 0;
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    return count > 0;
+                }
             }
         }
-    } catch (Exception e) {
+    } catch (SQLException e) {
         e.printStackTrace(); // Log the exception for debugging
         JOptionPane.showMessageDialog(null, "Perintah SALAH, Masukkan Data Yang Sesuai");
     }

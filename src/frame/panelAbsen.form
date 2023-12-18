@@ -459,7 +459,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/ui_componen/Meeting Time(black).png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Pegawai Terlambat [Hari Ini]"/>
+            <Property name="text" type="java.lang.String" value="Pegawai Hadir Terlambat "/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -632,7 +632,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/ui_componen/Checked User Male(hadir Black).png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Pegawai Hadir Waktu [Hari Ini]"/>
+            <Property name="text" type="java.lang.String" value="Pegawai Hadir Tepat Waktu "/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

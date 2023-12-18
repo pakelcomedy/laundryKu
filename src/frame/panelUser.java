@@ -175,10 +175,8 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         jLabel4 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txt_username = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
         txt_password = new javax.swing.JTextField();
         btn_lihat = new javax.swing.JButton();
         txt_cari = new javax.swing.JTextField();
@@ -194,7 +192,6 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         txt_alamat = new javax.swing.JTextField();
-        cbx_jabatan = new javax.swing.JComboBox<String>();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -291,17 +288,11 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
 
         txt_username.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel6.setText("Jabatan");
-
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel7.setText("Password");
 
         jLabel11.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
         jLabel11.setText(":");
-
-        jLabel12.setFont(new java.awt.Font("Dialog", 1, 20)); // NOI18N
-        jLabel12.setText(":");
 
         txt_password.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -369,14 +360,6 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
 
         txt_alamat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        cbx_jabatan.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        cbx_jabatan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Owner", "Pegawai", " " }));
-        cbx_jabatan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbx_jabatanActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -415,19 +398,11 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                         .addGap(10, 10, 10)
                         .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(8, 8, 8)
-                                .addComponent(jLabel11))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(21, 21, 21)
-                                .addComponent(jLabel12)))
+                        .addComponent(jLabel7)
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel11)
                         .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbx_jabatan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -447,7 +422,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
@@ -469,15 +444,7 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
                         .addComponent(jLabel9)
                         .addComponent(jLabel13)
                         .addComponent(txt_nohp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel6))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel12)
-                        .addComponent(cbx_jabatan, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(20, 20, 20)
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -525,37 +492,38 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
 
             if (resultSet.next()) {
                 // Data with the given username already exists, perform update
-                String updateQuery = "UPDATE user SET password=?, jabatan=?, alamat=?, no_hp=? WHERE Username=?";
+                String updateQuery = "UPDATE user SET password=?, alamat=?, no_hp=? WHERE Username=?";
                 try (PreparedStatement updateStmt = con.prepareStatement(updateQuery)) {
                     updateStmt.setString(1, password);
-                    updateStmt.setString(2, cbx_jabatan.getSelectedItem().toString());
-                    updateStmt.setString(3, txt_alamat.getText());
-                    updateStmt.setString(4, nohp);
-                    updateStmt.setString(5, username);
+                    updateStmt.setString(2, txt_alamat.getText());
+                    updateStmt.setString(3, nohp);
+                    updateStmt.setString(4, username);
                     updateStmt.executeUpdate();
                 }
                 JOptionPane.showMessageDialog(null, "Berhasil Memperbarui Data");
             } else {
                 // Data with the given username does not exist, perform insert
-                String insertQuery = "INSERT INTO user(Username, password, jabatan, alamat, no_hp) VALUES (?, ?, ?, ?, ?)";
-                try (PreparedStatement insertStmt = con.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
-                    insertStmt.setString(1, username);
-                    insertStmt.setString(2, password);
-                    insertStmt.setString(3, cbx_jabatan.getSelectedItem().toString());
-                    insertStmt.setString(4, txt_alamat.getText());
-                    insertStmt.setString(5, nohp);
-                    int affectedRows = insertStmt.executeUpdate(); 
+// Data with the given username does not exist, perform insert
+        String insertQuery = "INSERT INTO user(Username, password, jabatan, alamat, no_hp) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement insertStmt = con.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
+            insertStmt.setString(1, username);
+            insertStmt.setString(2, password);
+            insertStmt.setString(3, "Pegawai"); // Set jabatan to "Pegawai"
+            insertStmt.setString(4, txt_alamat.getText());
+            insertStmt.setString(5, nohp);
+            int affectedRows = insertStmt.executeUpdate(); 
 
-                    if (affectedRows > 0) {
-                        ResultSet generatedKeys = insertStmt.getGeneratedKeys();
-                        if (generatedKeys.next()) {
-                            int idUser = generatedKeys.getInt(1);
-                            // Handle the ID if needed
-                            System.out.println("ID User baru: " + idUser);
-                        }
-                    }
+            if (affectedRows > 0) {
+                ResultSet generatedKeys = insertStmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int idUser = generatedKeys.getInt(1);
+                    // Handle the ID if needed
+                    System.out.println("ID User baru: " + idUser);
                 }
-                JOptionPane.showMessageDialog(null, "Berhasil Menyimpan Data");
+            }
+        }
+        JOptionPane.showMessageDialog(null, "Berhasil Menyimpan Data");
+
             }
         }
         tabel();
@@ -571,7 +539,6 @@ private void tampilkanDataBerdasarkanID(int idUser) {
         while (res.next()) {
             txt_username.setText(res.getString("Username"));
             txt_password.setText(res.getString("password"));
-            cbx_jabatan.setSelectedItem(res.getString("jabatan"));
             txt_alamat.setText(res.getString("alamat"));
             txt_nohp.setText(res.getString("no_hp"));
         }
@@ -694,10 +661,6 @@ private void tampilkanDetailUser(int idUser) {
         cariData(kataKunci);
     }//GEN-LAST:event_txt_cariActionPerformed
 
-    private void cbx_jabatanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_jabatanActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbx_jabatanActionPerformed
-
     private void txt_nohpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nohpActionPerformed
     }//GEN-LAST:event_txt_nohpActionPerformed
 
@@ -707,17 +670,14 @@ private void tampilkanDetailUser(int idUser) {
     private javax.swing.JButton btn_hapus;
     private javax.swing.JButton btn_lihat;
     private javax.swing.JButton btn_simpan;
-    private javax.swing.JComboBox<String> cbx_jabatan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;

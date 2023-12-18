@@ -654,7 +654,7 @@ private void cariData(String kataKunci) {
     }//GEN-LAST:event_btn_simpan1MousePressed
 
     private void btn_simpan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpan1ActionPerformed
-    try {
+        try {
         // Dapatkan nilai dari komponen GUI
         java.util.Date batas_waktu = (java.util.Date) spinner_tanggal.getValue();
         String nama = txt_nama.getText();
@@ -662,8 +662,15 @@ private void cariData(String kataKunci) {
         String no_hp = txt_nohp.getText();
         
         // Validate inputs
+        // Validate inputs
         if (nama.isEmpty() || alamat.isEmpty() || no_hp.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Nama, Alamat, dan No HP tidak boleh kosong");
+            return;
+        }
+
+        // Validate that no_hp contains only numeric values
+        if (!no_hp.matches("\\d+")) {
+            JOptionPane.showMessageDialog(null, "Nomor HP harus berupa angka");
             return;
         }
 

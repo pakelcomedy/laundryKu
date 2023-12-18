@@ -26,7 +26,6 @@ public class MenuMaster extends javax.swing.JFrame {
     if ("Owner".equals(jaba)) {
         // If jabatan is "Owner", display all buttons
         btn_produk.setVisible(true);
-        btn_bahanbaku.setVisible(true);
         btn_member.setVisible(true);
         btn_pengeluaran.setVisible(true);
         btn_user.setVisible(true);
@@ -35,7 +34,6 @@ public class MenuMaster extends javax.swing.JFrame {
         btn_user.setVisible(false);
         // Always show these buttons
         btn_produk.setVisible(true);
-        btn_bahanbaku.setVisible(true);
         btn_member.setVisible(true);
         btn_pengeluaran.setVisible(true);
     }
@@ -70,7 +68,6 @@ private String getJabatanFromDatabase(String Jabatan) {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         btn_pengeluaran = new javax.swing.JButton();
-        btn_bahanbaku = new javax.swing.JButton();
         btn_user = new javax.swing.JButton();
         btn_member = new javax.swing.JButton();
         btn_produk = new javax.swing.JButton();
@@ -144,28 +141,7 @@ private String getJabatanFromDatabase(String Jabatan) {
                 btn_pengeluaranActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_pengeluaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 470, -1, -1));
-
-        btn_bahanbaku.setBackground(new java.awt.Color(39, 159, 136));
-        btn_bahanbaku.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
-        btn_bahanbaku.setForeground(new java.awt.Color(255, 255, 255));
-        btn_bahanbaku.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/Bahan Baku.png"))); // NOI18N
-        btn_bahanbaku.setText(" Bahan Baku");
-        btn_bahanbaku.setActionCommand("Transaksi");
-        btn_bahanbaku.setBorder(new javax.swing.border.MatteBorder(null));
-        btn_bahanbaku.setBorderPainted(false);
-        btn_bahanbaku.setContentAreaFilled(false);
-        btn_bahanbaku.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                btn_bahanbakuMousePressed(evt);
-            }
-        });
-        btn_bahanbaku.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_bahanbakuActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btn_bahanbaku, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 170, -1));
+        jPanel1.add(btn_pengeluaran, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, -1, -1));
 
         btn_user.setBackground(new java.awt.Color(39, 159, 136));
         btn_user.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
@@ -185,7 +161,7 @@ private String getJabatanFromDatabase(String Jabatan) {
                 btn_userActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, -1, -1));
+        jPanel1.add(btn_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, -1, -1));
 
         btn_member.setBackground(new java.awt.Color(39, 159, 136));
         btn_member.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
@@ -232,7 +208,7 @@ private String getJabatanFromDatabase(String Jabatan) {
                 btn_pengeluaran1ActionPerformed(evt);
             }
         });
-        jPanel1.add(btn_pengeluaran1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, -1, -1));
+        jPanel1.add(btn_pengeluaran1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, -1, -1));
 
         SignOut1.setBackground(new java.awt.Color(39, 159, 136));
         SignOut1.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
@@ -370,20 +346,6 @@ private String getJabatanFromDatabase(String Jabatan) {
 
     }//GEN-LAST:event_btn_userMouseClicked
 
-    private void btn_bahanbakuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_bahanbakuActionPerformed
-        jLabel3.setText("Master Bahan Baku");
-        jTabbedPane2.removeAll();
-        panelBahanBaku panel = new panelBahanBaku();
-        jTabbedPane2.add(panel);
-        panel.setVisible(true);
-        jTabbedPane2.revalidate();
-        jTabbedPane2.repaint();
-    }//GEN-LAST:event_btn_bahanbakuActionPerformed
-
-    private void btn_bahanbakuMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_bahanbakuMousePressed
-
-    }//GEN-LAST:event_btn_bahanbakuMousePressed
-
     private void btn_pengeluaranActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pengeluaranActionPerformed
         MenuUtama master = new MenuUtama();
         master.setVisible(true);
@@ -399,7 +361,6 @@ private String getJabatanFromDatabase(String Jabatan) {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton SignOut;
     private javax.swing.JButton SignOut1;
-    private javax.swing.JButton btn_bahanbaku;
     private javax.swing.JButton btn_member;
     private javax.swing.JButton btn_pengeluaran;
     private javax.swing.JButton btn_pengeluaran1;

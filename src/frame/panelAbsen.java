@@ -324,7 +324,7 @@ public class panelAbsen extends javax.swing.JPanel {
 
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/Meeting Time(black).png"))); // NOI18N
-        jLabel10.setText("Pegawai Terlambat [Hari Ini]");
+        jLabel10.setText("Pegawai Hadir Terlambat ");
         jPanel10.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel12.setBackground(new java.awt.Color(217, 217, 217));
@@ -386,7 +386,7 @@ public class panelAbsen extends javax.swing.JPanel {
 
         jLabel11.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/Checked User Male(hadir Black).png"))); // NOI18N
-        jLabel11.setText("Pegawai Hadir Waktu [Hari Ini]");
+        jLabel11.setText("Pegawai Hadir Tepat Waktu ");
         jPanel11.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         jPanel13.setBackground(new java.awt.Color(217, 217, 217));

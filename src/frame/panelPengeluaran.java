@@ -76,7 +76,7 @@ private void koneksi() {
             return false; // Membuat sel tidak dapat diedit langsung di tabel
         }
     };
-    t.addColumn("NO");
+    t.addColumn("Id Pengeluaran");
     t.addColumn("Tangal Pengeluaran");
     t.addColumn("Keterangan");
     t.addColumn("Total Pengeluaran");
@@ -147,9 +147,9 @@ private void cariData(String kataKunci) {
 
     try {
         // Use prepared statement to avoid SQL injection
-        String query = "SELECT * FROM pengeluaran WHERE tgl_pengeluaran LIKE ? OR keterangan LIKE ? OR total_pengeluaran LIKE ?";
+        String query = "SELECT * FROM pengeluaran WHERE id_pengeluaran LIKE ? OR tgl_pengeluaran LIKE ? OR keterangan LIKE ? OR total_pengeluaran LIKE ?";
         try (PreparedStatement pstmt = con.prepareStatement(query)) {
-            for (int i = 1; i <= 3; i++) {
+            for (int i = 1; i <= 4; i++) {
                 pstmt.setString(i, "%" + kataKunci + "%");
             }
             res = pstmt.executeQuery();
