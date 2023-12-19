@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,6 +42,8 @@ public class panelAbsen extends javax.swing.JPanel {
         Terlambat.setShowHorizontalLines(true);
         Terlambat.setShowVerticalLines(true);
         }
+        
+    private Connection connection;
     
     private void initializeTable(JTable table, String status) {
         DefaultTableModel model = loadAttendanceData(status);
@@ -170,6 +173,94 @@ private DefaultTableModel loadAttendanceData(String status) {
         });
         t.start();
     }
+    
+private void cariData1(String kataKunci) {
+    DefaultTableModel tbl = (DefaultTableModel) Terlambat.getModel();
+    tbl.setRowCount(0); // Bersihkan baris yang sudah ada
+
+    try {
+        // Gunakan prepared statement untuk menghindari SQL injection
+        String query = "SELECT \n" +
+                "    absensi.id_absensi, \n" +
+                "    absensi.waktu_absensi, \n" +
+                "    absensi.Username, \n" +
+                "    absensi.status_absensi \n" +
+                "FROM \n" +
+                "    absensi \n" +
+                "WHERE \n" +
+                "    (absensi.id_absensi LIKE ? OR " +
+                "    absensi.waktu_absensi LIKE ? OR " +
+                "    absensi.Username LIKE ? OR " +
+                "    absensi.status_absensi LIKE ?) AND " +
+                "    absensi.status_absensi = 'Terlambat'";
+        
+        java.sql.Connection conn = (Connection) koneksi.configDB();
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            for (int i = 1; i <= 4; i++) {
+                pstmt.setString(i, "%" + kataKunci + "%");
+            }
+
+            ResultSet res = pstmt.executeQuery();
+
+            while (res.next()) {
+                String statusText = res.getString("absensi.status_absensi");
+
+                tbl.addRow(new Object[]{
+                        res.getString("absensi.id_absensi"),
+                        res.getString("absensi.waktu_absensi"),
+                        res.getString("absensi.Username"),
+                        statusText
+                });
+            }
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e);
+    }
+}
+
+private void cariData2(String kataKunci) {
+    DefaultTableModel tbl = (DefaultTableModel) TepatWaktu.getModel();
+    tbl.setRowCount(0); // Bersihkan baris yang sudah ada
+
+    try {
+        // Gunakan prepared statement untuk menghindari SQL injection
+        String query = "SELECT \n" +
+                "    absensi.id_absensi, \n" +
+                "    absensi.waktu_absensi, \n" +
+                "    absensi.Username, \n" +
+                "    absensi.status_absensi \n" +
+                "FROM \n" +
+                "    absensi \n" +
+                "WHERE \n" +
+                "    (absensi.id_absensi LIKE ? OR " +
+                "    absensi.waktu_absensi LIKE ? OR " +
+                "    absensi.Username LIKE ? OR " +
+                "    absensi.status_absensi LIKE ?) AND " +
+                "    absensi.status_absensi = 'Tepat Waktu'";
+        
+        java.sql.Connection conn = (Connection) koneksi.configDB();
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            for (int i = 1; i <= 4; i++) {
+                pstmt.setString(i, "%" + kataKunci + "%");
+            }
+
+            ResultSet res = pstmt.executeQuery();
+
+            while (res.next()) {
+                String statusText = res.getString("absensi.status_absensi");
+
+                tbl.addRow(new Object[]{
+                        res.getString("absensi.id_absensi"),
+                        res.getString("absensi.waktu_absensi"),
+                        res.getString("absensi.Username"),
+                        statusText
+                });
+            }
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, e);
+    }
+}
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -532,39 +623,13 @@ private DefaultTableModel loadAttendanceData(String status) {
     }//GEN-LAST:event_Delete1ActionPerformed
 
     private void SearchB2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchB2ActionPerformed
-        String searchText = search2.getText();
-        clearTableSelection(TepatWaktu);
-        for (int row = 0; row < TepatWaktu.getRowCount(); row++) {
-            for (int col = 0; col < TepatWaktu.getColumnCount(); col++) {
-                Object cellValue = TepatWaktu.getValueAt(row, col);
-                if (cellValue != null && cellValue.toString().equals(searchText)) {
-                    TepatWaktu.getSelectionModel().addSelectionInterval(row, row);
-                    break;
-                }
-            }
-        }
-        }
-
-        private void clearTableSelection(JTable table) {
-            table.getSelectionModel().clearSelection();
+        String kataKunci = search2.getText();
+        cariData2(kataKunci);
     }//GEN-LAST:event_SearchB2ActionPerformed
 
     private void SearchB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchB1ActionPerformed
-        String searchText = search1.getText();
-        clearSelection(Terlambat);
-        for (int row = 0; row < Terlambat.getRowCount(); row++) {
-            for (int col = 0; col < Terlambat.getColumnCount(); col++) {
-                Object cellValue = Terlambat.getValueAt(row, col);
-                if (cellValue != null && cellValue.toString().equals(searchText)) {
-                    Terlambat.getSelectionModel().addSelectionInterval(row, row);
-                    break;
-                }
-            }
-        }
-        }
-
-        private void clearSelection(JTable table) {
-            table.getSelectionModel().clearSelection();
+    String kataKunci = search1.getText();
+    cariData1(kataKunci);
     }//GEN-LAST:event_SearchB1ActionPerformed
 
     private void search1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search1ActionPerformed
