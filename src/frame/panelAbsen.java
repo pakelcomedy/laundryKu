@@ -24,14 +24,24 @@ public class panelAbsen extends javax.swing.JPanel {
         initComponents();
         initializeTable(Terlambat, "Terlambat");
         initializeTable(TepatWaktu, "TepatWaktu");
-
         dt();
         times();
         setupTimer();
         JumlahPegawai();
-       
-    }
+        tabel();
 
+    }
+    
+        private void tabel(){
+        TepatWaktu.setShowGrid(true);
+        TepatWaktu.setShowHorizontalLines(true);
+        TepatWaktu.setShowVerticalLines(true);
+        
+        Terlambat.setShowGrid(true);
+        Terlambat.setShowHorizontalLines(true);
+        Terlambat.setShowVerticalLines(true);
+        }
+    
     private void initializeTable(JTable table, String status) {
         DefaultTableModel model = loadAttendanceData(status);
         table.setModel(model);
@@ -80,39 +90,41 @@ public class panelAbsen extends javax.swing.JPanel {
         }
     }
 
-    private DefaultTableModel loadAttendanceData(String status) {
-        DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("No");
-        model.addColumn("Jam Masuk");
-        model.addColumn("Nama Pegawai");
-        model.addColumn("Status");
+private DefaultTableModel loadAttendanceData(String status) {
+    DefaultTableModel model = new DefaultTableModel();
+    model.addColumn("Id Absensi");
+    model.addColumn("Jam Masuk");
+    model.addColumn("Nama Pegawai");
+    model.addColumn("Status");
 
-        try {
-            int no = 1;
-            String sql = "SELECT * FROM absensi";
-            try (Connection conn = koneksi.configDB();
-                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                 ResultSet res = pstmt.executeQuery()) {
+    try {
+        String sql = "SELECT * FROM absensi";
+        try (Connection conn = koneksi.configDB();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet res = pstmt.executeQuery()) {
 
-                while (res.next()) {
-                    String waktuAbsensi = res.getString("waktu_absensi");
-                    String username = res.getString("Username");
-                    String statusAbsensi = res.getString("status_absensi");
+            while (res.next()) {
+                String idAbsensi = res.getString("id_absensi");
+                String waktuAbsensi = res.getString("waktu_absensi");
+                String username = res.getString("Username");
+                String statusAbsensi = res.getString("status_absensi");
 
-                    boolean isLaterThanSeven = isTimeLaterThan(waktuAbsensi, "07:00");
-                    if ((status.equals("Terlambat") && isLaterThanSeven) ||
-                            (status.equals("TepatWaktu") && !isLaterThanSeven)) {
-                        model.addRow(new Object[]{no++, waktuAbsensi, username, statusAbsensi});
-                    }
+                boolean isLaterThanSeven = isTimeLaterThan(waktuAbsensi, "07:00");
+
+                if ((status.equals("Terlambat") && isLaterThanSeven) ||
+                        (status.equals("TepatWaktu") && !isLaterThanSeven)) {
+                    // Add data to the model if it meets the criteria
+                    model.addRow(new Object[]{idAbsensi, waktuAbsensi, username, statusAbsensi});
                 }
             }
-            updateCountLabel("HadirJ", model.getRowCount());
-        } catch (Exception e) {
-            handleException("Error loading data", e);
         }
-
-        return model;
+        updateCountLabel("HadirJ", model.getRowCount());
+    } catch (Exception e) {
+        handleException("Error loading data", e);
     }
+
+    return model;
+}
     
     private boolean isTimeLaterThan(String time, String targetTime) {
         try {
@@ -343,7 +355,7 @@ public class panelAbsen extends javax.swing.JPanel {
         Delete1.setBackground(new java.awt.Color(153, 0, 0));
         Delete1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         Delete1.setForeground(new java.awt.Color(255, 255, 255));
-        Delete1.setText("Delete");
+        Delete1.setText("Hapus");
         Delete1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Delete1ActionPerformed(evt);
@@ -358,7 +370,7 @@ public class panelAbsen extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "No", "Jam Masuk", "Nama Pegawai", "Status"
+                "Id Absensi", "Jam Masuk", "Nama Pegawai", "Status"
             }
         ));
         Terlambat.setRowHeight(30);
@@ -371,13 +383,13 @@ public class panelAbsen extends javax.swing.JPanel {
 
         SearchB1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         SearchB1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/ic_baseline-search.png"))); // NOI18N
-        SearchB1.setText("Search");
+        SearchB1.setText("Cari");
         SearchB1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SearchB1ActionPerformed(evt);
             }
         });
-        jPanel10.add(SearchB1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, -1, 20));
+        jPanel10.add(SearchB1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, -1, 20));
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153), 2));
@@ -399,7 +411,7 @@ public class panelAbsen extends javax.swing.JPanel {
         Delete2.setBackground(new java.awt.Color(153, 0, 0));
         Delete2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         Delete2.setForeground(new java.awt.Color(255, 255, 255));
-        Delete2.setText("Delete");
+        Delete2.setText("Hapus");
         Delete2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Delete2ActionPerformed(evt);
@@ -413,7 +425,7 @@ public class panelAbsen extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "No", "Jam Masuk", "Nama Pegawai", "Status"
+                "Id Absensi", "Jam Masuk", "Nama Pegawai", "Status"
             }
         ));
         TepatWaktu.setRowHeight(30);
@@ -426,13 +438,13 @@ public class panelAbsen extends javax.swing.JPanel {
 
         SearchB2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         SearchB2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ui_componen/ic_baseline-search.png"))); // NOI18N
-        SearchB2.setText("Search");
+        SearchB2.setText("Cari");
         SearchB2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SearchB2ActionPerformed(evt);
             }
         });
-        jPanel11.add(SearchB2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 90, -1, 20));
+        jPanel11.add(SearchB2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, -1, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -487,10 +499,14 @@ public class panelAbsen extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) TepatWaktu.getModel();
         int modelRow = TepatWaktu.convertRowIndexToModel(selectedRow);
 
-        String usernameToDelete = (String) model.getValueAt(modelRow, 2);
+        // Get the id_absensi from the selected row (assuming it's in the first column, index 0)
+        String idAbsensiToDelete = (String) model.getValueAt(modelRow, 0);
 
+        // Remove the row from the table model
         model.removeRow(modelRow);
-        deleteRowFromDatabase(usernameToDelete);
+
+        // Delete the corresponding row from the database based on id_absensi
+        deleteRowFromDatabase(idAbsensiToDelete);
     } else {
         JOptionPane.showMessageDialog(this, "Tolong pilih baris yang akan dihapus!");
     }
@@ -502,10 +518,14 @@ public class panelAbsen extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) Terlambat.getModel();
         int modelRow = Terlambat.convertRowIndexToModel(selectedRow);
 
-        String usernameToDelete = (String) model.getValueAt(modelRow, 2);
+        // Get the id_absensi from the selected row (assuming it's in the first column, index 0)
+        String idAbsensiToDelete = (String) model.getValueAt(modelRow, 0);
 
+        // Remove the row from the table model
         model.removeRow(modelRow);
-        deleteRowFromDatabase(usernameToDelete);
+
+        // Delete the corresponding row from the database based on id_absensi
+        deleteRowFromDatabase(idAbsensiToDelete);
     } else {
         JOptionPane.showMessageDialog(this, "Tolong pilih baris yang akan dihapus!");
     }
@@ -550,21 +570,21 @@ public class panelAbsen extends javax.swing.JPanel {
     private void search1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_search1ActionPerformed
-private void deleteRowFromDatabase(String username) {
-  try {
+    private void deleteRowFromDatabase(String idAbsensi) {
+        try {
             Connection conn = koneksi.configDB();
-            String sql = "DELETE FROM absensi WHERE Username = ?";
+            String sql = "DELETE FROM absensi WHERE id_absensi = ?";
 
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, username);
+                pstmt.setString(1, idAbsensi);
                 pstmt.executeUpdate();
             }
 
-            JOptionPane.showMessageDialog(this, "Row deleted successfully from the database.");
+            JOptionPane.showMessageDialog(this, "Data berhasil dihapus");
         } catch (Exception e) {
-            handleException("Error deleting row from the database", e);
+            handleException("Data Gagal dihapus", e);
         }
-    }
+        }
 
 private String JumlahPegawai() { 
     try {

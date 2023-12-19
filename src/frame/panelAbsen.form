@@ -514,7 +514,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Delete"/>
+            <Property name="text" type="java.lang.String" value="Hapus"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Delete1ActionPerformed"/>
@@ -544,7 +544,7 @@
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="2">
-                    <Column editable="true" title="No" type="java.lang.Object"/>
+                    <Column editable="true" title="Id Absensi" type="java.lang.Object"/>
                     <Column editable="true" title="Jam Masuk" type="java.lang.Object"/>
                     <Column editable="true" title="Nama Pegawai" type="java.lang.Object"/>
                     <Column editable="true" title="Status" type="java.lang.Object"/>
@@ -590,14 +590,14 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/ui_componen/ic_baseline-search.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Search"/>
+            <Property name="text" type="java.lang.String" value="Cari"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SearchB1ActionPerformed"/>
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="240" y="90" width="-1" height="20"/>
+              <AbsoluteConstraints x="250" y="90" width="-1" height="20"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -684,7 +684,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Delete"/>
+            <Property name="text" type="java.lang.String" value="Hapus"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Delete2ActionPerformed"/>
@@ -711,7 +711,7 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="2">
-                    <Column editable="true" title="No" type="java.lang.Object"/>
+                    <Column editable="true" title="Id Absensi" type="java.lang.Object"/>
                     <Column editable="true" title="Jam Masuk" type="java.lang.Object"/>
                     <Column editable="true" title="Nama Pegawai" type="java.lang.Object"/>
                     <Column editable="true" title="Status" type="java.lang.Object"/>
@@ -757,14 +757,14 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/ui_componen/ic_baseline-search.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Search"/>
+            <Property name="text" type="java.lang.String" value="Cari"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SearchB2ActionPerformed"/>
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="240" y="90" width="-1" height="20"/>
+              <AbsoluteConstraints x="250" y="90" width="-1" height="20"/>
             </Constraint>
           </Constraints>
         </Component>
