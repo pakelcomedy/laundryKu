@@ -1046,8 +1046,6 @@ public static void main(String args[]) {
                     if (status == 2) {
                         statusText = "DIAMBIL";
                     } else if (status == 3) {
-                        statusText = "Selesai";
-                    } else if (status == 0) {
                         statusText = "Baru";
                     } else if (status == 1) {
                         statusText = "Proses"; // Assuming 1 corresponds to "Proses"
@@ -1106,8 +1104,6 @@ public static void main(String args[]) {
                     if (status == 2) {
                         statusText = "DIAMBIL";
                     } else if (status == 3) {
-                        statusText = "Selesai";
-                    } else if (status == 0) {
                         statusText = "Baru";
                     } else if (status == 1) {
                         statusText = "Proses"; // Assuming 1 corresponds to "Proses"

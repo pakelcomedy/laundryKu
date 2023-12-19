@@ -8,9 +8,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -1105,7 +1107,6 @@ public class panelTransaksi extends javax.swing.JPanel {
         table.setGridColor(new java.awt.Color(102, 102, 102));
         table.setName(""); // NOI18N
         table.setRowHeight(40);
-        table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         table.setSurrendersFocusOnKeystroke(true);
         table.addHierarchyBoundsListener(new java.awt.event.HierarchyBoundsListener() {
             public void ancestorMoved(java.awt.event.HierarchyEvent evt) {
@@ -1377,9 +1378,7 @@ public class panelTransaksi extends javax.swing.JPanel {
                 int status = res.getInt("transaksi.status_laundry");
                 String statusText;
                
-                if (status == 0) {
-                        statusText = "baru";
-                    } else if (status == 1) {
+                if (status == 1) {
                         statusText = "prosses";
                     } else if (status == 2) {
                         statusText = "Penjadwalan";
@@ -1554,9 +1553,7 @@ public class panelTransaksi extends javax.swing.JPanel {
                     int status = res.getInt("transaksi.status_laundry");
                     String statusText;
 
-                    if (status == 0) {
-                        statusText = "baru";
-                    } else if (status == 1) {
+                    if (status >= 1) {
                         statusText = "prosses";
                     } else if (status == 2) {
                         statusText = "Penjadwalan";
@@ -1584,75 +1581,58 @@ public class panelTransaksi extends javax.swing.JPanel {
     }    
     
     public static void changeStatus() {
-        tambahHari();
-//        updateStatusProsess();
+        // Create a scheduled executor with a single thread
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
+        // Schedule the task to run every 1 hour
+        scheduler.scheduleAtFixedRate(panelTransaksi::tambahHari, 0, 1, TimeUnit.HOURS);
         updateStatusJadwalan();
         updateStatusLewat();
     }
   
-    private static LocalDate lastExecutionDate = null;
-
     public static void tambahHari() {
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-
-    // Schedule the task to run once per day
-        scheduler.scheduleAtFixedRate(() -> {
             try {
-                // Check if the task has already run today
-                if (lastExecutionDate != null && lastExecutionDate.equals(LocalDate.now())) {
-                    System.out.println("Task already executed today at: " + LocalTime.now());
-                    return; // Exit if the task has already run today
+            // Check if the task has already run today
+            // Add your logic to check if the task has already run today
+
+            String sql = "SELECT tgl_transaksi FROM transaksi";
+            Connection conn = koneksi.configDB();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Timestamp tgl_transaksi = rs.getTimestamp("tgl_transaksi");
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(tgl_transaksi);
+
+                // Check if the hour is 24
+                if (cal.get(Calendar.HOUR_OF_DAY) == 24) {
+                    // Set hour to 0 and add 1 day
+                    cal.set(Calendar.HOUR_OF_DAY, 0);
+                    cal.add(Calendar.DAY_OF_MONTH, 1);
+                } else {
+                    // Increment the hour by 1
+                    cal.add(Calendar.HOUR_OF_DAY, 1);
                 }
-                
-                String sql = "UPDATE transaksi SET tgl_transaksi = DATE_ADD(tgl_transaksi, INTERVAL 1 DAY)";
-                Connection conn = koneksi.configDB();
-                PreparedStatement pst = conn.prepareStatement(sql);
 
-                pst.executeUpdate();
-                updateStatusProsess();
-
-                // Update the last execution date
-                lastExecutionDate = LocalDate.now();
-            } catch (Exception e) {
-                System.out.println("Failed to update data: " + e.getMessage());
+                // Update the tgl_transaksi in the database
+                String updateSql = "UPDATE transaksi SET tgl_transaksi = ?";
+                PreparedStatement updatePst = conn.prepareStatement(updateSql);
+                updatePst.setTimestamp(1, new Timestamp(cal.getTimeInMillis()));
+                updatePst.executeUpdate();
             }
-        }, 0, 1, TimeUnit.DAYS); // Change TimeUnit to MINUTES
-    }
 
-    private static long calculateInitialDelay() {
-        LocalTime now = LocalTime.now();
-        LocalTime midnight = LocalTime.of(0, 0);
+            // Update the last execution date
+            // Add your logic to update the last execution date
 
-        // Calculate the minutes until the next midnight
-        long minutesUntilMidnight;
-        if (now.isAfter(midnight)) {
-            minutesUntilMidnight = (midnight.until(now, ChronoUnit.MINUTES) + 24 * 60) % (24 * 60);
-        } else {
-            minutesUntilMidnight = midnight.until(now, ChronoUnit.MINUTES);
+        } catch (Exception e) {
+            System.out.println("Failed to update data: " + e.getMessage());
         }
-
-        return minutesUntilMidnight;
-    }
-
-    private static void updateStatusProsess() {
-        
-                    try {                   
-                        String sql = "UPDATE transaksi SET status_laundry = 1";
-                        java.sql.Connection conn = (Connection) koneksi.configDB();
-                        PreparedStatement pst = conn.prepareStatement(sql);
-
-                        // Assuming currentDate is a java.sql.Date or java.util.Date object
-                        pst.executeUpdate();        
-                   } catch(Exception e) {
-//                        JOptionPane.showMessageDialog(this, "gagal set tanggal baru" + e.getMessage());
-                       System.out.println("e: "+e);
-                   }
     }
     
-     private static void updateStatusJadwalan() {
-        
+    private static void updateStatusJadwalan() {
                     try {                   
-                        String sql = "UPDATE transaksi SET status_laundry = 2 where tgl_transaksi = batas_waktu";
+                        String sql = "UPDATE transaksi SET status_laundry = 2 WHERE DATE_FORMAT(tgl_transaksi, '%Y-%m-%d %H') = DATE_FORMAT(batas_waktu, '%Y-%m-%d %H')";
                         java.sql.Connection conn = (Connection) koneksi.configDB();
                         PreparedStatement pst = conn.prepareStatement(sql);
 
@@ -1664,8 +1644,7 @@ public class panelTransaksi extends javax.swing.JPanel {
                    }
     }
      
-     private static void updateStatusLewat() {
-        
+    private static void updateStatusLewat() {
                     try {                   
                         String sql = "UPDATE transaksi SET status_laundry = 4 where tgl_transaksi > batas_waktu";
                         java.sql.Connection conn = (Connection) koneksi.configDB();
@@ -1679,8 +1658,7 @@ public class panelTransaksi extends javax.swing.JPanel {
                    }
     }
      
-     
-      private void edit() {
+    private void edit() {
         SwingUtilities.invokeLater(() -> {
            int selectedRow = table.getSelectedRow();
 
@@ -1693,8 +1671,6 @@ public class panelTransaksi extends javax.swing.JPanel {
                idEdit = Integer.parseInt((String) table.getValueAt(selectedRow, table.getColumn("NO").getModelIndex()));
            }
 
-//           System.out.println("idEdit: " + idEdit);
-           
            if (idEdit != 0) {
             formTransaksi panel = new formTransaksi(idEdit);
             panel.setVisible(true);

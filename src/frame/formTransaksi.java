@@ -8,7 +8,6 @@ import com.mysql.cj.protocol.Resultset;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.security.Timestamp;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -17,12 +16,20 @@ import javax.swing.table.DefaultTableModel;
 import koneksi.koneksi;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.IntStream;
 import static koneksi.koneksi.configDB;
 
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -53,7 +60,7 @@ public class formTransaksi extends javax.swing.JFrame {
         System.out.println("idEdit: "+idEdit);
         
         populateProdukSelectBox();
-//        populatedCmbMember();        
+        populatedCmbMember();        
         
         // set not edible
         cmb_member.setEditable(false);
@@ -63,6 +70,8 @@ public class formTransaksi extends javax.swing.JFrame {
         txt_pelanggan.setBackground(new Color(224, 218, 218));
         txt_hp.setBackground(new Color(224, 218, 218));
         cmb_member.setBackground(new Color(224, 218, 218));
+        txt_hari.setEditable(false);
+        txt_jam.setEditable(false);
         
         jLabel11.setText("Edit Transaksi");
     }
@@ -82,6 +91,9 @@ public class formTransaksi extends javax.swing.JFrame {
         txt_harga.setEditable(false);
         cmb_jenis.setEditable(false);
         
+        txt_hari.setEditable(false);
+        txt_jam.setEditable(false);
+        
         jLabel11.setText("Tambah Transaksi");
         
         populateProdukSelectBox();
@@ -100,7 +112,7 @@ public class formTransaksi extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -125,18 +137,18 @@ public class formTransaksi extends javax.swing.JFrame {
         btn_kembali = new javax.swing.JButton();
         btn_simpan = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
-        cmb_statusLaundry = new javax.swing.JComboBox<String>();
+        cmb_statusLaundry = new javax.swing.JComboBox<>();
         jLabel24 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        cmb_tunai = new javax.swing.JComboBox<String>();
+        cmb_tunai = new javax.swing.JComboBox<>();
         txt_pelanggan = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
-        cmb_statusPembayaran = new javax.swing.JComboBox<String>();
+        cmb_statusPembayaran = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_alamat = new javax.swing.JTextArea();
-        cmb_produk = new javax.swing.JComboBox<String>();
-        cmb_jenis = new javax.swing.JComboBox<String>();
+        cmb_produk = new javax.swing.JComboBox<>();
+        cmb_jenis = new javax.swing.JComboBox<>();
         txt_jumlah = new javax.swing.JTextField();
         txt_harga = new javax.swing.JTextField();
         txt_diskon = new javax.swing.JTextField();
@@ -153,8 +165,7 @@ public class formTransaksi extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txt_batasWaktu = new javax.swing.JSpinner();
-        cmb_member = new javax.swing.JComboBox<String>();
+        cmb_member = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
@@ -165,8 +176,12 @@ public class formTransaksi extends javax.swing.JFrame {
         ck_pengiriman = new javax.swing.JRadioButton();
         jLabel18 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        txt_jam = new javax.swing.JTextField();
+        txt_hari = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -295,7 +310,7 @@ public class formTransaksi extends javax.swing.JFrame {
 
         cmb_statusLaundry.setBackground(new java.awt.Color(224, 218, 218));
         cmb_statusLaundry.setMaximumRowCount(0);
-        cmb_statusLaundry.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Baru", "Prosses", "Penjadawalan", "Selesai", "Sudah Lewat", " " }));
+        cmb_statusLaundry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Baru", "Prosses", "Penjadawalan", "Selesai", "Sudah Lewat", " " }));
         cmb_statusLaundry.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_statusLaundryActionPerformed(evt);
@@ -310,7 +325,7 @@ public class formTransaksi extends javax.swing.JFrame {
 
         cmb_tunai.setBackground(new java.awt.Color(224, 218, 218));
         cmb_tunai.setMaximumRowCount(0);
-        cmb_tunai.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tunai", "Non Tunai" }));
+        cmb_tunai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tunai", "Non Tunai" }));
         cmb_tunai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_tunaiActionPerformed(evt);
@@ -332,7 +347,7 @@ public class formTransaksi extends javax.swing.JFrame {
 
         cmb_statusPembayaran.setBackground(new java.awt.Color(224, 218, 218));
         cmb_statusPembayaran.setMaximumRowCount(0);
-        cmb_statusPembayaran.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sudah Dibayar", "Belum Dibayar", " " }));
+        cmb_statusPembayaran.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sudah Dibayar", "Belum Dibayar", " " }));
         cmb_statusPembayaran.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_statusPembayaranActionPerformed(evt);
@@ -344,7 +359,7 @@ public class formTransaksi extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txt_alamat);
 
         cmb_produk.setBackground(new java.awt.Color(224, 218, 218));
-        cmb_produk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- pilih produk --" }));
+        cmb_produk.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- pilih produk --" }));
         cmb_produk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_produkActionPerformed(evt);
@@ -514,13 +529,11 @@ public class formTransaksi extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jLabel4.setText("Batas waktu");
-
-        txt_batasWaktu.setModel(new javax.swing.SpinnerDateModel());
+        jLabel4.setText("Waktu laundry");
 
         cmb_member.setBackground(new java.awt.Color(224, 218, 218));
         cmb_member.setMaximumRowCount(0);
-        cmb_member.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Pilih Member --" }));
+        cmb_member.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Pilih Member --" }));
         cmb_member.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_memberActionPerformed(evt);
@@ -538,7 +551,7 @@ public class formTransaksi extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(170, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addGap(150, 150, 150))
         );
@@ -607,6 +620,28 @@ public class formTransaksi extends javax.swing.JFrame {
             }
         });
 
+        txt_jam.setBackground(new java.awt.Color(224, 218, 218));
+        txt_jam.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_jam.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102), 2));
+        txt_jam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_jamActionPerformed(evt);
+            }
+        });
+
+        txt_hari.setBackground(new java.awt.Color(224, 218, 218));
+        txt_hari.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_hari.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102), 2));
+        txt_hari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_hariActionPerformed(evt);
+            }
+        });
+
+        jLabel21.setText("Hari");
+
+        jLabel25.setText("Jam");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -657,51 +692,65 @@ public class formTransaksi extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cmb_member, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_pelanggan, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 124, Short.MAX_VALUE)
+                .addGap(128, 128, 128)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel32)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel30)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGap(34, 34, 34)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txt_biaya_tambahan2)
-                                .addComponent(txt_grandTotal)
-                                .addComponent(txt_diskon2)
-                                .addComponent(txt_totalPembayaran, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(txt_kembalian, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(txt_pembayaran, javax.swing.GroupLayout.Alignment.TRAILING)))
-                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel23)
-                                .addComponent(jLabel24)
-                                .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel31)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel18))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(ck_pengiriman)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(cmb_statusLaundry, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane1)
-                                    .addComponent(cmb_statusPembayaran, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cmb_tunai, javax.swing.GroupLayout.Alignment.LEADING, 0, 292, Short.MAX_VALUE)
-                                    .addComponent(txt_batasWaktu)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(btn_kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btn_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
-                .addGap(20, 20, 20))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel23)
+                            .addComponent(jLabel24)
+                            .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel31)
+                            .addComponent(jLabel18))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_kembali, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(cmb_statusLaundry, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cmb_statusPembayaran, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cmb_tunai, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(txt_hari, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel21)
+                                                .addGap(26, 26, 26)
+                                                .addComponent(txt_jam, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel25))
+                                            .addComponent(ck_pengiriman))
+                                        .addGap(0, 0, Short.MAX_VALUE))))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel30)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_biaya_tambahan2)
+                            .addComponent(txt_grandTotal)
+                            .addComponent(txt_diskon2)
+                            .addComponent(txt_totalPembayaran, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txt_pembayaran, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txt_kembalian)))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel32)
+                            .addComponent(jLabel4))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
@@ -755,13 +804,14 @@ public class formTransaksi extends javax.swing.JFrame {
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_totalHarga, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(12, 12, 12)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btn_tambahTable)
-                            .addComponent(btn_delete_detail)
-                            .addComponent(jButton1))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_delete_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btn_tambahTable)
+                                .addComponent(jButton1)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(12, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -803,11 +853,14 @@ public class formTransaksi extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cmb_statusLaundry, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel24, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_batasWaktu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txt_jam, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(txt_hari, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                            .addComponent(jLabel21)
+                            .addComponent(jLabel25))
+                        .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ck_pengiriman)
                             .addComponent(jLabel18))
@@ -819,8 +872,7 @@ public class formTransaksi extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_simpan)
                             .addComponent(btn_kembali)
-                            .addComponent(jButton2))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jButton2)))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -970,7 +1022,13 @@ private int retrieveProdukId(String namaProduk) {
         // TODO add your handling code here:
         String selectedProduct = cmb_produk.getSelectedItem().toString();
 
-        populateJenisComboBox(selectedProduct);
+        populateJenisComboBox(selectedProduct); 
+//        populateBatasWaktu(selectedProduct);
+
+        txt_jumlah.setText(null);
+        txt_diskon.setText(null);
+        txt_biaya_tambahan.setText(null);
+        txt_totalHarga.setText(null);
     }//GEN-LAST:event_cmb_produkActionPerformed
 
     private void cmb_jenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_jenisActionPerformed
@@ -1056,8 +1114,8 @@ private int retrieveProdukId(String namaProduk) {
                     System.out.println("running delete transaksi");
                     
                     // Get the value of the "NO" column from the selected row
-                    int no_transaksi = Integer.parseInt(modelTable.getValueAt(selectedRow, modelTable.getColumn("no").getModelIndex()).toString());
-                    System.out.println("no_transaksi to be deleted: " + no_transaksi);
+                    int no_detail_transaksi = Integer.parseInt(modelTable.getValueAt(selectedRow, modelTable.getColumn("no").getModelIndex()).toString());
+                    System.out.println("no_detail_transaksi to be deleted: " + no_detail_transaksi);
                     System.out.println("idEdit to be deleted: " + idEdit);
 
                     // Display a confirmation dialog
@@ -1070,7 +1128,7 @@ private int retrieveProdukId(String namaProduk) {
 
                         // Set the values for the placeholders in the SQL query
                         pstdeleteDetailSql.setInt(1, idEdit);
-                        pstdeleteDetailSql.setInt(2, no_transaksi);
+                        pstdeleteDetailSql.setInt(2, no_detail_transaksi);
 
                         // Execute the SQL query
                         int rowsAffected = pstdeleteDetailSql.executeUpdate();
@@ -1078,28 +1136,42 @@ private int retrieveProdukId(String namaProduk) {
                         if (rowsAffected > 0) {
                             System.out.println("Row deleted successfully");
                             deleteSelectedRow();
+                            tableModel.fireTableDataChanged();
                         } else {
                             System.out.println("No rows deleted");
                         }
                     } else {
-                        System.out.println("Deletion canceled by user");
+                        System.out.println("Membatalkan menghapus");
                     }
-
+                    
+                   
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Error deleting row from database: " + e.getMessage());
+                    JOptionPane.showMessageDialog(null, "gagal menghapus");
+//                    JOptionPane.showMessageDialog(null, "Error deleting row from database: " + e.getMessage());
                 }
+                
             } else {
                 JOptionPane.showMessageDialog(null, "Tolong pilih barisan di table yang ingin dihapus.");
             }
+            
         } else {
             // If idEdit is 0, call deleteSelectedRow() directly
             deleteSelectedRow();
         }
+        populateBatasWaktuAfter((DefaultTableModel) modelTable.getModel());
     }//GEN-LAST:event_btn_delete_detailActionPerformed
 
+
+
+    
+    
     private void btn_tambahTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_tambahTableActionPerformed
         // TODO add your handling code here:
         addToTable();
+        
+        String selectedProduct = cmb_produk.getSelectedItem().toString();
+
+        populateBatasWaktu(selectedProduct);
     }//GEN-LAST:event_btn_tambahTableActionPerformed
 
     private void cmb_memberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_memberActionPerformed
@@ -1147,6 +1219,14 @@ private int retrieveProdukId(String namaProduk) {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void txt_jamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_jamActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_jamActionPerformed
+
+    private void txt_hariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_hariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_hariActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1172,6 +1252,14 @@ private int retrieveProdukId(String namaProduk) {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(formTransaksi.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -1217,28 +1305,32 @@ private int retrieveProdukId(String namaProduk) {
                 //  get ID pelanggan
                 java.sql.Statement state = conn.createStatement();
 
-                LocalDate localDate = LocalDate.now();
+                LocalDateTime localDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
+                java.sql.Timestamp sqlTimestamp = java.sql.Timestamp.valueOf(localDateTime);
+                 
+                LocalDateTime myDateTime = LocalDateTime.now();
+                int hari = Integer.parseInt(txt_hari.getText());
+                int jam = Integer.parseInt(txt_jam.getText());
 
-                // Convert to java.sql.Date
-                java.sql.Date sqlDate = java.sql.Date.valueOf(localDate);
+                myDateTime = myDateTime.plusDays(hari).plusHours(jam);
 
-                Date utilDate1 = (Date) txt_batasWaktu.getValue();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                String formattedDateTime = myDateTime.format(formatter);
 
-                // To get the date only from utilDate1, you can use the following line of code:
+                // Parse the formattedDateTime back to LocalDateTime
+                LocalDateTime parsedDateTime = LocalDateTime.parse(formattedDateTime, formatter);
 
-                String dateOnly = new SimpleDateFormat("yyyy-MM-dd").format(utilDate1);
+                // Convert LocalDateTime to Timestamp
+                Timestamp timestamp = Timestamp.valueOf(parsedDateTime);
 
-                // If you want to convert this string back to a java.sql.Date object, you can use the following line of code:
-
-                java.sql.Date sqlDate1 = java.sql.Date.valueOf(dateOnly);
-
+                
                 // pembayaran & kembalian
                 int pembayaraan = Integer.parseInt(txt_pembayaran.getText().trim());
                 int totalPembayaraan = Integer.parseInt(txt_totalPembayaran.getText().trim());
 
                 int kembaliaan = pembayaraan - totalPembayaraan ;
-                int defaultStatusLaundry = 0;
-
+                int defaultStatusLaundry = 1;                
+                
         //        System.out.println("pembayaran: "+pembayaran);
         //        System.out.println("kembalian: "+kembaliaan);
 
@@ -1259,22 +1351,6 @@ private int retrieveProdukId(String namaProduk) {
 
                 res = state.executeQuery(getUID);
 
-                int selectedIndex = cmb_statusLaundry.getSelectedIndex();
-                        int statusLaundry;
-                        if (selectedIndex == 0) {
-                            statusLaundry = 0;
-                        } else if (selectedIndex == 1) {
-                            statusLaundry = 1;
-                        } else if (selectedIndex == 2) {
-                            statusLaundry = 2;
-                        } else if (selectedIndex == 3) {
-                            statusLaundry = 3;
-                        } else if (selectedIndex == 4) {
-                            statusLaundry = 5;
-                        } else {
-                            statusLaundry = 5;
-                        }
-
                 try {
                     if(res.next()){               
                         System.out.println("res running");
@@ -1292,40 +1368,56 @@ private int retrieveProdukId(String namaProduk) {
                         String sql1;
                         if (idEdit != 0) {
                             // update
-                            sql1 = "UPDATE transaksi SET tgl_transaksi=?, id_pelanggan=?, id_pegawai=?, dibayar_secara=?, status_laundry=?, status_pembayaran=?, grandTotal=?, biayaTambahan=?, diskon=?, totalPembayaran=?, pembayaran=?, kembalian=?,statusPengiriman=?, tanggal_masuk=?, batas_waktu=?, alamat_pengiriman=? WHERE no_transaksi=?";
+                            sql1 = "UPDATE transaksi SET tgl_transaksi=?, id_pelanggan=?, id_pegawai=?, dibayar_secara=?, \n" +
+                                    "status_pembayaran=?, grandTotal=?, biayaTambahan=?, diskon=?, totalPembayaran=?, \n" +
+                                    "pembayaran=?, kembalian=?,statusPengiriman=?, tanggal_masuk=?, batas_waktu=?, \n" +
+                                    "alamat_pengiriman=? WHERE no_transaksi=?";
                         } else {
                             // Insert
                             sql1 = "INSERT INTO transaksi (tgl_transaksi, id_pelanggan, id_pegawai, dibayar_secara, status_laundry, status_pembayaran, grandTotal, biayaTambahan, diskon, totalPembayaran, pembayaran, kembalian, statusPengiriman, tanggal_masuk, batas_waktu, alamat_pengiriman) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         }
 
                         PreparedStatement pst1 = conn.prepareStatement(sql1);
-                        pst1.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+                        pst1.setTimestamp(1, sqlTimestamp);
                         pst1.setInt(2, idPelanggan);  // id_pelanggan
                         pst1.setString(3, String.valueOf(Login.userId));  // value for id_pegawai
                         pst1.setString(4, String.valueOf(cmb_tunai.getSelectedItem()));  //  dibayar_secara
 
                         if (idEdit != 0) { //status laundry
-                           pst1.setInt(5, statusLaundry);
+//                          pst1.setInt(5, 0);
+                            pst1.setString(5, String.valueOf(cmb_statusPembayaran.getSelectedItem()));   // status_pembayaran
+                            pst1.setInt(6, TotalGrandTotal);
+                            pst1.setInt(7, TotalBiayaTambahan);
+                            pst1.setInt(8, diskon);
+                            pst1.setInt(9, TotalPembayaran);
+                            pst1.setInt(10, pembayaraan); // bayaran
+                //            pst1.setInt(12, Integer.parseInt(txt_kembalian.getText().trim())); // kembalian
+                            pst1.setInt(11, kembaliaan); // kembalian
+                            pst1.setInt(12,statusPengiriman);
+                            pst1.setTimestamp(13, sqlTimestamp);  //  tanggal_masuk
+                            pst1.setTimestamp(14, timestamp);  //  batas_waktu
+                            pst1.setString(15, String.valueOf(txt_alamat.getText()));  // alamat_pengiriman
+                            pst1.setInt(16, idEdit);
                         } else {
-                            pst1.setInt(5, statusLaundry);
+                            pst1.setInt(5, 1);
+                            
+                            pst1.setString(6, String.valueOf(cmb_statusPembayaran.getSelectedItem()));   // status_pembayaran
+                            pst1.setInt(7, TotalGrandTotal);
+                            pst1.setInt(8, TotalBiayaTambahan);
+                            pst1.setInt(9, diskon);
+                            pst1.setInt(10, TotalPembayaran);
+                            pst1.setInt(11, pembayaraan); // bayaran
+                //            pst1.setInt(12, Integer.parseInt(txt_kembalian.getText().trim())); // kembalian
+                            pst1.setInt(12, kembaliaan); // kembalian
+                            pst1.setInt(13,statusPengiriman);
+                            pst1.setTimestamp(14, sqlTimestamp);  //  tanggal_masuk
+                            pst1.setTimestamp(15, timestamp);  //  batas_waktu
+                            pst1.setString(16, String.valueOf(txt_alamat.getText()));  // alamat_pengiriman
                         }
 
-                        pst1.setString(6, String.valueOf(cmb_statusPembayaran.getSelectedItem()));   // status_pembayaran
-                        pst1.setInt(7, TotalGrandTotal);
-                        pst1.setInt(8, TotalBiayaTambahan);
-                        pst1.setInt(9, diskon);
-                        pst1.setInt(10, TotalPembayaran);
-                        pst1.setInt(11, pembayaraan); // bayaran
-            //            pst1.setInt(12, Integer.parseInt(txt_kembalian.getText().trim())); // kembalian
-                        pst1.setInt(12, kembaliaan); // kembalian
-                        pst1.setInt(13,statusPengiriman);
-                        pst1.setDate(14, sqlDate);  //  tanggal_masuk
-                        pst1.setDate(15, sqlDate1);  //  batas_waktu
-                        pst1.setString(16, String.valueOf(txt_alamat.getText()));  // alamat_pengiriman
-
-                        if (idEdit != 0) {
-                            pst1.setInt(17, idEdit);
-                        }
+//                        if (idEdit != 0) {
+//                            pst1.setInt(17, idEdit);
+//                        }
 
                         pst1.executeUpdate();
 
@@ -1384,38 +1476,59 @@ private int retrieveProdukId(String namaProduk) {
 
                                         resultSet.next();
                                         int rowCount = resultSet.getInt(1);
+                                        
+                                        if (idEdit != 0) {
+                                            if (modelTable.getRowCount() > 0) {
+                                                if (rowCount > 0) {
+                                                    // detailId already exists, update the existing row
+                                                    String updateQuery = "UPDATE detail_transaksi SET id_produk = ?, jumlah = ?, harga = ?, biayaTambahan = ?, diskon = ?, totalHarga = ? " +
+                                                                         "WHERE detailId = ?";
+                                                    PreparedStatement updatePst = conn.prepareStatement(updateQuery);
 
-                                    if (rowCount > 0) {
-                                        // detailId already exists, update the existing row
-                                        String updateQuery = "UPDATE detail_transaksi SET id_produk = ?, jumlah = ?, harga = ?, biayaTambahan = ?, diskon = ?, totalHarga = ? " +
-                                                             "WHERE detailId = ?";
-                                        PreparedStatement updatePst = conn.prepareStatement(updateQuery);
+                                                    updatePst.setInt(1, id_produk); 
+                                                    updatePst.setInt(2, jumlah);
+                                                    updatePst.setInt(3, harga);
+                                                    updatePst.setInt(4, biayaTambahan);
+                                                    updatePst.setInt(5, diskon);
+                                                    updatePst.setInt(6, totalHarga);
+                                                    updatePst.setInt(7, detailId);
 
-                                        updatePst.setInt(1, id_produk); 
-                                        updatePst.setInt(2, jumlah);
-                                        updatePst.setInt(3, harga);
-                                        updatePst.setInt(4, biayaTambahan);
-                                        updatePst.setInt(5, diskon);
-                                        updatePst.setInt(6, totalHarga);
-                                        updatePst.setInt(7, detailId);
+                                                    updatePst.executeUpdate();
+                                                } else {
+                                                    String sqlQuery = "INSERT INTO detail_transaksi (no_transaksi, detailId, id_produk, jumlah, harga, biayaTambahan, diskon, totalHarga) " +
+                                                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-                                        updatePst.executeUpdate();
-                                    } else {
-                                        String sqlQuery = "INSERT INTO detail_transaksi (no_transaksi, detailId, id_produk, jumlah, harga, biayaTambahan, diskon, totalHarga) " +
-                                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                                                    PreparedStatement pst3 = conn.prepareStatement(sqlQuery);
 
-                                        PreparedStatement pst3 = conn.prepareStatement(sqlQuery);
+                                                    pst3.setString(1, idT);  
+                                                    pst3.setInt(2, detailId);  
+                                                    pst3.setInt(3, id_produk); 
+                                                    pst3.setInt(4, jumlah);
+                                                    pst3.setInt(5, harga);
+                                                    pst3.setInt(6, biayaTambahan);
+                                                    pst3.setInt(7, diskon);
+                                                    pst3.setInt(8, totalHarga);
+                                                    pst3.executeUpdate();
+                                                }
+                                            } else {
+                                                System.out.println("Selected row has an empty 'NO' value.");
+                                            }
+                                        } else {
+                                            String sqlQuery = "INSERT INTO detail_transaksi (no_transaksi, detailId, id_produk, jumlah, harga, biayaTambahan, diskon, totalHarga) " +
+                                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-                                        pst3.setString(1, idT);  
-                                        pst3.setInt(2, detailId);  
-                                        pst3.setInt(3, id_produk); 
-                                        pst3.setInt(4, jumlah);
-                                        pst3.setInt(5, harga);
-                                        pst3.setInt(6, biayaTambahan);
-                                        pst3.setInt(7, diskon);
-                                        pst3.setInt(8, totalHarga);
-                                        pst3.executeUpdate();
-                                    }
+                                                PreparedStatement pst3 = conn.prepareStatement(sqlQuery);
+
+                                                pst3.setString(1, idT);  
+                                                pst3.setInt(2, detailId);  
+                                                pst3.setInt(3, id_produk); 
+                                                pst3.setInt(4, jumlah);
+                                                pst3.setInt(5, harga);
+                                                pst3.setInt(6, biayaTambahan);
+                                                pst3.setInt(7, diskon);
+                                                pst3.setInt(8, totalHarga);
+                                                pst3.executeUpdate();
+                                        }
 
                                     System.out.println("idT: "+getUIDT);
                                     System.out.println("id_produk: " +id_produk);
@@ -1477,11 +1590,11 @@ private int retrieveProdukId(String namaProduk) {
                         JOptionPane.showMessageDialog(null, "Penyimpanan Data Transaksi Berhasil");
                     }  
                 } catch (Exception e ) {
-                    JOptionPane.showMessageDialog(this, e.getMessage());
+                    JOptionPane.showMessageDialog(null, "Data transaksi tidak dapat disimpan, periksa lagi detail masukan data untuk menemukan penyebabnya.");
                     System.out.println("e: "+e);
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, e.getMessage());
+                JOptionPane.showMessageDialog(null, "Data transaksi tidak dapat disimpan, periksa lagi detail masukan data untuk menemukan penyebabnya.");
                 System.out.println("e: "+e);
             }
     }
@@ -1519,6 +1632,11 @@ private int retrieveProdukId(String namaProduk) {
         try {
             int detailId = modelTable.getRowCount() + 1;
             String namaProduk = cmb_produk.getSelectedItem().toString();
+            
+            if (isProductAlreadyAdded(namaProduk)) {
+                JOptionPane.showMessageDialog(null, "Produk dengan nama yang sama sudah ada di tabel.");
+                return;
+            }
             String jenisProduk = cmb_jenis.getSelectedItem().toString();
             jumlahProduk = Integer.parseInt(txt_jumlah.getText());
 
@@ -1608,8 +1726,22 @@ private int retrieveProdukId(String namaProduk) {
             e.printStackTrace();
 
             // Show a dialog with a specific error message
-            JOptionPane.showMessageDialog(null, "Invalid input. Please enter valid numeric values.");
+            JOptionPane.showMessageDialog(null, "Masukan tidak valid. Silakan masukkan nilai numerik yang valid.");
         }   
+    }
+    
+    private boolean isProductAlreadyAdded(String productName) {
+    DefaultTableModel tableModel = (DefaultTableModel) modelTable.getModel();
+    int rowCount = tableModel.getRowCount();
+
+    for (int i = 0; i < rowCount; i++) {
+        String existingProductName = tableModel.getValueAt(i, 1).toString(); // Assuming the product name is in the second column
+        if (productName.equals(existingProductName)) {
+            return true; // Produk sudah ada di tabel
+        }
+    }
+
+        return false; // Produk belum ada di tabel
     }
      
 //    private void addToDatabase(String idTrans) {
@@ -1684,7 +1816,10 @@ private int retrieveProdukId(String namaProduk) {
         DefaultTableModel tableModel = (DefaultTableModel) modelTable.getModel();
 
         if (selectedRow != -1 && selectedRow < tableModel.getRowCount()) {
-            
+            if (selectedRow != -1 && selectedRow < data.size()) {
+                System.out.println("removing data detail transaksi");
+                data.remove(selectedRow);
+            }
             // Retrieve values from the removed row
             int dkgrand = Integer.parseInt(modelTable.getValueAt(selectedRow, modelTable.getColumn("Total Harga").getModelIndex()).toString());
             int djumlah = Integer.parseInt(modelTable.getValueAt(selectedRow, modelTable.getColumn("Jumlah").getModelIndex()).toString());
@@ -1857,8 +1992,8 @@ private int retrieveProdukId(String namaProduk) {
 
 
    private void populateJenisComboBox(String selectedProduct) {
-    try {
-        ProdukInfo selectedProdukInfo = produkMap.get(selectedProduct);
+        try {
+            ProdukInfo selectedProdukInfo = produkMap.get(selectedProduct);
 
         if (selectedProdukInfo != null) {
             String sql = "SELECT jenis_produk, Harga_produk FROM produk WHERE id_produk = ?";
@@ -1889,13 +2024,149 @@ private int retrieveProdukId(String namaProduk) {
                 rs.close();
                 pst.close();
                 conn.close();
-                
-                
-               
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
+    }
+   
+    private boolean isFirstTime = true;
+   
+    private void populateBatasWaktu(String selectedProduct) {
+        try {
+            ProdukInfo selectedProdukInfo = produkMap.get(selectedProduct);
+
+            if (selectedProdukInfo != null) {
+                String sql = "SELECT hari, jam FROM produk WHERE id_produk = ?";
+                java.sql.Connection conn = (Connection) koneksi.configDB();
+                java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+
+                pst.setInt(1, selectedProdukInfo.getIdProduk());
+
+                java.sql.ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    LocalDateTime myDateTime = LocalDateTime.now();
+
+                    // Assuming hari and jam are retrieved from the database
+                    int hari = rs.getInt("hari");
+                    int jam = rs.getInt("jam");
+
+                    myDateTime = myDateTime.plusDays(hari).plusHours(jam);
+
+                    // Format LocalDateTime without milliseconds
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                    String formattedDateTime = myDateTime.format(formatter);
+
+                    Timestamp timeDate = Timestamp.valueOf(formattedDateTime);
+
+                    // Check if the retrieved values are greater than the current ones
+                    System.out.println("dateTime: "+timeDate);
+                    
+                    boolean cek = isFirstTime;
+                    
+                    if (txt_hari.getText().isEmpty()) {
+                        cek = true;
+                    } else {
+                        int inputHari = Integer.parseInt(txt_hari.getText());
+                        cek = (hari > inputHari) ? true : false;
+                    }
+                    
+                    if (cek) {
+                        txt_hari.setText(String.valueOf(hari));
+                        txt_jam.setText(String.valueOf(jam));
+                    } 
+                    
+                    cek = false;
+                }
+                rs.close();
+                pst.close();
+                conn.close();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+    
+    private void populateBatasWaktuAfter(DefaultTableModel tableModel) {
+        try {
+            System.out.println("populateBatasWaktuAfter running...");
+            String[] produkNames;
+            int[] hariJamValues;
+
+            // Retrieve all unique produk names from the DefaultTableModel
+            Set<String> uniqueProdukSet = new HashSet<>();
+            int rowCount = tableModel.getRowCount();
+
+            for (int i = 0; i < rowCount; i++) {
+                String produk = tableModel.getValueAt(i, tableModel.findColumn("Produk")).toString();
+                uniqueProdukSet.add(produk);
+            }
+
+            // Convert HashSet to array
+            produkNames = uniqueProdukSet.toArray(new String[0]);
+
+            // Check if data exists
+            if (produkNames.length > 0) {
+                // Retrieve hari and jam for each produk
+                ArrayList<Integer> hariJamList = new ArrayList<>();
+
+                for (String produk : produkNames) {
+                    // Adjusted SQL query to match your table structure
+                    String produkInfoSQL = "SELECT hari, jam FROM produk WHERE nama_produk = ?";
+                    java.sql.Connection conn = (Connection) koneksi.configDB();
+                    java.sql.PreparedStatement produkInfoStmt = conn.prepareStatement(produkInfoSQL);
+
+                    // Add a condition to check if produk is not null before setting the parameter
+                    if (!produk.isEmpty()) {
+                        produkInfoStmt.setString(1, produk);
+
+                        java.sql.ResultSet produkInfoRs = produkInfoStmt.executeQuery();
+
+                        while (produkInfoRs.next()) {
+                            hariJamList.add(produkInfoRs.getInt("hari"));
+                            hariJamList.add(produkInfoRs.getInt("jam"));
+                        }
+                    } else {
+                        // Handle the case where produk is null (optional)
+                        System.out.println("produk is null. Skipping database query.");
+                    }
+                }
+                System.out.println("produkNames: " + Arrays.toString(produkNames));
+
+                // Convert ArrayList to array
+                hariJamValues = hariJamList.stream().mapToInt(Integer::intValue).toArray();
+
+                // Find the maximum hari
+                int maxHari = IntStream.range(0, hariJamValues.length)
+                        .filter(i -> i % 2 == 0)
+                        .map(i -> hariJamValues[i])
+                        .max()
+                        .orElse(0);
+
+                // Set the maxHari value in txt_hari
+                txt_hari.setText(String.valueOf(maxHari));
+
+                // You can find the corresponding jam value if needed
+                int index = IntStream.range(0, hariJamValues.length)
+                        .filter(i -> i % 2 == 0 && hariJamValues[i] == maxHari)
+                        .findFirst()
+                        .orElse(-1);
+
+                if (index != -1) {
+                    int correspondingJam = hariJamValues[index + 1];
+                    // Use correspondingJam as needed
+                    txt_jam.setText(String.valueOf(correspondingJam));
+                }
+            } else {
+                // No data, set empty values
+                txt_hari.setText("");
+                txt_jam.setText("");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } 
     }
 
 
@@ -1948,7 +2219,8 @@ private int retrieveProdukId(String namaProduk) {
 
     private void populatedCmbMember() {
         try {
-            String sql = "SELECT id_member, nama, alamat, no_hp FROM `member` ";
+            System.out.println("running member...");
+            String sql = "SELECT id_member, nama, alamat, no_hp FROM `member`where statusMember = 0 ";
             java.sql.Connection conn = (Connection) koneksi.configDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 
@@ -2091,8 +2363,6 @@ private int retrieveProdukId(String namaProduk) {
                         if (rsTransaksi.next()) {
                             // Set the existing data in your combo boxes and other UI components
                             cmb_tunai.setSelectedItem(rsTransaksi.getString("dibayar_secara"));
-                             // perbaikan
-//                            cmb_statusLaundry.setSelectedItem(rsTransaksi.getString("status_laundry"));
                             
                             cmb_statusPembayaran.setSelectedItem(rsTransaksi.getString("status_pembayaran"));
                             // Set other UI components...
@@ -2108,7 +2378,12 @@ private int retrieveProdukId(String namaProduk) {
                             txt_pembayaran.setText(rsTransaksi.getString("pembayaran"));
                             txt_kembalian.setText(rsTransaksi.getString("kembalian"));
 //                            txt_tgl.setValue(rsTransaksi.getDate("tanggal_masuk"));
-                            txt_batasWaktu.setValue(rsTransaksi.getDate("batas_waktu"));
+
+//                            SimpleDateFormat dateFormat = new SimpleDateFormat("your_date_format_here");
+//                            String dateString = dateFormat.format(rsTransaksi.getDate("batas_waktu"));
+//                            txt_jam.setText(dateString);
+
+
                             txt_alamat.setText(rsTransaksi.getString("alamat_pengiriman"));
                             
                             int kembalian1 = TotalPembayaran + Pembayaran;
@@ -2125,38 +2400,6 @@ private int retrieveProdukId(String namaProduk) {
                         }
                     }
                 }
-
-//                // Fetch existing data from the detail_transaksi table
-//                String fetchDetailTransaksiQuery = "SELECT * FROM detail_transaksi WHERE no_transaksi=?";
-//                try (PreparedStatement pstFetchDetailTransaksi = conn.prepareStatement(fetchDetailTransaksiQuery)) {
-//                    pstFetchDetailTransaksi.setInt(1, idEdit);
-//                    try (ResultSet rsDetailTransaksi = pstFetchDetailTransaksi.executeQuery()) {
-//                        // Clear existing data in your data vector
-//                        data.clear();
-////                        List idProdukList = new ArrayList();
-//
-//                        while (rsDetailTransaksi.next()) {
-//                            // Populate your data vector with existing data
-////                            idProdukList.add(rsDetailTransaksi.getInt("id_produk"));
-//                            
-//                            // change of plane row first add detailTransaksi id row so when delete iddetail and idtransaksi
-//                            Vector<Object> row = new Vector<>();
-//                            rsDetailTransaksi.getInt("id_produk");
-//                            // Retrieve data from the result set and add it to the row vector
-//                            row.add(rsDetailTransaksi.getInt("detailId"));
-//                            row.add("ProductName"); // Replace with logic to retrieve product name based on id_produk
-//                            row.add("JenisProduk"); // Replace with logic to retrieve jenis produk based on id_produk
-//                            row.add(rsDetailTransaksi.getInt("jumlah"));
-//                            row.add(rsDetailTransaksi.getInt("harga"));
-//                            row.add(rsDetailTransaksi.getInt("biayaTambahan"));
-//                            row.add(rsDetailTransaksi.getInt("diskon"));
-//                            row.add(rsDetailTransaksi.getInt("totalHarga"));
-//                            // Add the row vector to your data vector
-//                            data.add(row);
-//                        }
-////                        dataMap.put("idProdukList", idProdukList);
-//                    }
-//                }
                     // Fetch existing data from the detail_transaksi table
                     String fetchDetailTransaksiQuery = "SELECT * FROM detail_transaksi WHERE no_transaksi=?";
                     try (PreparedStatement pstFetchDetailTransaksi = conn.prepareStatement(fetchDetailTransaksiQuery)) {
@@ -2193,33 +2436,13 @@ private int retrieveProdukId(String namaProduk) {
                                             data.add(row);
                                         }
                                     }
+                                   
                                 }
                             }
                         }
                     } catch (Exception e) {
                         e.printStackTrace(); // Handle SQLException appropriately
                     }
-
-                
-//                String fetchDetailTransaksiQuery = "SELECT id_produk FROM detail_transaksi WHERE no_transaksi=?";
-//                try (PreparedStatement pstFetchDetailTransaksi = conn.prepareStatement(fetchDetailTransaksiQuery)) {
-//                    pstFetchDetailTransaksi.setInt(1, idEdit);
-//                    try (ResultSet rsDetailTransaksi = pstFetchDetailTransaksi.executeQuery()) {
-//                        List<Integer> idProdukList = new ArrayList<>();
-//
-//                        while (rsDetailTransaksi.next()) {
-//                            // Add id_produk values to the list
-//                            idProdukList.add(rsDetailTransaksi.getInt("id_produk"));
-//                        }
-//
-//                        // Populate dataMap with necessary information for deletion
-//                        dataMap.put("idPelanggan", idPelanggan); // Assuming idPelanggan is a string
-//                        dataMap.put("noTransaksi", idEdit); // Assuming idEdit is the no_transaksi value
-//                        dataMap.put("idProdukList", idProdukList);
-//                    }
-//                }
-
-                // Update your UI components with the refreshed data
                 // For example, update your JTable if you are using one
                 DefaultTableModel tableModel = (DefaultTableModel) modelTable.getModel();
                 tableModel.setRowCount(0); // Clear existing data in the table
@@ -2234,6 +2457,7 @@ private int retrieveProdukId(String namaProduk) {
             } catch (Exception e) {
                 e.printStackTrace(); 
             }
+             populateBatasWaktuAfter((DefaultTableModel) modelTable.getModel());
         }
     }
     
@@ -2324,9 +2548,11 @@ private int retrieveProdukId(String namaProduk) {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
@@ -2349,14 +2575,15 @@ private int retrieveProdukId(String namaProduk) {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable modelTable;
     private javax.swing.JTextArea txt_alamat;
-    private javax.swing.JSpinner txt_batasWaktu;
     private javax.swing.JTextField txt_biaya_tambahan;
     private javax.swing.JTextField txt_biaya_tambahan2;
     private javax.swing.JTextField txt_diskon;
     private javax.swing.JTextField txt_diskon2;
     private javax.swing.JTextField txt_grandTotal;
     private javax.swing.JTextField txt_harga;
+    private javax.swing.JTextField txt_hari;
     private javax.swing.JTextField txt_hp;
+    private javax.swing.JTextField txt_jam;
     private javax.swing.JTextField txt_jumlah;
     private javax.swing.JTextField txt_kembalian;
     private javax.swing.JTextField txt_pelanggan;
