@@ -762,6 +762,8 @@ private void tampilkanDataBerdasarkanID(int idMember) {
 
     // Simpan ID member yang akan diupdate (digunakan pada aksi btn_simpanActionPerformed)
     t = Integer.toString(idMember);
+    
+     tabel();
     }//GEN-LAST:event_btn_edit1ActionPerformed
 
     private void btn_lihat1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lihat1ActionPerformed
