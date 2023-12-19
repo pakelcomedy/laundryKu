@@ -90,9 +90,9 @@ private void koneksi() {
         while (res.next()) {
             t.addRow(new Object[]{
                     res.getString("id_laporan"),
-                    res.getString("pemasukan"),
-                    res.getString("pengeluaran"),
-                    res.getString("total"),
+                    "Rp." +  res.getString("pemasukan"),
+                    "Rp." +  res.getString("pengeluaran"),
+                    "Rp." + res.getString("total"),
                     res.getString("tgl_laporan")
             });
 

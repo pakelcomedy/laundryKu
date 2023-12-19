@@ -29,34 +29,13 @@ public class Home extends javax.swing.JPanel {
     public Home() {
         initComponents();
         dataMenu();
-        dt();
         jumlahPegawai();
         jumlahMember();
         jumlahTransaksi();
         jumlahPenghasilan();
         
-        Timer timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dt(); // Update date and time
-            }
-        });
-        timer.start();
-    }
-    
-
-    public void dt() {
-        Date currentDate = new Date();
-
-        Locale indonesianLocale = new Locale("id", "ID");
-        SimpleDateFormat sdfYear = new SimpleDateFormat("yyyy");
-        String formattedYear = sdfYear.format(currentDate);
-        String tahunText = "Laporan Keuangan Perbulan tahun " + formattedYear;
-        Tahun.setText(tahunText);
-
-        SimpleDateFormat sdfDateTime = new SimpleDateFormat("EEEE dd MMMM yyyy hh:mm:ss", indonesianLocale);
-        String formattedDateTime = sdfDateTime.format(currentDate);
-        lbl_date.setText(formattedDateTime);
+        jlaporan.setText("Laporan Keuangan Perbulan");
+  
     
         System.out.println("running: tambahTanggalMember");
         panelMember.tambahTanggalMember();
@@ -94,6 +73,7 @@ public class Home extends javax.swing.JPanel {
     }
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {
+
     }
     
 private void setChartFromDatabase() {
@@ -198,9 +178,7 @@ private void setChartFromDatabase() {
         btnSelesai = new javax.swing.JButton();
         chart = new com.raven.chart.Chart();
         jPanel3 = new javax.swing.JPanel();
-        Tahun = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        lbl_date = new javax.swing.JLabel();
+        jlaporan = new javax.swing.JLabel();
 
         setName(""); // NOI18N
         setPreferredSize(new java.awt.Dimension(1080, 665));
@@ -258,7 +236,7 @@ private void setChartFromDatabase() {
         jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel13.setText("Jadwal Pengiriman Laundry Sekarang ");
+        jLabel13.setText("Riwayat Pengiriman Laundry Hari Ini ");
         jPanel16.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, -1, -1));
 
         txt_search2.addActionListener(new java.awt.event.ActionListener() {
@@ -420,9 +398,9 @@ private void setChartFromDatabase() {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(lblMember)
                 .addGap(15, 15, 15)
                 .addComponent(jLabel6)
@@ -458,9 +436,9 @@ private void setChartFromDatabase() {
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(5, 5, 5)
                 .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(lblTransaksi)
                 .addGap(15, 15, 15)
                 .addComponent(jLabel7)
@@ -478,7 +456,7 @@ private void setChartFromDatabase() {
 
         jLabel12.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Jadwal Ambil Laundry Sekarang");
+        jLabel12.setText("Riwayat Ambil Laundry Hari Ini ");
         jPanel14.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, -1));
 
         txt_search1.addActionListener(new java.awt.event.ActionListener() {
@@ -569,39 +547,21 @@ private void setChartFromDatabase() {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        Tahun.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        Tahun.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Tahun.setText("-");
+        jlaporan.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jlaporan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlaporan.setText("-");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Tahun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jlaporan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Tahun, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-
-        lbl_date.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        lbl_date.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_date.setText("-");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbl_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbl_date)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jlaporan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -618,8 +578,7 @@ private void setChartFromDatabase() {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE))
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
@@ -631,24 +590,23 @@ private void setChartFromDatabase() {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(21, 21, 21)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(chart, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addGap(25, 25, 25)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(30, 30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
                     .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -765,7 +723,7 @@ public static void main(String args[]) {
             LocalDate currentDate = LocalDate.now();
 
             // Assuming your table name is "pegawai" and the column name is "jabatan"
-            String sql = "SELECT COUNT(id_pegawai) AS jum_pegawai FROM user WHERE jabatan = 'pegawai'";
+            String sql = "SELECT COUNT(id_pegawai) AS jum_pegawai FROM user WHERE jabatan = 'Pegawai'";
             java.sql.Connection conn = (Connection) koneksi.configDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 
@@ -1175,7 +1133,6 @@ public static void main(String args[]) {
     private javax.swing.JButton SearchB3;
     private javax.swing.JButton SearchB4;
     private javax.swing.JButton Show1;
-    private javax.swing.JLabel Tahun;
     private javax.swing.JButton btnSelesai;
     private javax.swing.JButton btnSelesai2;
     private com.raven.chart.Chart chart;
@@ -1196,16 +1153,15 @@ public static void main(String args[]) {
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JLabel jlaporan;
     private javax.swing.JLabel lblMember;
     private javax.swing.JLabel lblPegawai;
     private javax.swing.JLabel lblTransaksi;
     private javax.swing.JLabel lblTransaksi1;
-    private javax.swing.JLabel lbl_date;
     private javax.swing.JButton show2;
     private javax.swing.JTable tbl1;
     private javax.swing.JTable tbl2;

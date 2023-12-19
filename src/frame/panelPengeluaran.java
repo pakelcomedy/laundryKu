@@ -99,13 +99,13 @@ private void koneksi() {
                 res.getString("id_pengeluaran"),
                 res.getString("tgl_pengeluaran"),
                 res.getString("keterangan"),
-                res.getString("total_pengeluaran"),
+               "Rp." +   res.getString("total_pengeluaran"),
             });
         tb_pengeluaran.setModel(t);
         }
 
         // Modify JLabel to display both row count and total of "total_pengeluaran" column
-        jLabel1.setText("Jumlah Data: " + rowCount + " | Total Pengeluaran: " + totalPengeluaran);
+        jLabel1.setText("Jumlah Data: " + rowCount + "  |  Total Pengeluaran: Rp " + totalPengeluaran);
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, e);
     }

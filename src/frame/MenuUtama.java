@@ -10,8 +10,12 @@ import javax.swing.SwingUtilities;
 import koneksi.koneksi;
 import com.raven.chart.ModelChart;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MenuUtama extends javax.swing.JFrame {
+    
 
     public MenuUtama() {
         initComponents();
@@ -24,7 +28,35 @@ public class MenuUtama extends javax.swing.JFrame {
         lbl_username.setText(Login.nameUser);
         setButtonVisibility();    
          jPanel5.setBackground(new Color(240, 240, 240));
+         
+         tampilkanDateTime();
+    
     }
+private void tampilkanDateTime() {
+        // Membuat objek SimpleDateFormat dengan format dan bahasa Indonesia
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMMM, yyyy, HH:mm:ss", new Locale("id", "ID"));
+        
+        // Mendapatkan tanggal dan waktu saat ini
+        Date tanggalSaatIni = new Date();
+        
+        // Memformat tanggal dan waktu sebagai string
+        String dateTimeTerformat = sdf.format(tanggalSaatIni);
+        
+        // Menetapkan tanggal dan waktu yang diformat di jLabel2
+        jLabel3.setText(dateTimeTerformat);
+        
+        // Memperbarui tanggal dan waktu setiap detik menggunakan Timer
+        javax.swing.Timer timer = new javax.swing.Timer(1000, e -> {
+            Date tanggalBaru = new Date();
+            String dateTimeTerformatBaru = sdf.format(tanggalBaru);
+            jLabel3.setText(dateTimeTerformatBaru);
+        });
+        
+        // Memulai timer
+        timer.start();
+    }
+
+
 
 private void setButtonVisibility() {
     String jaba = getJabatanFromDatabase(Login.nameUser);
@@ -85,9 +117,9 @@ private String getJabatanFromDatabase(String Jabatan) {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(240, 240, 240));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(39, 159, 136));
@@ -253,14 +285,15 @@ private String getJabatanFromDatabase(String Jabatan) {
         );
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 100, 1100, 30));
-
-        jTabbedPane1.setBackground(new java.awt.Color(240, 240, 240));
         getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 1070, 640));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel2.setText("-");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel3.setText("jLabel3");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -269,14 +302,18 @@ private String getJabatanFromDatabase(String Jabatan) {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(1050, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 941, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(28, 28, 28))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jLabel2)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, 1070, 80));
@@ -312,6 +349,8 @@ jPanel5.setVisible(true);
 
             jPanel5.setVisible(true);
              jPanel5.setBackground(new Color(255, 255, 255));
+             
+             jLabel3.setVisible(false);
     }//GEN-LAST:event_btn_transaksiActionPerformed
     private void btn_karyawanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_karyawanActionPerformed
             jLabel2.setText("Dashboard > Absensi"); 
@@ -323,6 +362,8 @@ jPanel5.setVisible(true);
             jTabbedPane1.repaint();
             jPanel5.setVisible(true);
              jPanel5.setBackground(new Color(255, 255, 255));
+             
+             jLabel3.setVisible(false);
     }//GEN-LAST:event_btn_karyawanActionPerformed
 
     private void btn_keuanganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_keuanganActionPerformed
@@ -335,6 +376,8 @@ jPanel5.setVisible(true);
             jTabbedPane1.repaint();
             jPanel5.setVisible(true);
             jPanel5.setBackground(new Color(255, 255, 255));
+            
+            jLabel3.setVisible(false);
     }//GEN-LAST:event_btn_keuanganActionPerformed
     private void btn_homeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_homeActionPerformed
        jTabbedPane1.removeAll();
@@ -346,6 +389,8 @@ jPanel5.setVisible(true);
        jTabbedPane1.repaint();
 //       238,238,238
        jPanel5.setBackground(new Color(238, 238, 238));
+       
+       jLabel3.setVisible(true);
     }//GEN-LAST:event_btn_homeActionPerformed
     private void SignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignOutActionPerformed
     }//GEN-LAST:event_SignOutActionPerformed
@@ -386,6 +431,7 @@ jPanel5.setVisible(true);
     private javax.swing.JButton btn_transaksi;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
