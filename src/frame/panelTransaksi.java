@@ -20,15 +20,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import koneksi.koneksi;
-
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -44,11 +44,9 @@ public class panelTransaksi extends javax.swing.JPanel {
      */
     public panelTransaksi() {
         initComponents();
-        datatable();
-        
-        
+        datatable();    
     }
-
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -1332,7 +1330,7 @@ public class panelTransaksi extends javax.swing.JPanel {
            }
             System.out.println("idCetak: "+idCetak);
            
-            String report = "C:\\Users\\FARHAN\\Videos\\Project_Laundy(uno)\\src\\frame\\struk.jrxml";
+            String report = "C:\\Users\\FARHAN\\Documents\\NetBeansProjects\\laundryKu\\src\\frame\\struk.jrxml";
             HashMap hash = new HashMap();
             
             hash.put("kode", idCetak);
@@ -1359,7 +1357,7 @@ public class panelTransaksi extends javax.swing.JPanel {
         tbl.addColumn("Status Pembayaran");
         tbl.addColumn("Status Laundry");
         tbl.addColumn("Total Pembayaran");
-        tbl.addColumn("Tanggal Pembuatan");
+        tbl.addColumn("Tanggal Pemasukan");
         tbl.addColumn("Batas Waktu");
 
         table.setModel(tbl);
@@ -1409,6 +1407,10 @@ public class panelTransaksi extends javax.swing.JPanel {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "gagal table: " + e.getMessage());
         }    
+    }
+    
+    public void reloadDataTable() {
+        datatable(); // Call the datatable method to reload the data
     }
     
     // Method to get the name of pelanggan based on id_pelanggan

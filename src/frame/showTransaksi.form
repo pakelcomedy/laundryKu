@@ -125,38 +125,40 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel23" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel20" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
+                              <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel42" min="-2" pref="14" max="-2" attributes="0"/>
-                                      <Component id="jLabel44" min="-2" pref="14" max="-2" attributes="0"/>
                                       <Component id="jLabel45" min="-2" pref="14" max="-2" attributes="0"/>
                                       <Component id="jLabel46" min="-2" pref="14" max="-2" attributes="0"/>
                                       <Component id="jLabel47" min="-2" pref="14" max="-2" attributes="0"/>
                                       <Component id="jLabel48" min="-2" pref="14" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="txt_kembalian" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txt_pembayaran" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txt_totalPembayaran" min="-2" max="-2" attributes="0"/>
+                                      <Component id="txt_diskon" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel42" min="-2" pref="14" max="-2" attributes="0"/>
                                       <Component id="jLabel41" alignment="0" min="-2" pref="14" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="txt_statusPemabayaran" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="txt_biayaTambahan" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="txt_diskon" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          </Group>
+                                          <Component id="txt_statusPemabayaran" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Component id="txt_kembalian" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txt_pembayaran" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txt_totalPembayaran" min="-2" max="-2" attributes="0"/>
                                       <Component id="txt_dibayarSecara" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -298,56 +300,56 @@
                       <Component id="jLabel41" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel42" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_dibayarSecara" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel43" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txt_grandTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                          <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                          <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                          <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel42" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txt_dibayarSecara" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel43" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txt_grandTotal" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel44" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel45" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txt_diskon" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                                  <Component id="jLabel46" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="txt_totalPembayaran" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel46" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txt_totalPembayaran" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel47" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txt_pembayaran" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel48" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txt_kembalian" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
-                          <Component id="txt_biayaTambahan" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                          <Component id="txt_diskon" min="-2" max="-2" attributes="0"/>
-                      </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="146" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="184" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -376,11 +378,6 @@
         <Component class="javax.swing.JLabel" name="jLabel10">
           <Properties>
             <Property name="text" type="java.lang.String" value="Diskon"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel9">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Biaya tambahan"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel8">
@@ -607,11 +604,6 @@
             <Property name="text" type="java.lang.String" value="jLabel3"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="txt_biayaTambahan">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jLabel3"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="txt_diskon">
           <Properties>
             <Property name="text" type="java.lang.String" value="jLabel3"/>
@@ -678,11 +670,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel43">
-          <Properties>
-            <Property name="text" type="java.lang.String" value=":"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel44">
           <Properties>
             <Property name="text" type="java.lang.String" value=":"/>
           </Properties>

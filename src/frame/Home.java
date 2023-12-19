@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.table.TableColumn; 
 
 public class Home extends javax.swing.JPanel {
 
@@ -97,7 +98,7 @@ private void setChartFromDatabase() {
             
             chart.addLegend("Pemasukan", new Color(135, 189, 245));
             chart.addLegend("Pengeluaran", new Color(189, 135, 245));
-            chart.addLegend("Total", new Color(139, 229, 222));
+            chart.addLegend("Labas", new Color(139, 229, 222));
            while (resultSet.next()) {
             int monthNumber = resultSet.getInt("bulan");
 
@@ -200,28 +201,27 @@ private void setChartFromDatabase() {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 55, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(52, 52, 52))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(lblPegawai)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(116, 116, 116)
+                        .addComponent(lblPegawai)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblPegawai)
-                        .addGap(15, 15, 15)))
+                .addGap(4, 4, 4)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(lblPegawai)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addGap(20, 20, 20))
         );
@@ -256,6 +256,11 @@ private void setChartFromDatabase() {
         ));
         tbl2.setRowHeight(30);
         jScrollPane6.setViewportView(tbl2);
+        if (tbl2.getColumnModel().getColumnCount() > 0) {
+            tbl2.getColumnModel().getColumn(0).setMinWidth(35);
+            tbl2.getColumnModel().getColumn(0).setPreferredWidth(5);
+            tbl2.getColumnModel().getColumn(0).setMaxWidth(35);
+        }
 
         SearchB4.setBackground(new java.awt.Color(0, 102, 204));
         SearchB4.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -338,29 +343,30 @@ private void setChartFromDatabase() {
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTransaksi1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(110, 110, 110))
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jLabel8)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel3))
+                            .addGroup(jPanel8Layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(jLabel8)))
+                        .addGap(0, 26, Short.MAX_VALUE))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblTransaksi1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblTransaksi1)
-                        .addGap(15, 15, 15))
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(2, 2, 2)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTransaksi1)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel8)
                 .addGap(20, 20, 20))
         );
@@ -424,23 +430,25 @@ private void setChartFromDatabase() {
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(lblTransaksi))
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel2))
-                .addContainerGap(15, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel2)))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGap(108, 108, 108)
+                        .addComponent(lblTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblTransaksi)
-                .addGap(15, 15, 15)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addGap(20, 20, 20))
         );
@@ -659,6 +667,7 @@ public static void main(String args[]) {
 
 
     private void dataMenu() {
+        System.out.println("running datamenu");
         jumlahMember();
         jumlahTransaksi();
         jumlahPegawai();
@@ -700,7 +709,9 @@ public static void main(String args[]) {
             try {
                     LocalDate currentDate = LocalDate.now();
 
-                    String sql = "SELECT COUNT(no_transaksi) AS jum_transaksi FROM `transaksi` where tgl_transaksi =?";
+                    String sql = "SELECT COUNT(no_transaksi) AS jum_transaksi \n" +
+                                 "FROM transaksi \n" +
+                                 "WHERE DATE(tgl_transaksi) = ?";
                     java.sql.Connection conn = (Connection) koneksi.configDB();
                     java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 
@@ -742,19 +753,21 @@ public static void main(String args[]) {
     }
     
     public int jumlahPenghasilan() {
+        lblTransaksi1.setText( "Rp. " + String.valueOf(350000));
         try {
             LocalDate currentDate = LocalDate.now();
 
-            String sql = "SELECT SUM(totalPembayaran) AS jum_transaksi FROM `transaksi` where tgl_transaksi =?";
+            String sql = "SELECT SUM(totalPembayaran) AS jum_transaksi FROM `transaksi` where  DATE(tgl_transaksi) = ?";
             java.sql.Connection conn = (Connection) koneksi.configDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             
-            pst.setDate(1, java.sql.Date.valueOf(currentDate));
+            pst.setDate(1,java.sql.Date.valueOf(currentDate));
 
             java.sql.ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
                 int jumlah = rs.getInt("jum_transaksi");
+                System.out.println("jumlah penghasilan: "+jumlah);
                 lblTransaksi1.setText( "Rp. " + String.valueOf(jumlah));
                 return jumlah;  // Return the count if needed in your application logic
             }
@@ -766,18 +779,26 @@ public static void main(String args[]) {
     }
     
     public void tblStatusLaundryAmbil() {
+        System.out.println("running: tblStatusLaundryAmbil");
         DefaultTableModel tbl = new DefaultTableModel();
 
         tbl.setColumnCount(0);
-        tbl.addColumn("No Transaksi");
+        tbl.addColumn("No");
         tbl.addColumn("Nama Pelanggan");
         tbl.addColumn("Batas Waktu");
         tbl.addColumn("Status");
 
         tbl1.setModel(tbl);
 
+        // Get the TableColumn from tbl1 (assuming it's the first column)
+        TableColumn column = tbl1.getColumnModel().getColumn(0);
+        TableColumn column1 = tbl1.getColumnModel().getColumn(3);
+
+        // Set the preferred width
+        column.setPreferredWidth(15);
+        column1.setPreferredWidth(15);
         try {
-            String sql = "SELECT * FROM transaksi where statusPengiriman = 0 AND batas_waktu = ?";
+            String sql = "SELECT * FROM transaksi WHERE statusPengiriman = 0 AND DATE(batas_waktu) = ?";
             java.sql.Connection conn = (Connection) koneksi.configDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.setDate(1, currentDate);
@@ -798,18 +819,19 @@ public static void main(String args[]) {
                         statusText = "DIAMBIL";
                     } else if (status == 3) {
                         statusText = "Selesai";
-                     } else if (status == 0 ) {
-                        statusText = "DIAMBIL";
                      } else if (status == 1 ) {
                         statusText = "Prosses";
                     } else {
                         statusText = "Sudah Lewat";
                     }
 
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                Date batasWaktu = res.getTimestamp("batas_waktu");
+                
                 tbl.addRow(new Object[]{
                         res.getString("no_transaksi"),
                         namaPelanggan,
-                        res.getString("batas_waktu"),
+                        batasWaktu,
                         statusText
                 });
             }
@@ -827,7 +849,7 @@ public static void main(String args[]) {
         DefaultTableModel tbl = new DefaultTableModel();
 
         tbl.setColumnCount(0);
-        tbl.addColumn("No Transaksi");
+        tbl.addColumn("No");
         tbl.addColumn("Nama Pelanggan");
         tbl.addColumn("Alamat");
         tbl.addColumn("Batas Waktu");
@@ -835,11 +857,27 @@ public static void main(String args[]) {
 
         tbl2.setModel(tbl);
 
+        // Get the TableColumn from tbl (assuming it's the first column)
+        TableColumn column = tbl2.getColumnModel().getColumn(0); // Change tbl1 to tbl2
+        TableColumn column3 = tbl2.getColumnModel().getColumn(1); // Change tbl1 to tbl2
+        TableColumn column1 = tbl2.getColumnModel().getColumn(2); // Change tbl1 to tbl2
+        TableColumn column2 = tbl2.getColumnModel().getColumn(4); // Change tbl1 to tbl2
+
+        // Set the preferred width
+        column.setPreferredWidth(35);
+        column.setMinWidth(35); // Set the minimum width
+        column.setMaxWidth(35);
+        column3.setPreferredWidth(15);
+        column1.setPreferredWidth(15);
+        column2.setPreferredWidth(10);
+
+        
         try {
-            String sql = "SELECT * FROM transaksi where statusPengiriman = 1 AND batas_waktu = ? ";
+            String sql = "SELECT * FROM transaksi WHERE statusPengiriman = 1 AND DATE(batas_waktu) = ?";
             java.sql.Connection conn = (Connection) koneksi.configDB();
             java.sql.PreparedStatement pst = conn.prepareStatement(sql);
             pst.setDate(1, currentDate);
+            System.out.println("currentDate: "+currentDate);
 
             java.sql.ResultSet res = pst.executeQuery();
 
@@ -853,13 +891,14 @@ public static void main(String args[]) {
                 
                  int status = res.getInt("status_laundry");
                  String statusText;
+                 
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                Date batasWaktu = res.getTimestamp("batas_waktu");
                 
                  if (status == 2) {
                         statusText = "DIKIRIM";
                     } else if (status == 3) {
                         statusText = "Selesai";
-                     } else if (status == 0 ) {
-                        statusText = "DIKIRIM";
                       } else if (status == 1 ) {
                         statusText = "Prosses";
                     } else {
@@ -871,8 +910,8 @@ public static void main(String args[]) {
                         res.getString("no_transaksi"),
                         namaPelanggan,
                         res.getString("alamat_pengiriman"),
-                        res.getString("batas_waktu"),
-                       statusText
+                        batasWaktu,
+                        statusText
                 });
             }
             
@@ -1046,7 +1085,7 @@ public static void main(String args[]) {
                     if (status == 2) {
                         statusText = "DIAMBIL";
                     } else if (status == 3) {
-                        statusText = "Baru";
+                        statusText = "Selesai";
                     } else if (status == 1) {
                         statusText = "Proses"; // Assuming 1 corresponds to "Proses"
                     } else {
@@ -1104,7 +1143,7 @@ public static void main(String args[]) {
                     if (status == 2) {
                         statusText = "DIAMBIL";
                     } else if (status == 3) {
-                        statusText = "Baru";
+                        statusText = "Selesai";
                     } else if (status == 1) {
                         statusText = "Proses"; // Assuming 1 corresponds to "Proses"
                     } else {
@@ -1123,8 +1162,7 @@ public static void main(String args[]) {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-    } 
-    
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton SearchB3;
     private javax.swing.JButton SearchB4;

@@ -56,7 +56,6 @@ public class showTransaksi extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txt_noHp = new javax.swing.JLabel();
@@ -77,7 +76,6 @@ public class showTransaksi extends javax.swing.JFrame {
         txt_statusPemabayaran = new javax.swing.JLabel();
         txt_dibayarSecara = new javax.swing.JLabel();
         txt_grandTotal = new javax.swing.JLabel();
-        txt_biayaTambahan = new javax.swing.JLabel();
         txt_diskon = new javax.swing.JLabel();
         txt_totalPembayaran = new javax.swing.JLabel();
         txt_pembayaran = new javax.swing.JLabel();
@@ -92,7 +90,6 @@ public class showTransaksi extends javax.swing.JFrame {
         jLabel41 = new javax.swing.JLabel();
         jLabel42 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
-        jLabel44 = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
         jLabel46 = new javax.swing.JLabel();
         jLabel47 = new javax.swing.JLabel();
@@ -154,8 +151,6 @@ public class showTransaksi extends javax.swing.JFrame {
         jLabel11.setText("Total Pembayaran");
 
         jLabel10.setText("Diskon");
-
-        jLabel9.setText("Biaya tambahan");
 
         jLabel8.setText("Grand Total");
 
@@ -244,8 +239,6 @@ public class showTransaksi extends javax.swing.JFrame {
 
         txt_grandTotal.setText("jLabel3");
 
-        txt_biayaTambahan.setText("jLabel3");
-
         txt_diskon.setText("jLabel3");
 
         txt_totalPembayaran.setText("jLabel3");
@@ -273,8 +266,6 @@ public class showTransaksi extends javax.swing.JFrame {
         jLabel42.setText(":");
 
         jLabel43.setText(":");
-
-        jLabel44.setText(":");
 
         jLabel45.setText(":");
 
@@ -309,34 +300,34 @@ public class showTransaksi extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel23)
                             .addComponent(jLabel8)
-                            .addComponent(jLabel9)
+                            .addComponent(jLabel20)
                             .addComponent(jLabel10)
                             .addComponent(jLabel11)
                             .addComponent(jLabel12)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel20))
+                            .addComponent(jLabel14))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel44, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel45, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel46, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel48, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel48, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_kembalian)
+                                    .addComponent(txt_pembayaran)
+                                    .addComponent(txt_totalPembayaran)
+                                    .addComponent(txt_diskon)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGap(2, 2, 2)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txt_statusPemabayaran)
-                                            .addComponent(txt_biayaTambahan)
-                                            .addComponent(txt_diskon)))
-                                    .addComponent(txt_kembalian)
-                                    .addComponent(txt_pembayaran)
-                                    .addComponent(txt_totalPembayaran)
+                                        .addComponent(txt_statusPemabayaran))
                                     .addComponent(txt_dibayarSecara)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -445,46 +436,45 @@ public class showTransaksi extends javax.swing.JFrame {
                     .addComponent(txt_statusPemabayaran)
                     .addComponent(jLabel41))
                 .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel42)
+                    .addComponent(txt_dibayarSecara))
+                .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel43)
+                    .addComponent(txt_grandTotal))
+                .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(15, 15, 15)
+                        .addComponent(jLabel11)
+                        .addGap(15, 15, 15)
+                        .addComponent(jLabel12)
+                        .addGap(15, 15, 15)
+                        .addComponent(jLabel14))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel20)
-                            .addComponent(jLabel42)
-                            .addComponent(txt_dibayarSecara))
+                            .addComponent(jLabel45)
+                            .addComponent(txt_diskon))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(jLabel46))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txt_totalPembayaran)))
                         .addGap(15, 15, 15)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel43)
-                            .addComponent(txt_grandTotal))
-                        .addGap(15, 15, 15)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel44))
-                        .addGap(15, 15, 15)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel45))
-                        .addGap(15, 15, 15)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel46)
-                            .addComponent(txt_totalPembayaran))
-                        .addGap(15, 15, 15)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel12)
                             .addComponent(jLabel47)
                             .addComponent(txt_pembayaran))
                         .addGap(15, 15, 15)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel14)
                             .addComponent(jLabel48)
-                            .addComponent(txt_kembalian)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addComponent(txt_biayaTambahan)
-                        .addGap(15, 15, 15)
-                        .addComponent(txt_diskon)))
-                .addGap(146, 146, 146))
+                            .addComponent(txt_kembalian))))
+                .addGap(184, 184, 184))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -595,9 +585,7 @@ public class showTransaksi extends javax.swing.JFrame {
                             int status = rsTransaksi.getInt("status_laundry");
                             String statusText;
 
-                            if (status == 0) {
-                                statusText = "baru";
-                            } else if (status == 1) {
+                            if (status == 1) {
                                 statusText = "prosses";
                             } else if (status == 2) {
                                 statusText = "Penjadwalan";
@@ -613,7 +601,6 @@ public class showTransaksi extends javax.swing.JFrame {
                             txt_statusPemabayaran.setText(rsTransaksi.getString("status_pembayaran"));
                     
                             txt_grandTotal.setText(rsTransaksi.getString("grandTotal"));
-                            txt_biayaTambahan.setText(rsTransaksi.getString("biayaTambahan"));
                             txt_diskon.setText(rsTransaksi.getString("diskon"));
                             txt_totalPembayaran.setText(rsTransaksi.getString("totalPembayaran"));
                             txt_pembayaran.setText(rsTransaksi.getString("pembayaran"));
@@ -655,7 +642,6 @@ public class showTransaksi extends javax.swing.JFrame {
                                             row.add(jenisProduk);
                                             row.add(rsDetailTransaksi.getInt("jumlah"));
                                             row.add(rsDetailTransaksi.getInt("harga"));
-                                            row.add(rsDetailTransaksi.getInt("biayaTambahan"));
                                             row.add(rsDetailTransaksi.getInt("diskon"));
                                             row.add(rsDetailTransaksi.getInt("totalHarga"));
                                             // Add the row vector to your data vector
@@ -765,7 +751,6 @@ public class showTransaksi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
@@ -774,7 +759,6 @@ public class showTransaksi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -785,7 +769,6 @@ public class showTransaksi extends javax.swing.JFrame {
     private javax.swing.JTable tableDetail;
     private javax.swing.JTextArea txt_alamat;
     private javax.swing.JLabel txt_batasWaktu;
-    private javax.swing.JLabel txt_biayaTambahan;
     private javax.swing.JLabel txt_dibayarSecara;
     private javax.swing.JLabel txt_diskon;
     private javax.swing.JLabel txt_grandTotal;

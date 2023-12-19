@@ -52,8 +52,6 @@ public class panelMember extends javax.swing.JPanel {
             (screenSize.width - frameSize.width) / 3,
             (screenSize.height -frameSize.height) / 4);
         
-        
-        //
         tambahTanggalMember();
         batasWaktuSetmember();
     }
@@ -654,14 +652,13 @@ private void cariData(String kataKunci) {
     }//GEN-LAST:event_btn_simpan1MousePressed
 
     private void btn_simpan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpan1ActionPerformed
-        try {
-        // Dapatkan nilai dari komponen GUI
+    try {
+        // Get values from GUI components
         java.util.Date batas_waktu = (java.util.Date) spinner_tanggal.getValue();
         String nama = txt_nama.getText();
         String alamat = txt_alamat.getText();
         String no_hp = txt_nohp.getText();
-        
-        // Validate inputs
+
         // Validate inputs
         if (nama.isEmpty() || alamat.isEmpty() || no_hp.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Nama, Alamat, dan No HP tidak boleh kosong");
@@ -674,53 +671,53 @@ private void cariData(String kataKunci) {
             return;
         }
 
-        // Konversi nilai tanggal menjadi Timestamp
+        // Convert date to Timestamp
         Timestamp timestamp = new Timestamp(batas_waktu.getTime());
 
-        if (t == null) {
-            // Jika t == null, itu berarti operasi penyimpanan baru
-            // Lakukan penyimpanan data ke database
-            String query = "INSERT INTO member(nama, alamat, no_hp, tanggalDaftar, tanggalPembuatan, batas_waktu, statusMember) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                pstmt.setString(1, nama);
-                pstmt.setString(2, alamat);
-                pstmt.setString(3, no_hp);
-                pstmt.setTimestamp(4, new Timestamp(System.currentTimeMillis())); // Assuming you want to set the current timestamp for "tanggalDaftar"
-                pstmt.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
-                pstmt.setTimestamp(6, timestamp); // Assuming batas_waktu is a java.util.Date object
-                pstmt.setInt(7, 0);
+    if (t == null) {
+       // New record insertion
+       String insertQuery = "INSERT INTO member(nama, alamat, no_hp, tanggalDaftar, tanggalPembuatan, batas_waktu, statusMember) VALUES (?, ?, ?, ?, ?, ?, ?)";
+       try (PreparedStatement pstmt = con.prepareStatement(insertQuery)) {
+           pstmt.setString(1, nama);
+           pstmt.setString(2, alamat);
+           pstmt.setString(3, no_hp);
+           pstmt.setTimestamp(4, new Timestamp(System.currentTimeMillis())); // Assuming you want to set the current timestamp for "tanggalDaftar"
+           pstmt.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
+           pstmt.setTimestamp(6, timestamp);
+           pstmt.setInt(7, 0);
 
-                int affectedRows = pstmt.executeUpdate();
-                if (affectedRows > 0) {
-                    JOptionPane.showMessageDialog(null, "Data baru berhasil disimpan");
-                    batasWaktuSetmember();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Gagal menyimpan data baru");
-                }
-            }
-            
+           int affectedRows = pstmt.executeUpdate();
+           if (affectedRows > 0) {
+               JOptionPane.showMessageDialog(null, "Data baru berhasil disimpan");
+               batasWaktuSetmember();
+           } else {
+               JOptionPane.showMessageDialog(null, "Gagal menyimpan data baru");
+           }
+       }
+   } else {
+    // Update existing record
+    String updateQuery = "UPDATE member SET nama=?, alamat=?, no_hp=?, batas_waktu=? WHERE id_member=?";
+    try (PreparedStatement pstmt = con.prepareStatement(updateQuery)) {
+        pstmt.setString(1, nama);
+        pstmt.setString(2, alamat);
+        pstmt.setString(3, no_hp);
+        pstmt.setTimestamp(4, timestamp);
+        pstmt.setInt(5, Integer.parseInt(t));
+
+        int affectedRows = pstmt.executeUpdate();
+        if (affectedRows > 0) {
+            JOptionPane.showMessageDialog(null, "Data berhasil diperbarui");
+            batasWaktuSetmember();
         } else {
-            // Jika t != null, itu berarti operasi pembaruan
-            // Lakukan pembaruan data ke database berdasarkan ID yang tersimpan di t
-            String query = "UPDATE member SET nama=?, alamat=?, no_hp=?, batas_waktu=? WHERE id_member=?";
-            try (PreparedStatement pstmt = con.prepareStatement(query)) {
-                pstmt.setString(1, nama);
-                pstmt.setString(2, alamat);
-                pstmt.setString(3, no_hp);
-                pstmt.setTimestamp(4, timestamp);
-                pstmt.setInt(5, Integer.parseInt(t));
-
-                int affectedRows = pstmt.executeUpdate();
-                if (affectedRows > 0) {
-                    JOptionPane.showMessageDialog(null, "Data berhasil diperbarui");
-                    batasWaktuSetmember();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Gagal memperbarui data");
-                }
-            }
+            JOptionPane.showMessageDialog(null, "Gagal memperbarui data");
         }
+    }
+}
+
+        // Refresh the table or perform any other necessary operations
         tabel();
     } catch (Exception e) {
+        e.printStackTrace(); // Log the exception stack trace for debugging
         JOptionPane.showMessageDialog(null, "Gagal Memperbarui Data: " + e.getMessage());
     }
     }//GEN-LAST:event_btn_simpan1ActionPerformed
@@ -944,34 +941,35 @@ try {
         JOptionPane.showMessageDialog(null, e);
     }
     }//GEN-LAST:event_BerlakuActionPerformed
-
-    private void  batasWaktuSetmember() {
-        try {
-            String sql = "UPDATE member SET statusMember = 1 WHERE tanggalDaftar >= batas_waktu";
-            java.sql.Connection conn = (Connection) koneksi.configDB();
-            PreparedStatement pst = conn.prepareStatement(sql);
-            pst.executeUpdate();
-            
-        } catch(Exception e) {
-         JOptionPane.showMessageDialog(this, "Gagal Memperbarui Data" );
-           System.out.println("e: "+e);
-       }
+private void batasWaktuSetmember() {
+    try {
+        String sql = "UPDATE member SET statusMember = 1 WHERE tanggalDaftar >= batas_waktu";
+        java.sql.Connection conn = (Connection) koneksi.configDB();
+        PreparedStatement pst = conn.prepareStatement(sql);
+        pst.executeUpdate();
+    } catch(Exception e) {
+        JOptionPane.showMessageDialog(this, "Gagal Memperbarui Data");
+        System.out.println("e: " + e);
     }
-    
+}
+
   public static void tambahTanggalMember() {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-        // Schedule the task to run every day at 00:00 AM
+        // Schedule the task to run every day at any hour
         scheduler.scheduleAtFixedRate(() -> {
             try {
                 // Check if the task has already run today
                 if (lastExecutionDate != null && lastExecutionDate.equals(LocalDate.now())) {
                     System.out.println("Task already executed today at: " + LocalTime.now());
+                    System.out.println("Try Tomorrow....");
                     return; // Exit if the task has already run today
                 }
-
+ 
                 // Update all rows in the member table
-                String updateSql = "UPDATE member SET tanggalDaftar = DATE_ADD(tanggalDaftar, INTERVAL 1 DAY)";
+                String updateSql = "UPDATE member\n" +
+                                    "SET tanggalDaftar = DATE_ADD(tanggalDaftar, INTERVAL 1 DAY)\n" +
+                                    "WHERE DATE(tanggalDaftar) != CURDATE();";
                 java.sql.Connection conn = (Connection) koneksi.configDB();
 
                 try (PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
@@ -980,25 +978,13 @@ try {
 
                 // Update the last execution date
                 lastExecutionDate = LocalDate.now();
+
+                // Print task execution information
+                System.out.println("Task executed at: " + LocalTime.now());
             } catch (Exception e) {
                 System.out.println("Error: " + e);
             }
-            System.out.println("Task executed at: " + LocalTime.now());
         }, 0, 1, TimeUnit.DAYS);
-    }
-
-    private static long calculateInitialDelay() {
-        LocalTime now = LocalTime.now();
-        LocalTime targetTime = LocalTime.of(0, 0); // Run the task every day at 00:00 AM
-
-        long minutesUntilTargetTime;
-        if (now.isAfter(targetTime)) {
-            minutesUntilTargetTime = (targetTime.until(now, java.time.temporal.ChronoUnit.MINUTES) + 24 * 60) % (24 * 60);
-        } else {
-            minutesUntilTargetTime = targetTime.until(now, java.time.temporal.ChronoUnit.MINUTES);
-        }
-
-        return minutesUntilTargetTime * 60; // Convert minutes to seconds
     }
    
     // Variables declaration - do not modify//GEN-BEGIN:variables

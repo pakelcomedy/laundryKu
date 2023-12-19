@@ -46,7 +46,7 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class formTransaksi extends javax.swing.JFrame {
     private int idEdit;
-
+   
     // Other code in your formTransaksi class...
 
     // Constructor with idEdit parameter
@@ -84,7 +84,7 @@ public class formTransaksi extends javax.swing.JFrame {
         
         txt_totalHarga.setEditable(false);
         txt_grandTotal.setEditable(false);
-        txt_biaya_tambahan2.setEditable(false);
+//        txt_biaya_tambahan2.setEditable(false);
         txt_diskon2.setEditable(false);
         txt_totalPembayaran.setEditable(false);
         txt_kembalian.setEditable(false);
@@ -112,7 +112,7 @@ public class formTransaksi extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         jPanel1 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -123,36 +123,32 @@ public class formTransaksi extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         txt_hp = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         txt_kembalian = new javax.swing.JTextField();
         txt_pembayaran = new javax.swing.JTextField();
         txt_totalPembayaran = new javax.swing.JTextField();
-        txt_biaya_tambahan2 = new javax.swing.JTextField();
         txt_grandTotal = new javax.swing.JTextField();
         btn_kembali = new javax.swing.JButton();
         btn_simpan = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
-        cmb_statusLaundry = new javax.swing.JComboBox<>();
+        cmb_statusLaundry = new javax.swing.JComboBox<String>();
         jLabel24 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
-        cmb_tunai = new javax.swing.JComboBox<>();
+        cmb_tunai = new javax.swing.JComboBox<String>();
         txt_pelanggan = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
-        cmb_statusPembayaran = new javax.swing.JComboBox<>();
+        cmb_statusPembayaran = new javax.swing.JComboBox<String>();
         jScrollPane1 = new javax.swing.JScrollPane();
         txt_alamat = new javax.swing.JTextArea();
-        cmb_produk = new javax.swing.JComboBox<>();
-        cmb_jenis = new javax.swing.JComboBox<>();
+        cmb_produk = new javax.swing.JComboBox<String>();
+        cmb_jenis = new javax.swing.JComboBox<String>();
         txt_jumlah = new javax.swing.JTextField();
         txt_harga = new javax.swing.JTextField();
         txt_diskon = new javax.swing.JTextField();
-        txt_biaya_tambahan = new javax.swing.JTextField();
         txt_totalHarga = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         modelTable = new javax.swing.JTable();
@@ -165,7 +161,7 @@ public class formTransaksi extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        cmb_member = new javax.swing.JComboBox<>();
+        cmb_member = new javax.swing.JComboBox<String>();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
@@ -181,7 +177,7 @@ public class formTransaksi extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -220,17 +216,11 @@ public class formTransaksi extends javax.swing.JFrame {
         jLabel17.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel17.setText("Diskon");
 
-        jLabel9.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel9.setText("Biaya Tambahan");
-
         jLabel16.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel16.setText("Total Harga");
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel5.setText("Grand Total");
-
-        jLabel28.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel28.setText("Biaya Tambahan");
 
         jLabel27.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel27.setText("Diskon");
@@ -269,15 +259,6 @@ public class formTransaksi extends javax.swing.JFrame {
             }
         });
 
-        txt_biaya_tambahan2.setBackground(new java.awt.Color(224, 218, 218));
-        txt_biaya_tambahan2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_biaya_tambahan2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102), 2));
-        txt_biaya_tambahan2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_biaya_tambahan2ActionPerformed(evt);
-            }
-        });
-
         txt_grandTotal.setBackground(new java.awt.Color(224, 218, 218));
         txt_grandTotal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_grandTotal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102), 2));
@@ -310,7 +291,7 @@ public class formTransaksi extends javax.swing.JFrame {
 
         cmb_statusLaundry.setBackground(new java.awt.Color(224, 218, 218));
         cmb_statusLaundry.setMaximumRowCount(0);
-        cmb_statusLaundry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Baru", "Prosses", "Penjadawalan", "Selesai", "Sudah Lewat", " " }));
+        cmb_statusLaundry.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Baru", "Prosses", "Penjadawalan", "Selesai", "Sudah Lewat", " " }));
         cmb_statusLaundry.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_statusLaundryActionPerformed(evt);
@@ -325,7 +306,7 @@ public class formTransaksi extends javax.swing.JFrame {
 
         cmb_tunai.setBackground(new java.awt.Color(224, 218, 218));
         cmb_tunai.setMaximumRowCount(0);
-        cmb_tunai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tunai", "Non Tunai" }));
+        cmb_tunai.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tunai", "Non Tunai" }));
         cmb_tunai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_tunaiActionPerformed(evt);
@@ -347,7 +328,7 @@ public class formTransaksi extends javax.swing.JFrame {
 
         cmb_statusPembayaran.setBackground(new java.awt.Color(224, 218, 218));
         cmb_statusPembayaran.setMaximumRowCount(0);
-        cmb_statusPembayaran.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sudah Dibayar", "Belum Dibayar", " " }));
+        cmb_statusPembayaran.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sudah Dibayar", "Belum Dibayar", " " }));
         cmb_statusPembayaran.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_statusPembayaranActionPerformed(evt);
@@ -359,7 +340,7 @@ public class formTransaksi extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txt_alamat);
 
         cmb_produk.setBackground(new java.awt.Color(224, 218, 218));
-        cmb_produk.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- pilih produk --" }));
+        cmb_produk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- pilih produk --" }));
         cmb_produk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_produkActionPerformed(evt);
@@ -411,19 +392,6 @@ public class formTransaksi extends javax.swing.JFrame {
             }
         });
 
-        txt_biaya_tambahan.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txt_biaya_tambahan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102), 2));
-        txt_biaya_tambahan.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txt_biaya_tambahanFocusLost(evt);
-            }
-        });
-        txt_biaya_tambahan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_biaya_tambahanActionPerformed(evt);
-            }
-        });
-
         txt_totalHarga.setBackground(new java.awt.Color(224, 218, 218));
         txt_totalHarga.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txt_totalHarga.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102), 2));
@@ -438,7 +406,7 @@ public class formTransaksi extends javax.swing.JFrame {
 
             },
             new String [] {
-                "no", "Produk", "Jenis", "Jumlah", "Harga", "Tambahan", "Diskon", "Total Harga"
+                "no", "Produk", "Jenis", "Jumlah", "Harga", "Diskon", "Total Harga"
             }
         ));
         jScrollPane2.setViewportView(modelTable);
@@ -533,7 +501,7 @@ public class formTransaksi extends javax.swing.JFrame {
 
         cmb_member.setBackground(new java.awt.Color(224, 218, 218));
         cmb_member.setMaximumRowCount(0);
-        cmb_member.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Pilih Member --" }));
+        cmb_member.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-- Pilih Member --" }));
         cmb_member.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_memberActionPerformed(evt);
@@ -664,12 +632,10 @@ public class formTransaksi extends javax.swing.JFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel17)
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(34, 34, 34)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_biaya_tambahan, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btn_tambahTable)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -733,12 +699,10 @@ public class formTransaksi extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel30)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(34, 34, 34)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_biaya_tambahan2)
                             .addComponent(txt_grandTotal)
                             .addComponent(txt_diskon2)
                             .addComponent(txt_totalPembayaran, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -791,11 +755,7 @@ public class formTransaksi extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_harga, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_biaya_tambahan, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_diskon, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -811,7 +771,7 @@ public class formTransaksi extends javax.swing.JFrame {
                                 .addComponent(jButton1)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(12, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -820,14 +780,12 @@ public class formTransaksi extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txt_grandTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(10, 10, 10)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_biaya_tambahan2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txt_diskon2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(txt_diskon2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_totalPembayaran, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -879,13 +837,17 @@ public class formTransaksi extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -960,10 +922,6 @@ public class formTransaksi extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_totalPembayaranActionPerformed
 
-    private void txt_biaya_tambahan2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_biaya_tambahan2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_biaya_tambahan2ActionPerformed
-
     private void txt_grandTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_grandTotalActionPerformed
         // TODO add your handling code here:
 
@@ -976,7 +934,7 @@ public class formTransaksi extends javax.swing.JFrame {
     Kembalian = 0;
     Pembayaran = 0;
     TotalGrandTotal = 0;
-    TotalBiayaTambahan = 0;
+//    TotalBiayaTambahan = 0;
     TotalDiskon = 0;
         
     dispose();
@@ -984,7 +942,8 @@ public class formTransaksi extends javax.swing.JFrame {
 
     private void btn_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_simpanActionPerformed
     // TODO add your handling code here:    
-    simpanData();
+    simpanData();  
+    dispose();
     }//GEN-LAST:event_btn_simpanActionPerformed
   
     
@@ -1027,7 +986,7 @@ private int retrieveProdukId(String namaProduk) {
 
         txt_jumlah.setText(null);
         txt_diskon.setText(null);
-        txt_biaya_tambahan.setText(null);
+//        txt_biaya_tambahan.setText(null);
         txt_totalHarga.setText(null);
     }//GEN-LAST:event_cmb_produkActionPerformed
 
@@ -1041,12 +1000,12 @@ private int retrieveProdukId(String namaProduk) {
         hargaProduk = Integer.parseInt(txt_harga.getText());
         jumlahProduk =  Integer.parseInt(txt_jumlah.getText());
         String diskonText = txt_diskon.getText().trim();
-        String biayaTambahanText = txt_biaya_tambahan.getText().trim();
-        biayaTambahan = biayaTambahanText.isEmpty() ? 0 : Integer.parseInt(biayaTambahanText);
+//        String biayaTambahanText = txt_biaya_tambahan.getText().trim();
+//        biayaTambahan = biayaTambahanText.isEmpty() ? 0 : Integer.parseInt(biayaTambahanText);
         diskon = diskonText.isEmpty() ? 0 : Integer.parseInt(diskonText);
 
         totalHarga = jumlahProduk * hargaProduk;
-        totalHarga += biayaTambahan;
+//        totalHarga += biayaTambahan;
         totalHarga -= diskon;
         txt_totalHarga.setText(String.valueOf(totalHarga));
     }//GEN-LAST:event_txt_jumlahFocusLost
@@ -1066,11 +1025,11 @@ private int retrieveProdukId(String namaProduk) {
     private void txt_diskonFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_diskonFocusLost
         // TODO add your handling code here:
         String diskonText = txt_diskon.getText().trim();
-        String biayaTambahanText = txt_biaya_tambahan.getText().trim();
-        biayaTambahan = biayaTambahanText.isEmpty() ? 0 : Integer.parseInt(biayaTambahanText);
+//        String biayaTambahanText = txt_biaya_tambahan.getText().trim();
+//        biayaTambahan = biayaTambahanText.isEmpty() ? 0 : Integer.parseInt(biayaTambahanText);
         diskon = diskonText.isEmpty() ? 0 : Integer.parseInt(diskonText);
         totalHarga = jumlahProduk * hargaProduk;
-        totalHarga += biayaTambahan;
+//        totalHarga += biayaTambahan;
         totalHarga -= diskon;
         txt_totalHarga.setText(String.valueOf(totalHarga));
     }//GEN-LAST:event_txt_diskonFocusLost
@@ -1078,22 +1037,6 @@ private int retrieveProdukId(String namaProduk) {
     private void txt_diskonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_diskonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_diskonActionPerformed
-
-    private void txt_biaya_tambahanFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_biaya_tambahanFocusLost
-        // TODO add your handling code here
-        String diskonText = txt_diskon.getText().trim();
-        String biayaTambahanText = txt_biaya_tambahan.getText().trim();
-        biayaTambahan = biayaTambahanText.isEmpty() ? 0 : Integer.parseInt(biayaTambahanText);
-        diskon = diskonText.isEmpty() ? 0 : Integer.parseInt(diskonText);
-        totalHarga = jumlahProduk * hargaProduk;
-        totalHarga += biayaTambahan;
-        totalHarga -= diskon;
-        txt_totalHarga.setText(String.valueOf(totalHarga));
-    }//GEN-LAST:event_txt_biaya_tambahanFocusLost
-
-    private void txt_biaya_tambahanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_biaya_tambahanActionPerformed
-        //        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_biaya_tambahanActionPerformed
 
     private void txt_totalHargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_totalHargaActionPerformed
 
@@ -1189,7 +1132,7 @@ private int retrieveProdukId(String namaProduk) {
         txt_jumlah.setText(null);
         txt_harga.setText(null);
         txt_diskon.setText(null);
-        txt_biaya_tambahan.setText(null);
+//        txt_biaya_tambahan.setText(null);
         txt_totalHarga.setText(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -1200,23 +1143,33 @@ private int retrieveProdukId(String namaProduk) {
     }//GEN-LAST:event_ck_pengirimanActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+         // TODO add your handling code here:
         simpanData();
-        String idTrams = getTransaksiTerakhir();
+        String idTransaksi = getTransaksiTerakhir();
+        System.out.println("idTransaksiterakhir: "+idTransaksi);
         try {
-            String report = "C:\\Users\\FARHAN\\Videos\\Project_Laundy(uno)\\src\\frame\\struk.jrxml";
-            HashMap hash = new HashMap();
-            
-            hash.put("kode", idTrams);
-            
-            java.sql.Connection conn = (Connection) koneksi.configDB();
-            JasperReport JRpt = JasperCompileManager.compileReport(report);
-            JasperPrint JPrint = JasperFillManager.fillReport(JRpt, hash, conn);
-            JasperViewer.viewReport(JPrint, false);
-            
+            if (idTransaksi != null) {
+                String report = "C:\\Users\\FARHAN\\Documents\\NetBeansProjects\\laundryKu\\src\\frame\\struk.jrxml";
+                HashMap<String, Object> parameters = new HashMap<>();
+
+                parameters.put("kode", idTransaksi);
+
+                java.sql.Connection conn = (Connection) koneksi.configDB();
+
+                if (conn != null) {
+                    JasperReport jasperReport = JasperCompileManager.compileReport(report);
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
+                    JasperViewer.viewReport(jasperPrint, false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Database connection is null.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Transaksi ID is null.");
+            }
         } catch (Exception e) {
-           JOptionPane.showMessageDialog(null, "gagal table: " + e.getMessage()); 
+            JOptionPane.showMessageDialog(null, "Failed to generate report: " + e.getMessage());
         }
+        dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txt_jamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_jamActionPerformed
@@ -1317,14 +1270,9 @@ private int retrieveProdukId(String namaProduk) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 String formattedDateTime = myDateTime.format(formatter);
 
-                // Parse the formattedDateTime back to LocalDateTime
                 LocalDateTime parsedDateTime = LocalDateTime.parse(formattedDateTime, formatter);
-
-                // Convert LocalDateTime to Timestamp
                 Timestamp timestamp = Timestamp.valueOf(parsedDateTime);
 
-                
-                // pembayaran & kembalian
                 int pembayaraan = Integer.parseInt(txt_pembayaran.getText().trim());
                 int totalPembayaraan = Integer.parseInt(txt_totalPembayaran.getText().trim());
 
@@ -1369,12 +1317,12 @@ private int retrieveProdukId(String namaProduk) {
                         if (idEdit != 0) {
                             // update
                             sql1 = "UPDATE transaksi SET tgl_transaksi=?, id_pelanggan=?, id_pegawai=?, dibayar_secara=?, \n" +
-                                    "status_pembayaran=?, grandTotal=?, biayaTambahan=?, diskon=?, totalPembayaran=?, \n" +
+                                    "status_pembayaran=?, grandTotal=?, diskon=?, totalPembayaran=?, \n" +
                                     "pembayaran=?, kembalian=?,statusPengiriman=?, tanggal_masuk=?, batas_waktu=?, \n" +
                                     "alamat_pengiriman=? WHERE no_transaksi=?";
                         } else {
                             // Insert
-                            sql1 = "INSERT INTO transaksi (tgl_transaksi, id_pelanggan, id_pegawai, dibayar_secara, status_laundry, status_pembayaran, grandTotal, biayaTambahan, diskon, totalPembayaran, pembayaran, kembalian, statusPengiriman, tanggal_masuk, batas_waktu, alamat_pengiriman) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                            sql1 = "INSERT INTO transaksi (tgl_transaksi, id_pelanggan, id_pegawai, dibayar_secara, status_laundry, status_pembayaran, grandTotal, diskon, totalPembayaran, pembayaran, kembalian, statusPengiriman, tanggal_masuk, batas_waktu, alamat_pengiriman) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         }
 
                         PreparedStatement pst1 = conn.prepareStatement(sql1);
@@ -1387,7 +1335,23 @@ private int retrieveProdukId(String namaProduk) {
 //                          pst1.setInt(5, 0);
                             pst1.setString(5, String.valueOf(cmb_statusPembayaran.getSelectedItem()));   // status_pembayaran
                             pst1.setInt(6, TotalGrandTotal);
-                            pst1.setInt(7, TotalBiayaTambahan);
+//                            pst1.setInt(7, TotalBiayaTambahan);
+                            pst1.setInt(7, diskon);
+                            pst1.setInt(8, TotalPembayaran);
+                            pst1.setInt(9, pembayaraan); // bayaran
+                //            pst1.setInt(12, Integer.parseInt(txt_kembalian.getText().trim())); // kembalian
+                            pst1.setInt(10, kembaliaan); // kembalian
+                            pst1.setInt(11,statusPengiriman);
+                            pst1.setTimestamp(12, sqlTimestamp);  //  tanggal_masuk
+                            pst1.setTimestamp(13, timestamp);  //  batas_waktu
+                            pst1.setString(14, String.valueOf(txt_alamat.getText()));  // alamat_pengiriman
+                            pst1.setInt(15, idEdit);
+                        } else {
+                            pst1.setInt(5, 1);
+                            
+                            pst1.setString(6, String.valueOf(cmb_statusPembayaran.getSelectedItem()));   // status_pembayaran
+                            pst1.setInt(7, TotalGrandTotal);
+//                            pst1.setInt(8, TotalBiayaTambahan);
                             pst1.setInt(8, diskon);
                             pst1.setInt(9, TotalPembayaran);
                             pst1.setInt(10, pembayaraan); // bayaran
@@ -1397,22 +1361,6 @@ private int retrieveProdukId(String namaProduk) {
                             pst1.setTimestamp(13, sqlTimestamp);  //  tanggal_masuk
                             pst1.setTimestamp(14, timestamp);  //  batas_waktu
                             pst1.setString(15, String.valueOf(txt_alamat.getText()));  // alamat_pengiriman
-                            pst1.setInt(16, idEdit);
-                        } else {
-                            pst1.setInt(5, 1);
-                            
-                            pst1.setString(6, String.valueOf(cmb_statusPembayaran.getSelectedItem()));   // status_pembayaran
-                            pst1.setInt(7, TotalGrandTotal);
-                            pst1.setInt(8, TotalBiayaTambahan);
-                            pst1.setInt(9, diskon);
-                            pst1.setInt(10, TotalPembayaran);
-                            pst1.setInt(11, pembayaraan); // bayaran
-                //            pst1.setInt(12, Integer.parseInt(txt_kembalian.getText().trim())); // kembalian
-                            pst1.setInt(12, kembaliaan); // kembalian
-                            pst1.setInt(13,statusPengiriman);
-                            pst1.setTimestamp(14, sqlTimestamp);  //  tanggal_masuk
-                            pst1.setTimestamp(15, timestamp);  //  batas_waktu
-                            pst1.setString(16, String.valueOf(txt_alamat.getText()));  // alamat_pengiriman
                         }
 
 //                        if (idEdit != 0) {
@@ -1451,20 +1399,12 @@ private int retrieveProdukId(String namaProduk) {
                                 String jenisProduk = (String) row.get(2);
                                 int jumlah = (int) row.get(3);
                                 int harga = (int) row.get(4);
-                                int biayaTambahan = (int) row.get(5);
-                                int diskon = (int) row.get(6);
-                                int totalHarga = (int) row.get(7);
-            //                    System.out.println("detailId: "+detailId);
-            //                    System.out.println("jumlah: "+jumlah);
-            //                    System.out.println("harga: "+harga);
-            //                    System.out.println("biayaTambahan: "+biayaTambahan);
-            //                    System.out.println("diskon: "+diskon);
-            //                    System.out.println("totalHarga: "+totalHarga);
-
-            //                    System.out.println("for Vector running");
+//                                int biayaTambahan = (int) row.get(5);
+                                int diskon = (int) row.get(5);
+                                int totalHarga = (int) row.get(6);
 
                                 try {
-                                    System.out.println("try catch running");
+                                    System.out.println("try running detai_transaksi");
 
                                     int id_produk = retrieveProdukId(namaProduk);
 
@@ -1481,22 +1421,22 @@ private int retrieveProdukId(String namaProduk) {
                                             if (modelTable.getRowCount() > 0) {
                                                 if (rowCount > 0) {
                                                     // detailId already exists, update the existing row
-                                                    String updateQuery = "UPDATE detail_transaksi SET id_produk = ?, jumlah = ?, harga = ?, biayaTambahan = ?, diskon = ?, totalHarga = ? " +
+                                                    String updateQuery = "UPDATE detail_transaksi SET id_produk = ?, jumlah = ?, harga = ?, diskon = ?, totalHarga = ? " +
                                                                          "WHERE detailId = ?";
                                                     PreparedStatement updatePst = conn.prepareStatement(updateQuery);
 
                                                     updatePst.setInt(1, id_produk); 
                                                     updatePst.setInt(2, jumlah);
                                                     updatePst.setInt(3, harga);
-                                                    updatePst.setInt(4, biayaTambahan);
-                                                    updatePst.setInt(5, diskon);
-                                                    updatePst.setInt(6, totalHarga);
-                                                    updatePst.setInt(7, detailId);
+//                                                    updatePst.setInt(4, biayaTambahan);
+                                                    updatePst.setInt(4, diskon);
+                                                    updatePst.setInt(5, totalHarga);
+                                                    updatePst.setInt(6, detailId);
 
                                                     updatePst.executeUpdate();
                                                 } else {
-                                                    String sqlQuery = "INSERT INTO detail_transaksi (no_transaksi, detailId, id_produk, jumlah, harga, biayaTambahan, diskon, totalHarga) " +
-                                                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                                                    String sqlQuery = "INSERT INTO detail_transaksi (no_transaksi, detailId, id_produk, jumlah, harga, diskon, totalHarga) " +
+                                                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
                                                     PreparedStatement pst3 = conn.prepareStatement(sqlQuery);
 
@@ -1505,17 +1445,16 @@ private int retrieveProdukId(String namaProduk) {
                                                     pst3.setInt(3, id_produk); 
                                                     pst3.setInt(4, jumlah);
                                                     pst3.setInt(5, harga);
-                                                    pst3.setInt(6, biayaTambahan);
-                                                    pst3.setInt(7, diskon);
-                                                    pst3.setInt(8, totalHarga);
+                                                    pst3.setInt(6, diskon);
+                                                    pst3.setInt(7, totalHarga);
                                                     pst3.executeUpdate();
                                                 }
                                             } else {
                                                 System.out.println("Selected row has an empty 'NO' value.");
                                             }
                                         } else {
-                                            String sqlQuery = "INSERT INTO detail_transaksi (no_transaksi, detailId, id_produk, jumlah, harga, biayaTambahan, diskon, totalHarga) " +
-                                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                                            String sqlQuery = "INSERT INTO detail_transaksi (no_transaksi, detailId, id_produk, jumlah, harga, diskon, totalHarga) " +
+                                                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
                                                 PreparedStatement pst3 = conn.prepareStatement(sqlQuery);
 
@@ -1524,9 +1463,8 @@ private int retrieveProdukId(String namaProduk) {
                                                 pst3.setInt(3, id_produk); 
                                                 pst3.setInt(4, jumlah);
                                                 pst3.setInt(5, harga);
-                                                pst3.setInt(6, biayaTambahan);
-                                                pst3.setInt(7, diskon);
-                                                pst3.setInt(8, totalHarga);
+                                                pst3.setInt(6, diskon);
+                                                pst3.setInt(7, totalHarga);
                                                 pst3.executeUpdate();
                                         }
 
@@ -1535,12 +1473,11 @@ private int retrieveProdukId(String namaProduk) {
                                     System.out.println("jenisProduk: "+jenisProduk);
                                     System.out.println("jumlah: "+jumlah);
                                     System.out.println("harga: "+harga);
-                                    System.out.println("biayaTambahan: "+biayaTambahan);
                                     System.out.println("diskon: "+diskon);
                                     System.out.println("totalHarga: "+totalHarga);
 
                                 } catch (Exception e) {
-            //                        JOptionPane.showMessageDialog(this, e.getMessage());
+                                    JOptionPane.showMessageDialog(this, e.getMessage());
                                 }
                             }
 
@@ -1556,19 +1493,19 @@ private int retrieveProdukId(String namaProduk) {
                                 if (res2.next()) {
                                     System.out.println("Running res 2 Test");
 
-                                    String sql3 = "UPDATE transaksi SET grandTotal=?, biayaTambahan=?, diskon=?, totalPembayaran=?, pembayaran=?, kembalian=?" +
+                                    String sql3 = "UPDATE transaksi SET grandTotal=?, diskon=?, totalPembayaran=?, pembayaran=?, kembalian=?" +
                                                   " WHERE no_transaksi = ?";
 
                                     try (PreparedStatement pst3 = conn.prepareStatement(sql3)) {
                                         pst3.setInt(1, TotalGrandTotal);
-                                        pst3.setInt(2, TotalBiayaTambahan);
-                                        pst3.setInt(3, diskon);
-                                        pst3.setInt(4, TotalPembayaran);
-                                        pst3.setInt(5, pembayaraan);
-                                        pst3.setInt(6, kembaliaan);
+//                                        pst3.setInt(2, TotalBiayaTambahan);
+                                        pst3.setInt(2, diskon);
+                                        pst3.setInt(3, TotalPembayaran);
+                                        pst3.setInt(4, pembayaraan);
+                                        pst3.setInt(5, kembaliaan);
 
                                         // Set the no_transaksi value based on the retrieved value from the SELECT query
-                                        pst3.setInt(7, res2.getInt("no_transaksi"));
+                                        pst3.setInt(6, res2.getInt("no_transaksi"));
 
                                         int rowsAffected = pst3.executeUpdate();
 
@@ -1593,6 +1530,7 @@ private int retrieveProdukId(String namaProduk) {
                     JOptionPane.showMessageDialog(null, "Data transaksi tidak dapat disimpan, periksa lagi detail masukan data untuk menemukan penyebabnya.");
                     System.out.println("e: "+e);
                 }
+//                JOptionPane.showMessageDialog(null, "Data Berhasil Tersimpan, klik button Memuat Table untuk melihat");
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Data transaksi tidak dapat disimpan, periksa lagi detail masukan data untuk menemukan penyebabnya.");
                 System.out.println("e: "+e);
@@ -1614,7 +1552,7 @@ private int retrieveProdukId(String namaProduk) {
     public static int Kembalian;
     public static int Pembayaran;
     public static int TotalGrandTotal;
-    public static int TotalBiayaTambahan;
+    public static int TotalBiayaTambahan = 0;
     public static int TotalDiskon;
 //    public static int Tpemba;
 //    public static int Pemba;
@@ -1647,12 +1585,12 @@ private int retrieveProdukId(String namaProduk) {
             diskon = diskonText.isEmpty() ? 0 : Integer.parseInt(diskonText);
 
             // Parse and handle biayaTambahan input
-            String biayaTambahanText = txt_biaya_tambahan.getText().trim();
-            biayaTambahan = biayaTambahanText.isEmpty() ? 0 : Integer.parseInt(biayaTambahanText);
+//            String biayaTambahanText = txt_biaya_tambahan.getText().trim();
+//            biayaTambahan = biayaTambahanText.isEmpty() ? 0 : Integer.parseInt(biayaTambahanText);
 
             /*   Rumus    */
             totalHarga = jumlahProduk * hargaProduk;
-            totalHarga += biayaTambahan;
+//            totalHarga += biayaTambahan;
             totalHarga -= diskon;
             
             System.out.println("Total Harga: " + totalHarga);
@@ -1667,7 +1605,7 @@ private int retrieveProdukId(String namaProduk) {
             row.add(jenisProduk);
             row.add(jumlahProduk);
             row.add(hargaProduk);
-            row.add(biayaTambahan);
+//            row.add(biayaTambahan);
             row.add(diskon);
             row.add(totalHarga);
 
@@ -1681,12 +1619,12 @@ private int retrieveProdukId(String namaProduk) {
             txt_grandTotal.setText(String.valueOf(TotalGrandTotal));
 
             // total nilai biaya tambahan
-            if (!txt_biaya_tambahan.getText().trim().isEmpty()) {
-//                int biayaTambahanValue = Integer.parseInt(txt_biaya_tambahan.getText().trim());
-//                TotalBiayaTambahan += biayaTambahanValue;
-                    TotalBiayaTambahan += biayaTambahan;
-                txt_biaya_tambahan2.setText(String.valueOf(TotalBiayaTambahan));
-            }
+//            if (!txt_biaya_tambahan.getText().trim().isEmpty()) {
+////                int biayaTambahanValue = Integer.parseInt(txt_biaya_tambahan.getText().trim());
+////                TotalBiayaTambahan += biayaTambahanValue;
+////                    TotalBiayaTambahan += biayaTambahan;
+//                txt_biaya_tambahan2.setText(String.valueOf(TotalBiayaTambahan));
+//            }
 
             // total nilai diskon ERROR
             if (!txt_diskon.getText().trim().isEmpty()) {
@@ -1824,7 +1762,7 @@ private int retrieveProdukId(String namaProduk) {
             int dkgrand = Integer.parseInt(modelTable.getValueAt(selectedRow, modelTable.getColumn("Total Harga").getModelIndex()).toString());
             int djumlah = Integer.parseInt(modelTable.getValueAt(selectedRow, modelTable.getColumn("Jumlah").getModelIndex()).toString());
             int dharga = Integer.parseInt(modelTable.getValueAt(selectedRow, modelTable.getColumn("Harga").getModelIndex()).toString());
-            int dtambahan = Integer.parseInt(modelTable.getValueAt(selectedRow, modelTable.getColumn("Tambahan").getModelIndex()).toString());
+//            int dtambahan = Integer.parseInt(modelTable.getValueAt(selectedRow, modelTable.getColumn("Tambahan").getModelIndex()).toString());
             int ddiskon = Integer.parseInt(modelTable.getValueAt(selectedRow, modelTable.getColumn("Diskon").getModelIndex()).toString());
 
             // Update totalPembayaran and txt_totalPembayaran
@@ -1839,8 +1777,8 @@ private int retrieveProdukId(String namaProduk) {
             txt_grandTotal.setText(String.valueOf(rgrand));
             
             
-            TotalBiayaTambahan -= dtambahan;
-            txt_biaya_tambahan2.setText(String.valueOf(TotalBiayaTambahan));
+//            TotalBiayaTambahan -= dtambahan;
+//            txt_biaya_tambahan2.setText(String.valueOf(TotalBiayaTambahan));
             
             TotalDiskon -= ddiskon;
             txt_diskon2.setText(String.valueOf(TotalDiskon));
@@ -2372,7 +2310,7 @@ private int retrieveProdukId(String namaProduk) {
                                 ck_pengiriman.setSelected(false);                         
                             }
                             txt_grandTotal.setText(rsTransaksi.getString("grandTotal"));
-                            txt_biaya_tambahan2.setText(rsTransaksi.getString("biayaTambahan"));
+//                            txt_biaya_tambahan2.setText(rsTransaksi.getString("biayaTambahan"));
                             txt_diskon2.setText(rsTransaksi.getString("diskon"));
                             txt_totalPembayaran.setText(rsTransaksi.getString("totalPembayaran"));
                             txt_pembayaran.setText(rsTransaksi.getString("pembayaran"));
@@ -2395,7 +2333,7 @@ private int retrieveProdukId(String namaProduk) {
 //                            Kembalian = Integer.parseInt(rsTransaksi.getString("kembalian"));
                             Kembalian = kembalian;
                             Pembayaran = Integer.parseInt(rsTransaksi.getString("pembayaran"));
-                            TotalBiayaTambahan = Integer.parseInt(rsTransaksi.getString("biayaTambahan"));
+//                            TotalBiayaTambahan = Integer.parseInt(rsTransaksi.getString("biayaTambahan"));
                             TotalDiskon = Integer.parseInt(rsTransaksi.getString("diskon"));
                         }
                     }
@@ -2429,7 +2367,7 @@ private int retrieveProdukId(String namaProduk) {
                                             row.add(jenisProduk);
                                             row.add(rsDetailTransaksi.getInt("jumlah"));
                                             row.add(rsDetailTransaksi.getInt("harga"));
-                                            row.add(rsDetailTransaksi.getInt("biayaTambahan"));
+//                                            row.add(rsDetailTransaksi.getInt("biayaTambahan"));
                                             row.add(rsDetailTransaksi.getInt("diskon"));
                                             row.add(rsDetailTransaksi.getInt("totalHarga"));
                                             // Add the row vector to your data vector
@@ -2519,6 +2457,29 @@ private int retrieveProdukId(String namaProduk) {
         }
         return null;
     }
+    
+    private panelTransaksi panelTransaksiInstance;
+     
+    // Method to set the panelTransaksiInstance
+    public void setPanelTransaksiInstance(panelTransaksi panelTransaksiInstance) {
+        this.panelTransaksiInstance = panelTransaksiInstance;
+    }
+
+    // Method to reload the table in the panelTransaksi instance
+    private void reloadTableInPanelTransaksi() {
+        if (panelTransaksiInstance != null) {
+            panelTransaksiInstance.datatable();
+        } else {
+            // Handle the case where panelTransaksiInstance is not set
+            System.out.println("panelTransaksiInstance is not set.");
+        }
+    }
+
+    // Call this method when you want to reload the table in panelTransaksi
+    public void someMethod() {
+        // ... your logic ...
+        reloadTableInPanelTransaksi();
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -2554,7 +2515,6 @@ private int retrieveProdukId(String namaProduk) {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
@@ -2564,7 +2524,6 @@ private int retrieveProdukId(String namaProduk) {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -2575,8 +2534,6 @@ private int retrieveProdukId(String namaProduk) {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable modelTable;
     private javax.swing.JTextArea txt_alamat;
-    private javax.swing.JTextField txt_biaya_tambahan;
-    private javax.swing.JTextField txt_biaya_tambahan2;
     private javax.swing.JTextField txt_diskon;
     private javax.swing.JTextField txt_diskon2;
     private javax.swing.JTextField txt_grandTotal;
