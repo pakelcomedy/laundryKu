@@ -98,7 +98,7 @@ private void setChartFromDatabase() {
             
             chart.addLegend("Pemasukan", new Color(135, 189, 245));
             chart.addLegend("Pengeluaran", new Color(189, 135, 245));
-            chart.addLegend("Labas", new Color(139, 229, 222));
+            chart.addLegend("Laba", new Color(139, 229, 222));
            while (resultSet.next()) {
             int monthNumber = resultSet.getInt("bulan");
 

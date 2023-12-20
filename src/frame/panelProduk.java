@@ -623,10 +623,6 @@ public class panelProduk extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Data gagal disimpan");
                 }
             } else {
-                // Data insertion failed
-                JOptionPane.showMessageDialog(null, "Data gagal disimpan");
-
-        
             // Update existing data
             String updateQuery = "UPDATE produk SET nama_produk=?, harga_produk=?, jenis_produk=?, hari=?, jam=? WHERE id_produk=?";
             try (PreparedStatement updatePstmt = con.prepareStatement(updateQuery)) {

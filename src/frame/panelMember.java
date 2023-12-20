@@ -733,7 +733,7 @@ private void tampilkanDataBerdasarkanID(int idMember) {
             // Replace these column names with actual column names in your table
             txt_nama.setText(res.getString("nama"));
             txt_alamat.setText(res.getString("alamat"));
-            txt_nohp.setText(String.valueOf(res.getInt("no_hp")));
+            txt_nohp.setText(res.getString("no_hp"));
         }
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, e);
@@ -754,13 +754,13 @@ private void tampilkanDataBerdasarkanID(int idMember) {
     }
     // Dapatkan ID Member dari kolom pertama (indeks 0)
     int idMember = Integer.parseInt(Tb_member.getValueAt(row, 0).toString());
+    
     // Ambil nilai dari database dan tampilkan di JTextField
     tampilkanDataBerdasarkanID(idMember);
 
     // Simpan ID member yang akan diupdate (digunakan pada aksi btn_simpanActionPerformed)
     t = Integer.toString(idMember);
     
-     tabel();
     }//GEN-LAST:event_btn_edit1ActionPerformed
 
     private void btn_lihat1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_lihat1ActionPerformed
